@@ -1,0 +1,55 @@
+package com.example.crypto.di
+
+import com.example.crypto.model.api.CoinGeckoService
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import kotlin.math.sin
+
+//https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
+private const val CURRENCY = "usd"
+private const val ORDER = "market_cap_desc"
+private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
+
+val appModule = module {
+    single { provideRequestInterceptor() }
+    single { provideClient(get()) }
+    single { provideRetrofit(get()) }
+    single { provideApiService(get()) }
+}
+fun provideRequestInterceptor(): Interceptor {
+    val requestInterceptor = Interceptor { chain ->
+        val url = chain.request()
+            .url
+            .newBuilder()
+            .addQueryParameter("vs_currency", CURRENCY)
+            .addQueryParameter("order", ORDER)
+            .build()
+
+        val request = chain.request()
+            .newBuilder()
+            .url(url)
+            .build()
+        return@Interceptor chain.proceed(request)
+    }
+    return requestInterceptor
+}
+fun provideClient(requestInterceptor: Interceptor): OkHttpClient {
+    return OkHttpClient.Builder()
+        .addInterceptor(requestInterceptor)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .build()
+}
+fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    return Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+}
+fun provideApiService(retrofit: Retrofit): CoinGeckoService =
+    retrofit.create(CoinGeckoService::class.java)
+
