@@ -25,6 +25,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private suspend fun getCoins() = withContext(Dispatchers.IO){
-        return@withContext coinGeckoService.getTwentyCoins(1,20).toList()
+        return@withContext coinGeckoService.getTwentyCoins(1,20, "market_cap_desc")
     }
 }

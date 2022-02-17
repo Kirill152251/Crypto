@@ -1,8 +1,11 @@
 package com.example.crypto.di
 
 import com.example.crypto.model.api.CoinGeckoService
+import com.example.crypto.repository.CoinsListRepository
+import com.example.crypto.viewModels.CoinsListViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +14,6 @@ import kotlin.math.sin
 
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
 private const val CURRENCY = "usd"
-private const val ORDER = "market_cap_desc"
 private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
 
 val appModule = module {
@@ -20,13 +22,19 @@ val appModule = module {
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
 }
+val repoCoinsListModule = module {
+    single { CoinsListRepository(get()) }
+}
+val coinsListViewModel = module {
+    viewModel{ CoinsListViewModel(get(), get()) }
+}
+
 fun provideRequestInterceptor(): Interceptor {
     val requestInterceptor = Interceptor { chain ->
         val url = chain.request()
             .url
             .newBuilder()
             .addQueryParameter("vs_currency", CURRENCY)
-            .addQueryParameter("order", ORDER)
             .build()
 
         val request = chain.request()
