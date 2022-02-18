@@ -67,9 +67,7 @@ dependencies {
     def koin_version= "3.1.5"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
-    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+    //implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     //Navigation component
     def nav_version = "2.4.1"

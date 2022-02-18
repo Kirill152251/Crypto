@@ -18,13 +18,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textView = findViewById<TextView>(R.id.textView)
-        lifecycleScope.launch {
-            val coins = getCoins()
-            textView.text = coins.first().symbol
-        }
-    }
-    private suspend fun getCoins() = withContext(Dispatchers.IO){
-        return@withContext coinGeckoService.getTwentyCoins(1,20, "market_cap_desc")
     }
 }

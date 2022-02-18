@@ -12,6 +12,6 @@ interface CoinGeckoService {
     suspend fun getTwentyCoins (
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,
-        @Query("order") order: String
+        //@Query("order") order: String
     ) : CoinListResponse
 }

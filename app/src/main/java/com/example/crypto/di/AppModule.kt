@@ -15,6 +15,7 @@ import kotlin.math.sin
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
 private const val CURRENCY = "usd"
 private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
+private const val ORDER = "market_cap_desc"
 
 val appModule = module {
     single { provideRequestInterceptor() }
@@ -26,7 +27,7 @@ val repoCoinsListModule = module {
     single { CoinsListRepository(get()) }
 }
 val coinsListViewModel = module {
-    viewModel{ CoinsListViewModel(get(), get()) }
+    viewModel{ CoinsListViewModel(get()) }
 }
 
 fun provideRequestInterceptor(): Interceptor {
@@ -35,6 +36,7 @@ fun provideRequestInterceptor(): Interceptor {
             .url
             .newBuilder()
             .addQueryParameter("vs_currency", CURRENCY)
+            .addQueryParameter("order", ORDER)
             .build()
 
         val request = chain.request()
