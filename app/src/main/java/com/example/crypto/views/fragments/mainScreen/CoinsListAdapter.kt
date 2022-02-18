@@ -19,7 +19,7 @@ class CoinsListAdapter(private val context: Context) : PagingDataAdapter<Coin, C
     companion object {
         private val COIN_COMPARATOR = object : DiffUtil.ItemCallback<Coin>() {
             override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean =
-                oldItem.id == newItem.id
+                oldItem.coinId == newItem.coinId
 
 
             override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean =

@@ -7,22 +7,24 @@ import androidx.room.RoomDatabase
 import com.example.crypto.model.api.responses.coinsList.Coin
 
 @Database(
-    entities = [Coin::class],
-    version = 1,
+    entities = [Coin::class, RemoteKeys::class],
+    version = 2,
     exportSchema = false
 )
 abstract class CoinsListDataBase: RoomDatabase() {
 
     abstract fun coinsListDao(): CoinsListDao
-    companion object {
-        @Volatile private var instance: CoinsListDataBase? = null
+    abstract fun remoteKeysDao(): RemoteKeysDao
 
-        fun getDatabase(context: Context): CoinsListDataBase =
-            instance?: synchronized(this) { instance ?: buildDatabase(context).also { instance = it }}
-
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context, CoinsListDataBase::class.java, "Coins.db")
-                .fallbackToDestructiveMigration()
-                .build()
-    }
+//    companion object {
+//        @Volatile private var instance: CoinsListDataBase? = null
+//
+//        fun getDatabase(context: Context): CoinsListDataBase =
+//            instance?: synchronized(this) { instance ?: buildDatabase(context).also { instance = it } }
+//
+//        private fun buildDatabase(context: Context) =
+//            Room.databaseBuilder(context, CoinsListDataBase::class.java, "Coins.db")
+//                .fallbackToDestructiveMigration()
+//                .build()
+//    }
 }

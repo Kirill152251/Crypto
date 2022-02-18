@@ -1,5 +1,7 @@
 package com.example.crypto.model.db
 
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,5 +14,8 @@ interface CoinsListDao {
     suspend fun insertCoins(coins: List<Coin>)
 
     @Query("select * from coins_table")
-    fun getCoins(): List<Coin>
+    fun getCoins(): PagingSource<Int, Coin>
+
+    @Query("delete from coins_table")
+    suspend fun clearDb()
 }

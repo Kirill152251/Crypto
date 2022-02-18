@@ -1,6 +1,7 @@
 package com.example.crypto.viewModels
 
 import androidx.lifecycle.*
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.crypto.model.api.responses.coinsList.Coin
@@ -11,8 +12,8 @@ class CoinsListViewModel(
     private val repository: CoinsListRepository
 ) : ViewModel() {
 
+    @OptIn(ExperimentalPagingApi::class)
     fun getCoins(): Flow<PagingData<Coin>> =
-        repository.getCoinsListResultStream().cachedIn(viewModelScope)
-
+        repository.getCoinsListFlowFromDb().cachedIn(viewModelScope)
 }
 

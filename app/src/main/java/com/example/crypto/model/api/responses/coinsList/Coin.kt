@@ -10,9 +10,9 @@ data class Coin(
     @SerializedName("current_price")
     val currentPrice: Double,
 
-    @PrimaryKey
     @SerializedName("id")
-    val id: String,
+    @PrimaryKey(autoGenerate = false)
+    val coinId: String,
 
     @SerializedName("image")
     val image: String,

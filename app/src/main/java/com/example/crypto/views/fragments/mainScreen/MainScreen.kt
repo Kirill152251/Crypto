@@ -21,7 +21,7 @@ class MainScreen : Fragment(R.layout.fragment_main_screen) {
 
     private var _binding: FragmentMainScreenBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CoinsListViewModel by viewModel()
+    val viewModel: CoinsListViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

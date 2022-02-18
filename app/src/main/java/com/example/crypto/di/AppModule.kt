@@ -24,7 +24,7 @@ val appModule = module {
     single { provideApiService(get()) }
 }
 val repoCoinsListModule = module {
-    single { CoinsListRepository(get()) }
+    single { CoinsListRepository(get(), get()) }
 }
 val coinsListViewModel = module {
     viewModel{ CoinsListViewModel(get()) }

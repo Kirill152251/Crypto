@@ -19,7 +19,6 @@ class CoinsListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val coinSymbol: TextView = view.findViewById(R.id.coin_symbol)
     private val coinImage: ImageView = view.findViewById(R.id.coin_image)
 
-    private var coin: Coin? = null
 
     init {
         view.setOnClickListener {
