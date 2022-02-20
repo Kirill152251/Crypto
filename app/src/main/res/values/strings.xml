@@ -6,4 +6,5 @@
     <string name="example_symbol">btc</string>
     <string name="example_name">Bitcoin</string>
     <string name="unknown">\?????</string>
+    <string name="mainScreen_label">Cryptocurrencies</string>
 </resources>

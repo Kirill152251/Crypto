@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-
-
 class MainScreen : Fragment(R.layout.fragment_main_screen) {
 
     private var _binding: FragmentMainScreenBinding? = null
@@ -33,7 +31,7 @@ class MainScreen : Fragment(R.layout.fragment_main_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.mainScreenToolbar.inflateMenu(R.menu.sort_menu)
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.rvCoins.addItemDecoration(decoration)
         val adapter = CoinsListAdapter(requireContext())
