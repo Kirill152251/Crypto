@@ -22,4 +22,10 @@ data class Coin(
 
     @SerializedName("symbol")
     val symbol: String,
+
+    @SerializedName("market_cap_rank")
+    val marketCapRank: Int,
+
+    @SerializedName("price_change_percentage_24h")
+    val volatility: Double
 )

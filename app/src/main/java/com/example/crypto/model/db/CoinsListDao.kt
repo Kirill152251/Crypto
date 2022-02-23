@@ -16,6 +16,18 @@ interface CoinsListDao {
     @Query("select * from coins_table")
     fun getCoins(): PagingSource<Int, Coin>
 
+    @Query("select * from coins_table")
+    fun getCoinsList(): List<Coin>
+
     @Query("delete from coins_table")
     suspend fun clearDb()
+
+    @Query("SELECT * FROM COINS_TABLE ORDER BY currentPrice DESC")
+    fun getCoinsSortedByPrice(): PagingSource<Int, Coin>
+
+    @Query("SELECT * FROM COINS_TABLE ORDER BY abs(volatility) DESC")
+    fun getCoinsSortedByVolatility(): PagingSource<Int, Coin>
+
+    @Query("SELECT * FROM COINS_TABLE ORDER BY marketCapRank ASC")
+    fun getCoinsSortedByMarketCap(): PagingSource<Int, Coin>
 }

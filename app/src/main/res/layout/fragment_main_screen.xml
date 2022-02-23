@@ -4,7 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.mainScreen.MainScreen">
+    tools:context=".views.fragments.mainScreen.MainScreenFragment">
+
+    <ProgressBar
+        android:id="@+id/main_screen_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_screen_toolbar" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_screen_toolbar"
@@ -18,10 +29,10 @@
 
         <TextView
             android:id="@+id/main_screen_label"
+            style="@style/main_screen_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mainScreen_label"
-            style="@style/main_screen_label"/>
+            android:text="@string/mainScreen_label" />
 
     </androidx.appcompat.widget.Toolbar>
 

@@ -56,7 +56,7 @@ class CoinsMediator(
         }
     }
 
-    suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, Coin>) : Any? {
+    private suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, Coin>) : Any? {
         return when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getClosestRemoteKey(state)
@@ -64,14 +64,15 @@ class CoinsMediator(
             }
             LoadType.APPEND -> {
                 val remoteKeys = getLastRemoteKey(state)
-                    ?: throw InvalidObjectException("Remote key should not be null for $loadType")
-                remoteKeys.nextKey
+                val nextKey = remoteKeys?.nextKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                nextKey
             }
             LoadType.PREPEND -> {
                 val remoteKeys = getFirstRemoteKey(state)
-                    ?: throw InvalidObjectException("Invalid state, key should not be null")
-                remoteKeys.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
-                remoteKeys.prevKey
+                val prevKey = remoteKeys?.prevKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                prevKey
             }
         }
     }

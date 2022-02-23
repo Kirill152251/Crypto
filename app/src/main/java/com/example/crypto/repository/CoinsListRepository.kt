@@ -1,11 +1,11 @@
 package com.example.crypto.repository
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.constans.SORT_BY_MARKET_CAP
+import com.example.crypto.model.constans.SORT_BY_PRICE
+import com.example.crypto.model.constans.SORT_BY_VOLATILITY
 import com.example.crypto.model.db.CoinsListDataBase
 import com.example.crypto.views.fragments.mainScreen.CoinsMediator
 import com.example.crypto.views.fragments.mainScreen.CoinsPagingSource
@@ -21,8 +21,14 @@ class CoinsListRepository(
     private val coinsListDataBase: CoinsListDataBase
 ) {
     @ExperimentalPagingApi
-    fun getCoinsListFlowFromDb(): Flow<PagingData<Coin>> {
-        val pagingSourceFactory = { coinsListDataBase.coinsListDao().getCoins() }
+    fun getCoinsListFlowFromDb(order: String): Flow<PagingData<Coin>> {
+
+        val pagingSourceFactory = when(order) {
+            SORT_BY_PRICE -> { { coinsListDataBase.coinsListDao().getCoinsSortedByPrice() } }
+            SORT_BY_VOLATILITY -> { { coinsListDataBase.coinsListDao().getCoinsSortedByVolatility() } }
+            else -> { { coinsListDataBase.coinsListDao().getCoinsSortedByMarketCap() } }
+        }
+
 
         return Pager(
             config = PagingConfig(
@@ -31,7 +37,7 @@ class CoinsListRepository(
                 enablePlaceholders = false
             ),
             remoteMediator = CoinsMediator(service, coinsListDataBase),
-            pagingSourceFactory = pagingSourceFactory
+            pagingSourceFactory = { coinsListDataBase.coinsListDao().getCoins() }
         ).flow
     }
 }

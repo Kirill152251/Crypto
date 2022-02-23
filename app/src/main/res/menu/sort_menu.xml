@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/price"
-        android:title="Sort by price"
+        android:id="@+id/sort_by_price"
+        android:title="@string/sorted_by_price"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/market_cap"
-        android:title="Sort by market capitalization"
+        android:id="@+id/sort_by_market_cap"
+        android:title="@string/sorted_by_market_cap"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/volatility"
-        android:title="Sort by volatility"
+        android:id="@+id/sort_by_volatility"
+        android:title="@string/sorted_by_volatility"
         app:showAsAction="never"/>
 
 </menu>

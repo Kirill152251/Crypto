@@ -13,7 +13,7 @@ class CoinsListViewModel(
 ) : ViewModel() {
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getCoins(): Flow<PagingData<Coin>> =
-        repository.getCoinsListFlowFromDb().cachedIn(viewModelScope)
+    fun getCoins(order: String): Flow<PagingData<Coin>> =
+        repository.getCoinsListFlowFromDb(order).cachedIn(viewModelScope)
 }
 

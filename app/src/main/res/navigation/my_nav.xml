@@ -8,7 +8,20 @@
 
     <fragment
         android:id="@+id/mainScreen"
-        android:name="com.example.crypto.views.fragments.mainScreen.MainScreen"
+        android:name="com.example.crypto.views.fragments.mainScreen.MainScreenFragment"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_main_screen" />
+        tools:layout="@layout/fragment_main_screen" >
+        <action
+            android:id="@+id/action_mainScreen_to_splashScreenFragment"
+            app:destination="@id/splashScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.crypto.views.fragments.splashScreen.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_mainScreen"
+            app:destination="@id/mainScreen" />
+    </fragment>
 </navigation>
