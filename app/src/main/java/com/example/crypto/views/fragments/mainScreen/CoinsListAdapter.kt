@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.crypto.model.api.responses.coinsList.Coin
 
 class CoinsListAdapter(private val context: Context) : PagingDataAdapter<Coin, CoinsListViewHolder>(COIN_COMPARATOR) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinsListViewHolder {
         return CoinsListViewHolder.create(parent)
     }

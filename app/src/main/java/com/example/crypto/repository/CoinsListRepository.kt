@@ -3,16 +3,17 @@ package com.example.crypto.repository
 import androidx.paging.*
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coinsList.Coin
-import com.example.crypto.model.constans.SORT_BY_MARKET_CAP
-import com.example.crypto.model.constans.SORT_BY_PRICE
-import com.example.crypto.model.constans.SORT_BY_VOLATILITY
+import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
+import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
 import com.example.crypto.model.db.CoinsListDataBase
-import com.example.crypto.views.fragments.mainScreen.CoinsMediator
-import com.example.crypto.views.fragments.mainScreen.CoinsPagingSource
+import com.example.crypto.views.fragments.mainScreen.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 
-const val STARTING_PAGE_INDEX = 1
+const val STARTING_PAGE_INDEX = 0
 const val NETWORK_PAGE_SIZE = 20
 
 
@@ -21,23 +22,14 @@ class CoinsListRepository(
     private val coinsListDataBase: CoinsListDataBase
 ) {
     @ExperimentalPagingApi
-    fun getCoinsListFlowFromDb(order: String): Flow<PagingData<Coin>> {
-
-        val pagingSourceFactory = when(order) {
-            SORT_BY_PRICE -> { { coinsListDataBase.coinsListDao().getCoinsSortedByPrice() } }
-            SORT_BY_VOLATILITY -> { { coinsListDataBase.coinsListDao().getCoinsSortedByVolatility() } }
-            else -> { { coinsListDataBase.coinsListDao().getCoinsSortedByMarketCap() } }
-        }
-
-
+    fun getCoinsListFlow(order: String): Flow<PagingData<Coin>> {
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
-                initialLoadSize = 20,
+                initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            remoteMediator = CoinsMediator(service, coinsListDataBase),
-            pagingSourceFactory = { coinsListDataBase.coinsListDao().getCoins() }
+            pagingSourceFactory = { CoinsPagingSource(service, order, coinsListDataBase) }
         ).flow
     }
 }

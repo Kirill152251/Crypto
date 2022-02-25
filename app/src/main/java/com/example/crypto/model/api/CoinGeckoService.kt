@@ -12,6 +12,26 @@ interface CoinGeckoService {
     suspend fun getTwentyCoins (
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,
-        //@Query("order") order: String
+    ) : CoinListResponse
+
+    @GET("markets")
+    suspend fun getTwentyCoinSortedByPrice(
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int,
+        @Query("order") order: String
+    ) : CoinListResponse
+
+    @GET("markets")
+    suspend fun getTwentyCoinSortedByVolatility(
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int,
+        @Query("order") order: String
+    ) : CoinListResponse
+
+    @GET("markets")
+    suspend fun getTwentyCoinSortedByMarketCap(
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int,
+        @Query("order") order: String
     ) : CoinListResponse
 }

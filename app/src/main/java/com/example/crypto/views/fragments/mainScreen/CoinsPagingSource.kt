@@ -4,12 +4,21 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
+import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
+import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
+import com.example.crypto.model.db.CoinsListDataBase
 import com.example.crypto.repository.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
 
-class CoinsPagingSource(private val coinGeckoService: CoinGeckoService) :
+class CoinsPagingSource(
+    private val coinGeckoService: CoinGeckoService,
+    private val order: String,
+    private val database: CoinsListDataBase
+) :
     PagingSource<Int, Coin>() {
+
     override fun getRefreshKey(state: PagingState<Int, Coin>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
@@ -20,15 +29,36 @@ class CoinsPagingSource(private val coinGeckoService: CoinGeckoService) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Coin> {
         val pageIndex = params.key ?: STARTING_PAGE_INDEX
         return try {
-            val coins = coinGeckoService.getTwentyCoins(pageIndex, params.loadSize).toList()
-            val nextKey = if (coins.isEmpty()) {
-                null
-            } else pageIndex + 1
+            val response = when (order) {
+                QUERY_SORT_BY_MARKET_CAP -> {
+                    coinGeckoService.getTwentyCoinSortedByMarketCap(
+                        pageIndex,
+                        params.loadSize,
+                        QUERY_SORT_BY_MARKET_CAP
+                    ).toList()
+                }
+                QUERY_SORT_BY_PRICE -> {
+                    coinGeckoService.getTwentyCoinSortedByPrice(
+                        pageIndex,
+                        params.loadSize,
+                        QUERY_SORT_BY_PRICE
+                    ).toList()
+                }
+                else -> {
+                    coinGeckoService.getTwentyCoinSortedByVolatility(
+                        pageIndex,
+                        params.loadSize,
+                        QUERY_SORT_BY_VOLATILITY
+                    ).toList()
+                }
+            }
+            database.coinsListDao().insertCoins(response)
             LoadResult.Page(
-                data = coins,
+                data = response,
                 prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else pageIndex - 1,
-                nextKey = nextKey
+                nextKey = if (response.size == params.loadSize) pageIndex + 1 else null
             )
+
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
         } catch (exception: HttpException) {

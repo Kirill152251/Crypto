@@ -17,6 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_screen_toolbar" />
 
+    <ImageView
+        android:id="@+id/splash_screen_anim"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/splash_screen_anim"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_screen_toolbar"
         android:layout_width="match_parent"

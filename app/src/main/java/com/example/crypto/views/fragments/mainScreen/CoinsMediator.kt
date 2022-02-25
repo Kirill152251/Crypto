@@ -7,6 +7,9 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
+import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
+import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
 import com.example.crypto.model.db.CoinsListDataBase
 import com.example.crypto.model.db.RemoteKeys
 import com.example.crypto.repository.STARTING_PAGE_INDEX
@@ -18,22 +21,55 @@ import java.io.InvalidObjectException
 @ExperimentalPagingApi
 class CoinsMediator(
     private val service: CoinGeckoService,
-    private val coinsListDataBase: CoinsListDataBase
+    private val coinsListDataBase: CoinsListDataBase,
+    private val order: String
 ) : RemoteMediator<Int, Coin>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Coin>): MediatorResult {
 
-        val pageKeyData = getKeyPageData(loadType, state)
-        val page = when (pageKeyData) {
-            is MediatorResult.Success -> {
-                return pageKeyData
+        val page = when(loadType) {
+            LoadType.REFRESH -> {
+                val remoteKeys = getClosestRemoteKey(state)
+                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
-            else -> {
-                pageKeyData as Int
+            LoadType.APPEND -> {
+                val remoteKeys = getLastRemoteKey(state)
+                val nextKey = remoteKeys?.nextKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                nextKey
+            }
+            LoadType.PREPEND -> {
+                val remoteKeys = getFirstRemoteKey(state)
+                val prevKey = remoteKeys?.prevKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                prevKey
             }
         }
         try {
-            val response = service.getTwentyCoins(page, state.config.pageSize)
+            val response = when (order) {
+                QUERY_SORT_BY_PRICE -> {
+                    service.getTwentyCoinSortedByPrice(
+                        page,
+                        state.config.pageSize,
+                        QUERY_SORT_BY_PRICE
+                    )
+                }
+                QUERY_SORT_BY_MARKET_CAP -> {
+                    service.getTwentyCoinSortedByMarketCap(
+                        page,
+                        state.config.pageSize,
+                        QUERY_SORT_BY_MARKET_CAP
+                    )
+                }
+                else -> {
+                    service.getTwentyCoinSortedByVolatility(
+                        page,
+                        state.config.pageSize,
+                        QUERY_SORT_BY_VOLATILITY
+                    )
+                }
+            }
+            //val response = service.getTwentyCoins(page, state.config.pageSize)
             val isEndOfList = response.isEmpty()
             coinsListDataBase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -56,26 +92,6 @@ class CoinsMediator(
         }
     }
 
-    private suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, Coin>) : Any? {
-        return when (loadType) {
-            LoadType.REFRESH -> {
-                val remoteKeys = getClosestRemoteKey(state)
-                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
-            }
-            LoadType.APPEND -> {
-                val remoteKeys = getLastRemoteKey(state)
-                val nextKey = remoteKeys?.nextKey
-                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                nextKey
-            }
-            LoadType.PREPEND -> {
-                val remoteKeys = getFirstRemoteKey(state)
-                val prevKey = remoteKeys?.prevKey
-                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                prevKey
-            }
-        }
-    }
 
     private suspend fun getFirstRemoteKey(state: PagingState<Int, Coin>): RemoteKeys? {
         return state.pages
