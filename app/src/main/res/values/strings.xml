@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Crypto</string>
+    <string name="example_price">999999 $</string>
+    <string name="example_symbol">btc</string>
+    <string name="example_name">Bitcoin</string>
+    <string name="unknown">\?????</string>
+    <string name="mainScreen_label">Cryptocurrencies</string>
+    <string name="sorted_by_price">Sorted by price</string>
+    <string name="sorted_by_market_cap">Sorted by market capitalization</string>
+    <string name="sorted_by_volatility">Sorted by volatility</string>
+
 </resources>

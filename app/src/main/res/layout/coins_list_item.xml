@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/coin_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/coin_price"
+        style="@style/item_price_textView"
+        android:layout_width="110dp"
+        android:singleLine="true"
+        android:gravity="end"
+        android:ellipsize="middle"
+        android:layout_height="wrap_content"
+        android:text="@string/example_price"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/coin_name"
+        style="@style/item_name_textView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/example_name"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/coin_image"
+        app:layout_constraintTop_toBottomOf="@+id/coin_symbol" />
+
+    <TextView
+        android:id="@+id/coin_symbol"
+        style="@style/item_symbol_textView"
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/example_symbol"
+        app:layout_constraintBottom_toTopOf="@+id/coin_name"
+        app:layout_constraintStart_toStartOf="@+id/coin_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

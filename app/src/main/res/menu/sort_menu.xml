@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/sort_by_price"
+        android:title="@string/sorted_by_price"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/sort_by_market_cap"
+        android:title="@string/sorted_by_market_cap"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/sort_by_volatility"
+        android:title="@string/sorted_by_volatility"
+        app:showAsAction="never"/>
+
+</menu>
