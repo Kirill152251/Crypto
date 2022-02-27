@@ -28,6 +28,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private val binding get() = _binding!!
     private val viewModel: CoinsListViewModel by viewModel()
     private val database: CoinsListDataBase by inject()
+    private val adapter: CoinsListAdapter by inject ()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +43,6 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         binding.mainScreenToolbar.inflateMenu(R.menu.sort_menu)
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        val adapter = CoinsListAdapter(requireContext())
 
         lifecycleScope.launch(Dispatchers.IO) {
             database.coinsListDao().clearDb()
@@ -50,32 +50,23 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         binding.rvCoins.addItemDecoration(decoration)
         //by default list sorted by market capitalization
         binding.rvCoins.adapter = adapter
-        submitSortedDataIntoAdapter(QUERY_SORT_BY_MARKET_CAP, adapter)
+        submitSortedDataIntoAdapter(QUERY_SORT_BY_MARKET_CAP)
         sortingByToolBarMenu()
+        pullToRefresh()
 
         lifecycleScope.launch() {
             adapter.loadStateFlow.collect { loadState ->
-                when(loadState.source.refresh) {
+                when (loadState.source.refresh) {
                     is LoadState.Loading -> {
                         binding.apply {
-                            when ( val drawable = splashScreenAnim.drawable) {
-                                is AnimatedVectorDrawableCompat -> {
-                                    drawable.start()
-                                }
-                                is AnimatedVectorDrawable -> {
-                                    drawable.start()
-                                }
-                            }
-                            splashScreenAnim.visibility = View.VISIBLE
-                            mainScreenToolbar.visibility = View.GONE
+                            mainScreenProgressbar.visibility = View.VISIBLE
                             rvCoins.visibility = View.GONE
                         }
                     }
                     else -> {
                         binding.apply {
                             rvCoins.visibility = View.VISIBLE
-                            mainScreenToolbar.visibility = View.VISIBLE
-                            splashScreenAnim.visibility = View.GONE
+                            mainScreenProgressbar.visibility = View.GONE
                         }
                     }
                 }
@@ -83,25 +74,42 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         }
     }
 
+    private fun pullToRefresh() {
+        binding.swipeToRefreshLayout.setOnRefreshListener {
+
+            when (viewModel.currentSorting.value) {
+                QUERY_SORT_BY_PRICE -> {
+                    submitSortedDataIntoAdapter(QUERY_SORT_BY_PRICE)
+                    binding.swipeToRefreshLayout.isRefreshing = false
+                }
+                QUERY_SORT_BY_MARKET_CAP -> {
+                    submitSortedDataIntoAdapter(QUERY_SORT_BY_MARKET_CAP)
+                    binding.swipeToRefreshLayout.isRefreshing = false
+                }
+                else -> {
+                    submitSortedDataIntoAdapter(QUERY_SORT_BY_VOLATILITY)
+                    binding.swipeToRefreshLayout.isRefreshing = false
+                }
+            }
+
+        }
+    }
+
     private fun sortingByToolBarMenu() {
-        val newAdapter = CoinsListAdapter(requireContext())
         binding.mainScreenToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.sort_by_price -> {
-                    binding.rvCoins.adapter = newAdapter
-                    submitSortedDataIntoAdapter(QUERY_SORT_BY_PRICE, newAdapter)
+                    submitSortedDataIntoAdapter(QUERY_SORT_BY_PRICE)
                     binding.rvCoins.smoothScrollToPosition(0)
                     true
                 }
                 R.id.sort_by_market_cap -> {
-                    binding.rvCoins.adapter = newAdapter
-                    submitSortedDataIntoAdapter(QUERY_SORT_BY_MARKET_CAP, newAdapter)
+                    submitSortedDataIntoAdapter(QUERY_SORT_BY_MARKET_CAP)
                     binding.rvCoins.smoothScrollToPosition(0)
                     true
                 }
                 R.id.sort_by_volatility -> {
-                    binding.rvCoins.adapter = newAdapter
-                    submitSortedDataIntoAdapter(QUERY_SORT_BY_VOLATILITY, newAdapter)
+                    submitSortedDataIntoAdapter(QUERY_SORT_BY_VOLATILITY)
                     binding.rvCoins.smoothScrollToPosition(0)
                     true
                 }
@@ -109,21 +117,22 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             }
         }
     }
-    private fun submitSortedDataIntoAdapter(order: String, adapter: CoinsListAdapter) {
+
+    private fun submitSortedDataIntoAdapter(order: String) {
         lifecycleScope.launch() {
-            when(order) {
+            when (order) {
                 QUERY_SORT_BY_MARKET_CAP -> {
-                    viewModel.getCoins(order).distinctUntilChanged().collectLatest {
+                    viewModel.getCoinsByMarketCap().distinctUntilChanged().collectLatest {
                         adapter.submitData(it)
                     }
                 }
                 QUERY_SORT_BY_PRICE -> {
-                    viewModel.getCoins(order).distinctUntilChanged().collectLatest {
+                    viewModel.getCoinsByPrice().distinctUntilChanged().collectLatest {
                         adapter.submitData(it)
                     }
                 }
                 QUERY_SORT_BY_VOLATILITY -> {
-                    viewModel.getCoins(order).distinctUntilChanged().collectLatest {
+                    viewModel.getCoinsByVolatility().distinctUntilChanged().collectLatest {
                         adapter.submitData(it)
                     }
                 }

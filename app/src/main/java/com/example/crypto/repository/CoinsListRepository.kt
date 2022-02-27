@@ -21,7 +21,7 @@ class CoinsListRepository(
     private val service: CoinGeckoService,
     private val coinsListDataBase: CoinsListDataBase
 ) {
-    @ExperimentalPagingApi
+
     fun getCoinsListFlow(order: String): Flow<PagingData<Coin>> {
         return Pager(
             config = PagingConfig(
@@ -30,6 +30,37 @@ class CoinsListRepository(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { CoinsPagingSource(service, order, coinsListDataBase) }
+        ).flow
+    }
+
+    fun getCoinsByPrice(): Flow<PagingData<Coin>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                initialLoadSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { CoinsPagingSourceByPrice(service, coinsListDataBase) }
+        ).flow
+    }
+    fun getCoinsByCap(): Flow<PagingData<Coin>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                initialLoadSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { CoinsPagingSourceByCap(service, coinsListDataBase) }
+        ).flow
+    }
+    fun getCoinsByVol(): Flow<PagingData<Coin>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                initialLoadSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { CoinsPagingSourceByVol(service, coinsListDataBase) }
         ).flow
     }
 }

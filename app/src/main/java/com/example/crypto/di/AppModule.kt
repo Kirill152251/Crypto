@@ -1,8 +1,10 @@
 package com.example.crypto.di
 
+import android.content.Context
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.CoinsListRepository
 import com.example.crypto.viewModels.CoinsListViewModel
+import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -22,6 +24,7 @@ val appModule = module {
     single { provideClient(get()) }
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
+    single { provideAdapter(get()) }
 }
 val repoCoinsListModule = module {
     single { CoinsListRepository(get(), get()) }
@@ -61,4 +64,6 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
 }
 fun provideApiService(retrofit: Retrofit): CoinGeckoService =
     retrofit.create(CoinGeckoService::class.java)
+
+fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(context)
 
