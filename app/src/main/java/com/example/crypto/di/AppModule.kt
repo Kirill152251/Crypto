@@ -2,8 +2,9 @@ package com.example.crypto.di
 
 import android.content.Context
 import com.example.crypto.model.api.CoinGeckoService
-import com.example.crypto.repository.CoinsListRepository
-import com.example.crypto.viewModels.CoinsListViewModel
+import com.example.crypto.repository.Repository
+import com.example.crypto.viewModels.MainScreenViewModel
+import com.example.crypto.viewModels.SplashScreenViewModel
 import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -12,7 +13,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import kotlin.math.sin
 
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
 private const val CURRENCY = "usd"
@@ -27,10 +27,11 @@ val appModule = module {
     single { provideAdapter(get()) }
 }
 val repoCoinsListModule = module {
-    single { CoinsListRepository(get(), get()) }
+    single { Repository(get(), get()) }
 }
-val coinsListViewModel = module {
-    viewModel{ CoinsListViewModel(get()) }
+val viewModels = module {
+    viewModel{ MainScreenViewModel(get()) }
+    viewModel{ SplashScreenViewModel(get()) }
 }
 
 fun provideRequestInterceptor(): Interceptor {

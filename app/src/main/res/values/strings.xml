@@ -8,5 +8,6 @@
     <string name="sorted_by_price">Sorted by price</string>
     <string name="sorted_by_market_cap">Sorted by market capitalization</string>
     <string name="sorted_by_volatility">Sorted by volatility</string>
+    <string name="error_massage">An error has occurred</string>
 
 </resources>

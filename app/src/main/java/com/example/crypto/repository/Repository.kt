@@ -17,10 +17,24 @@ const val STARTING_PAGE_INDEX = 0
 const val NETWORK_PAGE_SIZE = 20
 
 
-class CoinsListRepository(
+class Repository(
     private val service: CoinGeckoService,
     private val coinsListDataBase: CoinsListDataBase
 ) {
+
+    suspend fun isFetchingAndCachingInitialCoinsDone(): Boolean {
+        return try {
+            val initialCoins = service.getTwentyCoinSortedByMarketCap(
+                STARTING_PAGE_INDEX,
+                NETWORK_PAGE_SIZE,
+                QUERY_SORT_BY_MARKET_CAP
+            )
+            coinsListDataBase.coinsListDao().insertCoins(initialCoins)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
     fun getCoinsListFlow(order: String): Flow<PagingData<Coin>> {
         return Pager(
@@ -43,6 +57,7 @@ class CoinsListRepository(
             pagingSourceFactory = { CoinsPagingSourceByPrice(service, coinsListDataBase) }
         ).flow
     }
+
     fun getCoinsByCap(): Flow<PagingData<Coin>> {
         return Pager(
             config = PagingConfig(
@@ -53,6 +68,7 @@ class CoinsListRepository(
             pagingSourceFactory = { CoinsPagingSourceByCap(service, coinsListDataBase) }
         ).flow
     }
+
     fun getCoinsByVol(): Flow<PagingData<Coin>> {
         return Pager(
             config = PagingConfig(
