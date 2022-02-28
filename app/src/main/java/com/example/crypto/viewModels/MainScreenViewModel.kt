@@ -8,11 +8,11 @@ import com.example.crypto.model.api.responses.coinsList.Coin
 import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
 import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
 import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
-import com.example.crypto.repository.CoinsListRepository
+import com.example.crypto.repository.Repository
 import kotlinx.coroutines.flow.*
 
-class CoinsListViewModel(
-    private val repository: CoinsListRepository
+class MainScreenViewModel(
+    private val repository: Repository
 ) : ViewModel() {
 
     private val _currentSorting = MutableStateFlow(QUERY_SORT_BY_MARKET_CAP)

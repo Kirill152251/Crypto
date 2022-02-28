@@ -1,6 +1,5 @@
 package com.example.crypto.views.fragments.mainScreen
 
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,13 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentMainScreenBinding
 import com.example.crypto.model.constans.*
-import com.example.crypto.model.db.CoinsListDataBase
-import com.example.crypto.viewModels.CoinsListViewModel
-import kotlinx.coroutines.Dispatchers
+import com.example.crypto.viewModels.MainScreenViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -26,8 +22,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private var _binding: FragmentMainScreenBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CoinsListViewModel by viewModel()
-    private val database: CoinsListDataBase by inject()
+    private val viewModel: MainScreenViewModel by viewModel()
     private val adapter: CoinsListAdapter by inject ()
 
     override fun onCreateView(
@@ -44,9 +39,6 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            database.coinsListDao().clearDb()
-        }
         binding.rvCoins.addItemDecoration(decoration)
         //by default list sorted by market capitalization
         binding.rvCoins.adapter = adapter
