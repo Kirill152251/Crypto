@@ -9,5 +9,11 @@
     <string name="sorted_by_market_cap">Sorted by market capitalization</string>
     <string name="sorted_by_volatility">Sorted by volatility</string>
     <string name="error_massage">An error has occurred</string>
+    <string name="dialog_sorted_by_price">Price</string>
+    <string name="dialog_sorted_by_cap">Market capitalisation</string>
+    <string name="dialog_sorted_by_vol">Volatility</string>
+    <string name="sort_dialog_title">Sort by:</string>
+    <string name="positive_button">OK</string>
+    <string name="negative_button">Cancel</string>
 
 </resources>

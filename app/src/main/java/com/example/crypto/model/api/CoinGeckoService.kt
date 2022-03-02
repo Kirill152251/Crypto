@@ -9,12 +9,6 @@ import retrofit2.http.Query
 interface CoinGeckoService {
 
     @GET("markets")
-    suspend fun getTwentyCoins (
-        @Query("page") page: Int,
-        @Query("per_page") itemsPerPage: Int,
-    ) : CoinListResponse
-
-    @GET("markets")
     suspend fun getTwentyCoinSortedByPrice(
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,

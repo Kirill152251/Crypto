@@ -14,10 +14,6 @@ val roomModule = module {
     fun provideCoinsListDao(coinsListDataBase: CoinsListDataBase) =
         coinsListDataBase.coinsListDao()
 
-    fun provideRemoteKeysDao(coinsListDataBase: CoinsListDataBase) =
-        coinsListDataBase.remoteKeysDao()
-
     single { provideCoinsListDatabase(get()) }
     single { provideCoinsListDao(get()) }
-    single { provideRemoteKeysDao(get()) }
 }

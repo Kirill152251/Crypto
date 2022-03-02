@@ -33,7 +33,7 @@ class CoinsPagingSourceByPrice (
                 params.loadSize,
                 QUERY_SORT_BY_PRICE
             )
-            database.coinsListDao().insertCoins(response)
+            //database.coinsListDao().insertCoins(response)
             LoadResult.Page(
                 data = response,
                 prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else pageIndex - 1,

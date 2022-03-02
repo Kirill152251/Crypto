@@ -9,6 +9,7 @@ import com.example.crypto.model.api.responses.coinsList.Coin
 
 @Dao
 interface CoinsListDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCoins(coins: List<Coin>)
 
@@ -21,6 +22,4 @@ interface CoinsListDao {
     @Query("delete from coins_table")
     suspend fun clearDb()
 
-    @Query("select * from coins_table order by marketCapRank desc limit 20")
-    suspend fun getFirstTwentyCoinsFromDb(): List<Coin>
 }
