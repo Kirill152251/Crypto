@@ -19,6 +19,7 @@
         style="@style/item_price_textView"
         android:layout_width="110dp"
         android:singleLine="true"
+        android:transitionName="price_main_screen"
         android:gravity="end"
         android:ellipsize="middle"
         android:layout_height="wrap_content"

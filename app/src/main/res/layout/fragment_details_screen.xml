@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.fragments.detailsScreen.DetailsScreenFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/min_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/max_price" />
+
+    <TextView
+        android:id="@+id/no_data_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/price_charts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/price_charts" />
+
+    <android.widget.Toolbar
+        android:id="@+id/details_screen_toolbar"
+        style="@style/toolbar_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/back_to_main_screen_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingEnd="20dp"
+            android:background="@null"
+            android:src="@drawable/back_button" />
+
+        <ImageView
+            android:id="@+id/coin_symbol_details_screen"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/example_icon" />
+
+        <TextView
+            android:id="@+id/coin_name_details_screen"
+            style="@style/coin_name_details_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/example_name" />
+
+    </android.widget.Toolbar>
+
+
+    <TextView
+        android:id="@+id/current_price"
+        style="@style/details_screen_price_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/example_price"
+        android:transitionName="price_details_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details_screen_toolbar" />
+
+    <TextView
+        android:id="@+id/price_change"
+        style="@style/details_screen_price_change_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/example_price_change"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_price" />
+
+    <TextView
+        android:id="@+id/max_price"
+        style="@style/details_screen_max_and_min_price_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/example_max_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price_change" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/price_charts"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/max_price" />
+
+    <TextView
+        android:id="@+id/min_price"
+        style="@style/details_screen_max_and_min_price_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/example_min_price"
+        app:layout_constraintBottom_toTopOf="@id/radio_group"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price_charts" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/min_price">
+
+        <RadioButton
+            android:id="@+id/one_day_interval"
+            style="@style/details_screen_radio_button"
+            android:checked="true"
+            android:text="@string/one_day_radio_button" />
+
+        <RadioButton
+            android:id="@+id/one_week_interval"
+            style="@style/details_screen_radio_button"
+            android:text="@string/one_week_radio_button" />
+
+        <RadioButton
+            android:id="@+id/one_month_interval"
+            style="@style/details_screen_radio_button"
+            android:text="@string/one_month_radio_button" />
+
+        <RadioButton
+            android:id="@+id/one_year_interval"
+            style="@style/details_screen_radio_button"
+            android:text="@string/one_year_radio_button" />
+
+        <RadioButton
+            android:id="@+id/all_time_interval"
+            style="@style/details_screen_radio_button"
+            android:text="@string/all_time_radio_button" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/separation_line"
+        style="@style/separation_line_style_details_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group" />
+
+    <TextView
+        android:id="@+id/market_cap_label"
+        style="@style/market_cap_label_details_screen"
+        android:text="@string/market_cap_label_details_screen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separation_line" />
+
+    <TextView
+        android:id="@+id/market_cap_value"
+        style="@style/market_cap_value_details_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/example_market_cap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separation_line" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

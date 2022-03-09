@@ -8,7 +8,7 @@ import com.example.crypto.model.api.responses.coinsList.Coin
 
 @Database(
     entities = [Coin::class],
-    version = 4,
+    version = 6,
     exportSchema = false
 )
 abstract class CoinsListDataBase: RoomDatabase() {

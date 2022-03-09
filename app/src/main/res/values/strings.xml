@@ -2,7 +2,11 @@
     <string name="app_name">Crypto</string>
     <string name="example_price">999999 $</string>
     <string name="example_symbol">btc</string>
+    <string name="example_price_change">+999.9 %</string>
     <string name="example_name">Bitcoin</string>
+    <string name="example_market_cap">$ 999.99 B</string>
+    <string name="example_max_price">80000 $</string>
+    <string name="example_min_price">5000 $</string>
     <string name="unknown">\?????</string>
     <string name="mainScreen_label">Cryptocurrencies</string>
     <string name="sorted_by_price">Sorted by price</string>
@@ -15,5 +19,14 @@
     <string name="sort_dialog_title">Sort by:</string>
     <string name="positive_button">OK</string>
     <string name="negative_button">Cancel</string>
+    <string name="one_day_radio_button">24H</string>
+    <string name="one_week_radio_button">1W</string>
+    <string name="one_month_radio_button">1M</string>
+    <string name="one_year_radio_button">1Y</string>
+    <string name="all_time_radio_button">ALL</string>
+    <string name="market_cap_label_details_screen">Market cap:</string>
+    <string name="no_data">Not enough data to display chart</string>
+    <string name="bottom_menu_item_main_text">Main</string>
+    <string name="bottom_menu_item_settings_text">Settings</string>
 
 </resources>

@@ -7,10 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.crypto.R
 import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.utils.converter
+import kotlin.math.ln
+import kotlin.math.pow
 
 class CoinsListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -20,19 +26,28 @@ class CoinsListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val coinImage: ImageView = view.findViewById(R.id.coin_image)
 
 
-    init {
-        view.setOnClickListener {
-            // TODO: переход на Details screen
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     fun bind(coin: Coin, context: Context) {
-        coinPrice.text = coin.currentPrice.toString() + "$"
+        coinPrice.text = converter(coin.currentPrice.toDouble())
         coinSymbol.text = coin.symbol
         coinName.text = coin.name
         Glide.with(context).load(coin.image).into(coinImage)
+        itemView.setOnClickListener {
+            val extras = FragmentNavigatorExtras(coinPrice to "price_details_screen")
+            it.findNavController().navigate(
+                MainScreenFragmentDirections.actionMainScreenFragmentToDetailsScreenFragment(
+                    coinId = coin.coinId,
+                    coinPrice = coin.currentPrice,
+                    coinIconUrl = coin.image,
+                    coinName = coin.name,
+                    coinPriceChange = coin.volatility.toFloat(),
+                    marketCap = coin.marketCapValue
+                ),
+                navigatorExtras = extras
+            )
+        }
     }
+
     companion object {
         fun create(parent: ViewGroup): CoinsListViewHolder {
             val view = LayoutInflater.from(parent.context)

@@ -41,6 +41,10 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
+    <style name="toolbar_style">
+        <item name="android:background">@color/green</item>
+    </style>
+
     <style name="main_screen_label">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
@@ -69,4 +73,86 @@
         <item name="android:textColor">@color/green</item>
     </style>
 
+    <style name="details_screen_price_text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">36sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="details_screen_price_change_text">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="details_screen_max_and_min_price_text">
+        <item name="android:textColor">@color/default_gray</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="details_screen_radio_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_weight">0.2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/radio_flat_text_selector</item>
+        <item name="android:background">@drawable/radio_flat_selector</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="separation_line_style_details_screen">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_for_radio_button</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="market_cap_label_details_screen">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="market_cap_value_details_screen">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="coin_name_details_screen">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="bottom_menu_style">
+        <item name="backgroundTint">@color/green</item>
+        <item name="itemTextColor">@color/radio_flat_text_selector</item>
+        <item name="itemIconTint">@color/radio_flat_text_selector</item>
+    </style>
 </resources>

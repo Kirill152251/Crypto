@@ -1,10 +1,16 @@
 package com.example.crypto.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.Repository
+import com.example.crypto.repository.SortPreferencesRepository
+import com.example.crypto.viewModels.DetailsScreenViewModel
 import com.example.crypto.viewModels.MainScreenViewModel
 import com.example.crypto.viewModels.SplashScreenViewModel
+import com.example.crypto.views.fragments.detailsScreen.DetailsScreenFragmentArgs
+import com.example.crypto.views.fragments.detailsScreen.PriceChartStyle
 import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -25,13 +31,16 @@ val appModule = module {
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
     single { provideAdapter(get()) }
+    single { providePriceChartStyle(get())}
 }
 val repoCoinsListModule = module {
     single { Repository(get(), get()) }
+    single { SortPreferencesRepository(get()) }
 }
 val viewModels = module {
-    viewModel{ MainScreenViewModel(get()) }
+    viewModel{ MainScreenViewModel(get(), get()) }
     viewModel{ SplashScreenViewModel(get()) }
+    viewModel{ (coinId: String) -> DetailsScreenViewModel(get(), coinId) }
 }
 
 fun provideRequestInterceptor(): Interceptor {
@@ -54,6 +63,7 @@ fun provideClient(requestInterceptor: Interceptor): OkHttpClient {
     return OkHttpClient.Builder()
         .addInterceptor(requestInterceptor)
         .connectTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
         .build()
 }
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -67,4 +77,8 @@ fun provideApiService(retrofit: Retrofit): CoinGeckoService =
     retrofit.create(CoinGeckoService::class.java)
 
 fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(context)
+
+fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
+
+
 

@@ -10,6 +10,7 @@ import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
 import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
 import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
 import com.example.crypto.repository.Repository
+import com.example.crypto.repository.SortPreferencesRepository
 import com.example.crypto.views.fragments.mainScreen.MainScreenContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -17,7 +18,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel(
-    private val repository: Repository
+    private val repository: Repository,
+    private val sortPreferencesRepository: SortPreferencesRepository
 ) : BaseViewModel<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect>() {
 
     override fun createInitialState(): MainScreenContract.State {
@@ -39,6 +41,12 @@ class MainScreenViewModel(
             }
         }
     }
+
+    suspend fun saveSortingIntoDataStore(sortBy: String) {
+        sortPreferencesRepository.saveOrder(sortBy)
+    }
+
+    suspend fun getSortingFromDataStore(): String = sortPreferencesRepository.getOrder()
 
     private fun sortByVolatility() {
         viewModelScope.launch {

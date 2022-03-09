@@ -8,15 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentMainScreenBinding
 import com.example.crypto.databinding.FragmentSplashScreenBinding
 import com.example.crypto.viewModels.SplashScreenViewModel
 import com.example.crypto.views.fragments.mainScreen.MainScreenFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
@@ -39,22 +44,29 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
         super.onViewCreated(view, savedInstanceState)
         initObservers()
         viewModel.setEvent(SplashScreenContract.Event.CachingInitialCoins)
+
+        //Hide bottom nav menu
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        bottomMenu.isVisible = false
     }
 
     private fun initObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.uiState.collect {
-                when (it.cachingInitialCoinsState) {
-                    is SplashScreenContract.CachingInitialCoinsState.Loading -> {
-                        binding.splashScreenAnim.visibility = View.VISIBLE
-                        val animation = binding.splashScreenAnim.drawable as AnimatedVectorDrawable
-                        animation.start()
-                    }
-                    is SplashScreenContract.CachingInitialCoinsState.Success -> {
-                        findNavController().navigate(R.id.action_splashScreenFragment_to_mainScreenFragment)
-                    }
-                    is SplashScreenContract.CachingInitialCoinsState.Error -> {
-                        //TODO: error handling
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    when (it.cachingInitialCoinsState) {
+                        is SplashScreenContract.CachingInitialCoinsState.Loading -> {
+                            binding.splashScreenAnim.visibility = View.VISIBLE
+                            val animation = binding.splashScreenAnim.drawable as AnimatedVectorDrawable
+                            animation.start()
+                        }
+                        is SplashScreenContract.CachingInitialCoinsState.Success -> {
+                            findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+                        }
+                        is SplashScreenContract.CachingInitialCoinsState.Error -> {
+                            //TODO: error handling
+                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
