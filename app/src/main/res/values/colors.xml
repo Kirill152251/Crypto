@@ -13,4 +13,5 @@
     <color name="gray_for_radio_button">#C4C4C4</color>
     <color name="orange">#F8A23A</color>
     <color name="gray_for_bottom_menu">#FFFFFFBD</color>
+    <color name="helper_text_color">#B02727</color>
 </resources>

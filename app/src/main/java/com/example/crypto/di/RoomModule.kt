@@ -3,6 +3,7 @@ package com.example.crypto.di
 import android.content.Context
 import androidx.room.Room
 import com.example.crypto.model.db.CoinsListDataBase
+import com.example.crypto.model.settingsDB.UserInfoDataBase
 import org.koin.dsl.module
 
 val roomModule = module {
@@ -14,6 +15,16 @@ val roomModule = module {
     fun provideCoinsListDao(coinsListDataBase: CoinsListDataBase) =
         coinsListDataBase.coinsListDao()
 
+    fun provideUserInfoDatabase(context: Context): UserInfoDataBase {
+        return Room.databaseBuilder(context, UserInfoDataBase::class.java, "UserInfo.db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+    fun provideUserInfoDao(userInfoDataBase: UserInfoDataBase) =
+        userInfoDataBase.userInfoDao()
+
     single { provideCoinsListDatabase(get()) }
     single { provideCoinsListDao(get()) }
+    single { provideUserInfoDatabase(get()) }
+    single { provideUserInfoDao(get()) }
 }

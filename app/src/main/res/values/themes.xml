@@ -45,7 +45,7 @@
         <item name="android:background">@color/green</item>
     </style>
 
-    <style name="main_screen_label">
+    <style name="toolbar_label_text">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">0.01</item>
@@ -142,17 +142,18 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="coin_name_details_screen">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:letterSpacing">0.01</item>
-        <item name="android:textSize">20sp</item>
-        <item name="fontFamily">@font/roboto_medium</item>
-    </style>
-
     <style name="bottom_menu_style">
         <item name="backgroundTint">@color/green</item>
         <item name="itemTextColor">@color/radio_flat_text_selector</item>
         <item name="itemIconTint">@color/radio_flat_text_selector</item>
+    </style>
+
+    <style name="text_input_settings">
+        <item name="helperText">@string/text_helper</item>
+        <item name="helperTextTextColor">@color/helper_text_color</item>
+        <item name="marginHorizontal">16dp</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">20</item>
+        <item name="endIconMode">clear_text</item>
     </style>
 </resources>

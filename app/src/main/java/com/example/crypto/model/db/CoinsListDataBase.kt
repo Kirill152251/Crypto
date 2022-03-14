@@ -14,5 +14,4 @@ import com.example.crypto.model.api.responses.coinsList.Coin
 abstract class CoinsListDataBase: RoomDatabase() {
 
     abstract fun coinsListDao(): CoinsListDao
-
 }

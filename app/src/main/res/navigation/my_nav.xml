@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_detailsScreenFragment"
             app:destination="@id/detailsScreenFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_settingsScreenFragment"
+            app:destination="@id/settingsScreenFragment" />
 
     </fragment>
     <fragment
@@ -51,5 +54,14 @@
         <argument
             android:name="coinPriceChange"
             app:argType="float" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsScreenFragment"
+        android:name="com.example.crypto.views.fragments.settingsScreen.SettingsScreenFragment"
+        android:label="fragment_settings_screen"
+        tools:layout="@layout/fragment_settings_screen" >
+        <action
+            android:id="@+id/action_settingsScreenFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
     </fragment>
 </navigation>

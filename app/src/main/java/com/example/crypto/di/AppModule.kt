@@ -6,8 +6,10 @@ import androidx.datastore.preferences.core.Preferences
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.Repository
 import com.example.crypto.repository.SortPreferencesRepository
+import com.example.crypto.repository.UserInfoRepository
 import com.example.crypto.viewModels.DetailsScreenViewModel
 import com.example.crypto.viewModels.MainScreenViewModel
+import com.example.crypto.viewModels.SettingsScreenViewModel
 import com.example.crypto.viewModels.SplashScreenViewModel
 import com.example.crypto.views.fragments.detailsScreen.DetailsScreenFragmentArgs
 import com.example.crypto.views.fragments.detailsScreen.PriceChartStyle
@@ -36,11 +38,13 @@ val appModule = module {
 val repoCoinsListModule = module {
     single { Repository(get(), get()) }
     single { SortPreferencesRepository(get()) }
+    single { UserInfoRepository(get()) }
 }
 val viewModels = module {
     viewModel{ MainScreenViewModel(get(), get()) }
     viewModel{ SplashScreenViewModel(get()) }
     viewModel{ (coinId: String) -> DetailsScreenViewModel(get(), coinId) }
+    viewModel{ SettingsScreenViewModel(get()) }
 }
 
 fun provideRequestInterceptor(): Interceptor {

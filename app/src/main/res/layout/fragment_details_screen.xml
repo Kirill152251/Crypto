@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/coin_name_details_screen"
-            style="@style/coin_name_details_screen"
+            style="@style/toolbar_label_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
