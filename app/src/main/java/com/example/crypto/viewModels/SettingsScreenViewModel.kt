@@ -1,5 +1,6 @@
 package com.example.crypto.viewModels
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crypto.model.settingsDB.SettingsUserInfo
@@ -10,15 +11,24 @@ import kotlinx.coroutines.withContext
 
 class SettingsScreenViewModel(
     private val repository: UserInfoRepository
-): ViewModel() {
+) : ViewModel() {
 
     fun insertUserInfo(settingsUserInfo: SettingsUserInfo) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.insertUserInfo(settingsUserInfo)
         }
     }
 
-    suspend fun getUserInfo() = withContext(Dispatchers.IO) {
-        repository.getUserInfo()
+    fun updateProfilePicture(picture: Bitmap) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateProfilePicture(picture)
+        }
     }
+
+//    suspend fun getUserInfo() = withContext(Dispatchers.IO) {
+//        repository.getUserInfo()
+//    }
+
+
+    fun getUserInfo() = repository.getUserInfo()
 }

@@ -1,5 +1,6 @@
 package com.example.crypto.repository
 
+import android.graphics.Bitmap
 import com.example.crypto.model.settingsDB.SettingsUserInfo
 import com.example.crypto.model.settingsDB.UserInfoDataBase
 
@@ -11,8 +12,12 @@ class UserInfoRepository(
         userInfoDataBase.userInfoDao().insertUserInfo(settingsUserInfo)
     }
 
-
-   suspend fun getUserInfo(): SettingsUserInfo {
-        return userInfoDataBase.userInfoDao().getUserInfo()
+    suspend fun updateProfilePicture(picture: Bitmap) {
+        userInfoDataBase.userInfoDao().updateProfilePicture(picture)
     }
+
+    //    suspend fun getUserInfo(): SettingsUserInfo {
+//        return userInfoDataBase.userInfoDao().getUserInfo()
+//    }
+    fun getUserInfo() = userInfoDataBase.userInfoDao().getUserInfo()
 }

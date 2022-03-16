@@ -18,6 +18,7 @@ val roomModule = module {
     fun provideUserInfoDatabase(context: Context): UserInfoDataBase {
         return Room.databaseBuilder(context, UserInfoDataBase::class.java, "UserInfo.db")
             .fallbackToDestructiveMigration()
+            .createFromAsset("db/user_info.db")
             .build()
     }
     fun provideUserInfoDao(userInfoDataBase: UserInfoDataBase) =

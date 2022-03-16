@@ -1,9 +1,11 @@
 package com.example.crypto.di
 
 import android.content.Context
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.crypto.model.api.CoinGeckoService
+import com.example.crypto.model.constans.CAMERA_REQUEST
 import com.example.crypto.repository.Repository
 import com.example.crypto.repository.SortPreferencesRepository
 import com.example.crypto.repository.UserInfoRepository
@@ -83,6 +85,5 @@ fun provideApiService(retrofit: Retrofit): CoinGeckoService =
 fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(context)
 
 fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
-
 
 
