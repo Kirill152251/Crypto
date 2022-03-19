@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentMainScreenBinding
 import com.example.crypto.databinding.FragmentSplashScreenBinding
+import com.example.crypto.utils.isOnline
 import com.example.crypto.viewModels.SplashScreenViewModel
 import com.example.crypto.views.fragments.mainScreen.MainScreenFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -42,12 +43,17 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initObservers()
-        viewModel.setEvent(SplashScreenContract.Event.CachingInitialCoins)
 
         //Hide bottom nav menu
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
         bottomMenu.isVisible = false
+
+        if (isOnline(requireContext())) {
+            initObservers()
+            viewModel.setEvent(SplashScreenContract.Event.CachingInitialCoins)
+        } else {
+            findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+        }
     }
 
     private fun initObservers() {

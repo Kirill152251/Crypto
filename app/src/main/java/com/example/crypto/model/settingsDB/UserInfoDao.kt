@@ -13,9 +13,6 @@ interface UserInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUserInfo(userInfo: SettingsUserInfo)
 
-//    @Query("select * from user_info")
-//    suspend fun getUserInfo(): SettingsUserInfo
-
     @Query("select * from user_info")
     fun getUserInfo(): Flow<SettingsUserInfo>
 

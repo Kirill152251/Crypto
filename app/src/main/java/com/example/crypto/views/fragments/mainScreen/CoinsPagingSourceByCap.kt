@@ -12,8 +12,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class CoinsPagingSourceByCap (
-    private val coinGeckoService: CoinGeckoService,
-    private val database: CoinsListDataBase
+    private val coinGeckoService: CoinGeckoService
 ) :
     PagingSource<Int, Coin>() {
 
@@ -32,7 +31,6 @@ class CoinsPagingSourceByCap (
                 params.loadSize,
                 QUERY_SORT_BY_MARKET_CAP
             )
-            //database.coinsListDao().insertCoins(response)
             LoadResult.Page(
                 data = response,
                 prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else pageIndex - 1,

@@ -27,14 +27,17 @@ class Repository(
     private lateinit var priceDataFromApi: List<List<Double>>
 
     suspend fun fetchPriceChange(coinId: String, interval: String): Resource<MutableList<Entry>> {
-        //var priceDataFromApi = emptyList<List<Double>>()
         try {
-            when(interval) {
+            when (interval) {
                 LABEL_DAY -> priceDataFromApi = service.getPriceChangePerDay(coinId = coinId).prices
-                LABEL_WEEK -> priceDataFromApi = service.getPriceChangePerWeek(coinId = coinId).prices
-                LABEL_MONTH -> priceDataFromApi = service.getPriceChangePerMonth(coinId = coinId).prices
-                LABEL_YEAR -> priceDataFromApi = service.getPriceChangePerYear(coinId = coinId).prices
-                LABEL_ALL_TIME -> priceDataFromApi = service.getPriceChangeForAllTime(coinId = coinId).prices
+                LABEL_WEEK -> priceDataFromApi =
+                    service.getPriceChangePerWeek(coinId = coinId).prices
+                LABEL_MONTH -> priceDataFromApi =
+                    service.getPriceChangePerMonth(coinId = coinId).prices
+                LABEL_YEAR -> priceDataFromApi =
+                    service.getPriceChangePerYear(coinId = coinId).prices
+                LABEL_ALL_TIME -> priceDataFromApi =
+                    service.getPriceChangeForAllTime(coinId = coinId).prices
             }
             val priceData = mutableListOf<Entry>()
             for (i in priceDataFromApi.indices) {
@@ -48,12 +51,16 @@ class Repository(
 
     suspend fun getMinAndMaxPrice(coinId: String, interval: String): Resource<List<String>> {
         try {
-            when(interval) {
+            when (interval) {
                 LABEL_DAY -> priceDataFromApi = service.getPriceChangePerDay(coinId = coinId).prices
-                LABEL_WEEK -> priceDataFromApi = service.getPriceChangePerWeek(coinId = coinId).prices
-                LABEL_MONTH -> priceDataFromApi = service.getPriceChangePerMonth(coinId = coinId).prices
-                LABEL_YEAR -> priceDataFromApi = service.getPriceChangePerYear(coinId = coinId).prices
-                LABEL_ALL_TIME -> priceDataFromApi = service.getPriceChangeForAllTime(coinId = coinId).prices
+                LABEL_WEEK -> priceDataFromApi =
+                    service.getPriceChangePerWeek(coinId = coinId).prices
+                LABEL_MONTH -> priceDataFromApi =
+                    service.getPriceChangePerMonth(coinId = coinId).prices
+                LABEL_YEAR -> priceDataFromApi =
+                    service.getPriceChangePerYear(coinId = coinId).prices
+                LABEL_ALL_TIME -> priceDataFromApi =
+                    service.getPriceChangeForAllTime(coinId = coinId).prices
             }
             val minAndMaxPrice = mutableListOf<String>()
             val prices = mutableListOf<Double>()
@@ -111,7 +118,7 @@ class Repository(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceByPrice(service, coinsListDataBase) }
+            pagingSourceFactory = { CoinsPagingSourceByPrice(service) }
         ).flow
     }
 
@@ -122,7 +129,7 @@ class Repository(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceByCap(service, coinsListDataBase) }
+            pagingSourceFactory = { CoinsPagingSourceByCap(service) }
         ).flow
     }
 
@@ -133,7 +140,18 @@ class Repository(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceByVol(service, coinsListDataBase) }
+            pagingSourceFactory = { CoinsPagingSourceByVol(service) }
+        ).flow
+    }
+
+    fun getCoinsFromDB(): Flow<PagingData<Coin>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                initialLoadSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { CoinsPagingSourceFromDb(coinsListDataBase) }
         ).flow
     }
 }

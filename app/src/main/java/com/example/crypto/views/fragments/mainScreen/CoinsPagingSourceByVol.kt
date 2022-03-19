@@ -13,7 +13,6 @@ import java.io.IOException
 
 class CoinsPagingSourceByVol (
     private val coinGeckoService: CoinGeckoService,
-    private val database: CoinsListDataBase
 ) :
     PagingSource<Int, Coin>() {
 
@@ -32,7 +31,6 @@ class CoinsPagingSourceByVol (
                 params.loadSize,
                 QUERY_SORT_BY_VOLATILITY
             )
-            //database.coinsListDao().insertCoins(response)
             LoadResult.Page(
                 data = response,
                 prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else pageIndex - 1,

@@ -25,10 +25,5 @@ class SettingsScreenViewModel(
         }
     }
 
-//    suspend fun getUserInfo() = withContext(Dispatchers.IO) {
-//        repository.getUserInfo()
-//    }
-
-
     fun getUserInfo() = repository.getUserInfo()
 }

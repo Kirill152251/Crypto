@@ -17,7 +17,7 @@ interface CoinsListDao {
     fun getCoins(): PagingSource<Int, Coin>
 
     @Query("select * from coins_table")
-    fun getCoinsList(): List<Coin>
+    suspend fun getCoinsList(): List<Coin>
 
     @Query("delete from coins_table")
     suspend fun clearDb()

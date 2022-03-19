@@ -39,6 +39,24 @@ class MainScreenViewModel(
             is MainScreenContract.Event.ChoseSortingByVolatility -> {
                 sortByVolatility()
             }
+            is MainScreenContract.Event.FetchFromDb -> {
+                fetchCoinFromDb()
+            }
+        }
+    }
+
+    private fun fetchCoinFromDb() {
+        viewModelScope.launch(Dispatchers.IO) {
+            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+            val coins = repository.getCoinsFromDB()
+            setState {
+                Log.i("find11", "test1")
+                copy(
+                    recycleViewState = MainScreenContract.RecycleViewState.ItemsFromDb(
+                        coins
+                    )
+                )
+            }
         }
     }
 

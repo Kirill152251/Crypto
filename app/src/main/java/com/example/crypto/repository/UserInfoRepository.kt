@@ -16,8 +16,5 @@ class UserInfoRepository(
         userInfoDataBase.userInfoDao().updateProfilePicture(picture)
     }
 
-    //    suspend fun getUserInfo(): SettingsUserInfo {
-//        return userInfoDataBase.userInfoDao().getUserInfo()
-//    }
     fun getUserInfo() = userInfoDataBase.userInfoDao().getUserInfo()
 }

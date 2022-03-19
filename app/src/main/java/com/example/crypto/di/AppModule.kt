@@ -1,6 +1,7 @@
 package com.example.crypto.di
 
 import android.content.Context
+import android.content.IntentFilter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -35,7 +36,8 @@ val appModule = module {
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
     single { provideAdapter(get()) }
-    single { providePriceChartStyle(get())}
+    single { providePriceChartStyle(get()) }
+    single { provideIntentFilter() }
 }
 val repoCoinsListModule = module {
     single { Repository(get(), get()) }
@@ -86,4 +88,5 @@ fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(contex
 
 fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
 
+fun provideIntentFilter() = IntentFilter()
 

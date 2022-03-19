@@ -16,6 +16,7 @@ import com.example.crypto.databinding.FragmentMainScreenBinding
 import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
 import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
 import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
+import com.example.crypto.utils.isOnline
 import com.example.crypto.viewModels.MainScreenViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
@@ -46,31 +47,34 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         binding.rvCoins.addItemDecoration(decoration)
         binding.rvCoins.adapter = adapter
 
-        lifecycleScope.launch {
-            when (viewModel.getSortingFromDataStore()) {
-                QUERY_SORT_BY_MARKET_CAP -> {
-                    viewModel.setEvent(MainScreenContract.Event.ChoseSortingByMarketCap)
-                    updateUi()
-                }
-                QUERY_SORT_BY_PRICE -> {
-                    viewModel.setEvent(MainScreenContract.Event.ChoseSortingByPrice)
-                    updateUi()
-                }
-                QUERY_SORT_BY_VOLATILITY -> {
-                    viewModel.setEvent(MainScreenContract.Event.ChoseSortingByVolatility)
-                    updateUi()
-                }
-            }
-
-        }
-
-        binding.sortButton.setOnClickListener {
+        if (isOnline(requireContext())) {
             lifecycleScope.launch {
-                showSortDialog(viewModel.getSortingFromDataStore())
+                when (viewModel.getSortingFromDataStore()) {
+                    QUERY_SORT_BY_MARKET_CAP -> {
+                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByMarketCap)
+                        updateUi()
+                    }
+                    QUERY_SORT_BY_PRICE -> {
+                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByPrice)
+                        updateUi()
+                    }
+                    QUERY_SORT_BY_VOLATILITY -> {
+                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByVolatility)
+                        updateUi()
+                    }
+                }
             }
+            binding.sortButton.setOnClickListener {
+                lifecycleScope.launch {
+                    showSortDialog(viewModel.getSortingFromDataStore())
+                }
+            }
+            pullToRefresh()
+        } else {
+            viewModel.setEvent(MainScreenContract.Event.FetchFromDb)
+            updateUi()
+            binding.sortButton.visibility = View.GONE
         }
-
-        pullToRefresh()
 
         //Show bottom nav menu
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
@@ -129,6 +133,12 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                         }
                         is MainScreenContract.RecycleViewState.SortingByVolatility -> {
                             viewModel.saveSortingIntoDataStore(QUERY_SORT_BY_VOLATILITY)
+                            it.recycleViewState.coins.distinctUntilChanged()
+                                .collectLatest { coins ->
+                                    adapter.submitData(coins)
+                                }
+                        }
+                        is MainScreenContract.RecycleViewState.ItemsFromDb -> {
                             it.recycleViewState.coins.distinctUntilChanged()
                                 .collectLatest { coins ->
                                     adapter.submitData(coins)

@@ -83,7 +83,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         bottomMenu.isVisible = true
 
         bindUi()
-        saveUserInfo()
+        saveUserInfoButton()
 
         binding.chooseAvatarButton.setOnClickListener {
             chooseProfilePicture()
@@ -174,20 +174,20 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getUserInfo().collect {
                     binding.apply {
-                    firstName.setText(it.firstName)
-                    lastName.setText(it.lastName)
-                    dateOfBirth.setText(it.dateOfBirth)
+                        firstName.setText(it.firstName)
+                        lastName.setText(it.lastName)
+                        dateOfBirth.setText(it.dateOfBirth)
                         if (it.profilePicture == null) {
                             profilePicture.setImageResource(R.drawable.avatar_solid)
                         } else
-                    profilePicture.setImageBitmap(it.profilePicture)
-                }
+                            profilePicture.setImageBitmap(it.profilePicture)
+                    }
                 }
             }
         }
     }
 
-    private fun saveUserInfo() {
+    private fun saveUserInfoButton() {
         binding.saveSettings.setOnClickListener {
             val firstName = binding.firstName.text.toString()
             val lastName = binding.lastName.text.toString()
