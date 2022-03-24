@@ -1,16 +1,13 @@
 package com.example.crypto.viewModels
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.crypto.model.constans.*
-import com.example.crypto.repository.Repository
+import com.example.crypto.repository.interfaces.DetailsScreenRepInterface
 import com.example.crypto.views.fragments.detailsScreen.DetailsScreenContract
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DetailsScreenViewModel(
-    private val repository: Repository,
+    private val repository: DetailsScreenRepInterface,
     private val coinId: String
 ) : BaseViewModel<DetailsScreenContract.State, DetailsScreenContract.Event, DetailsScreenContract.Effect>() {
 
@@ -60,7 +57,7 @@ class DetailsScreenViewModel(
         viewModelScope.launch {
             setState { copy(chartState = DetailsScreenContract.ChartState.Loading) }
             val data = repository.fetchPriceChange(coinId, LABEL_MONTH)
-            setState { copy(chartState = DetailsScreenContract.ChartState.PerWeek(data)) }
+            setState { copy(chartState = DetailsScreenContract.ChartState.PerMonth(data)) }
         }
     }
 

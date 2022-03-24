@@ -14,7 +14,6 @@ class MainScreenContract {
         object ChoseSortingByPrice: Event()
         object ChoseSortingByVolatility: Event()
         object ChoseSortingByMarketCap: Event()
-
         object FetchFromDb: Event()
     }
 
@@ -27,7 +26,6 @@ class MainScreenContract {
         data class SortingByPrice(val coins: Flow<PagingData<Coin>>): RecycleViewState()
         data class SortingByMarketCap(val coins: Flow<PagingData<Coin>>): RecycleViewState()
         data class SortingByVolatility(val coins: Flow<PagingData<Coin>>): RecycleViewState()
-
         data class ItemsFromDb(val coins: Flow<PagingData<Coin>>): RecycleViewState()
     }
 

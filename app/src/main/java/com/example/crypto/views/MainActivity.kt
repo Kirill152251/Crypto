@@ -38,17 +38,6 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction(BROADCAST_STRING_FOR_ACTION)
         val intentService = Intent(this, InternetCheckService::class.java)
         startService(intentService)
-//        if (isOnline(this)) {
-//            binding.apply {
-//                noInternetErrorScreen.visibility = View.GONE
-//                darkOverLayContentBottomMenu.visibility = View.GONE
-//            }
-//        } else {
-//            binding.apply {
-//                noInternetErrorScreen.visibility = View.VISIBLE
-//                darkOverLayContentBottomMenu.visibility = View.VISIBLE
-//            }
-//        }
     }
 
     private fun setBottomMenu() {

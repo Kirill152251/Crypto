@@ -1,13 +1,12 @@
 package com.example.crypto.viewModels
 
 import androidx.lifecycle.viewModelScope
-import com.example.crypto.repository.Repository
+import com.example.crypto.repository.interfaces.SplashScreenRepInterface
 import com.example.crypto.views.fragments.splashScreen.SplashScreenContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
-class SplashScreenViewModel(private val repository: Repository) :
+class SplashScreenViewModel(private val repository: SplashScreenRepInterface) :
     BaseViewModel<SplashScreenContract.State, SplashScreenContract.Event, SplashScreenContract.Effect>() {
 
     override fun createInitialState(): SplashScreenContract.State {
@@ -19,19 +18,16 @@ class SplashScreenViewModel(private val repository: Repository) :
 
     override fun handleEvent(event: SplashScreenContract.Event) {
         when (event) {
-            is SplashScreenContract.Event.CachingInitialCoins -> {
+            is SplashScreenContract.Event.LoadingInitialCoins -> {
                 cachingInitialCoins()
             }
         }
     }
 
     private fun cachingInitialCoins() {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (repository.isFetchingAndCachingInitialCoinsDone()) {
-                setState { copy(cachingInitialCoinsState = SplashScreenContract.CachingInitialCoinsState.Success) }
-            } else {
-                setState { copy(cachingInitialCoinsState = SplashScreenContract.CachingInitialCoinsState.Error) }
-            }
+        viewModelScope.launch {
+            repository.fetchingAndCachingInitialCoins()
+            setState { copy(cachingInitialCoinsState = SplashScreenContract.CachingInitialCoinsState.Success) }
         }
     }
 

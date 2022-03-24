@@ -8,17 +8,16 @@ import com.example.crypto.model.interfacesMVI.UiState
 class SplashScreenContract {
 
     sealed class Event: UiEvent {
-        object CachingInitialCoins: Event()
+        object LoadingInitialCoins: Event()
     }
 
     data class State(
-        val cachingInitialCoinsState: CachingInitialCoinsState
+        val cachingInitialCoinsState: CachingInitialCoinsState,
     ): UiState
 
     sealed class CachingInitialCoinsState {
         object Loading: CachingInitialCoinsState()
         object Success: CachingInitialCoinsState()
-        object Error: CachingInitialCoinsState()
     }
 
     sealed class Effect: UiEffect {}

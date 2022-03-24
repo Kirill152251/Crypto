@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.crypto.R
 import com.example.crypto.model.api.responses.coinsList.Coin
-import com.example.crypto.utils.converter
+import com.example.crypto.utils.myConverter
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -28,7 +28,7 @@ class CoinsListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     @SuppressLint("SetTextI18n")
     fun bind(coin: Coin, context: Context) {
-        coinPrice.text = converter(coin.currentPrice.toDouble())
+        coinPrice.text = "$ " + myConverter(coin.currentPrice.toDouble())
         coinSymbol.text = coin.symbol
         coinName.text = coin.name
         Glide.with(context).load(coin.image).into(coinImage)

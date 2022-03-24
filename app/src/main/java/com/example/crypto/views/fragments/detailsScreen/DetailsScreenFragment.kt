@@ -22,7 +22,7 @@ import com.example.crypto.databinding.FragmentDetailsScreenBinding
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.constans.*
 import com.example.crypto.utils.Resource
-import com.example.crypto.utils.converter
+import com.example.crypto.utils.myConverter
 import com.example.crypto.viewModels.DetailsScreenViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -174,10 +174,10 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
     private fun bindUi() {
         binding.apply {
             coinNameDetailsScreen.text = args.coinName
-            currentPrice.text = formatPrice(args.coinPrice)
+            currentPrice.text = "$ " + myConverter(args.coinPrice.toDouble())
             priceChange.text = args.coinPriceChange.toString() + " %"
             Glide.with(requireContext()).load(args.coinIconUrl).into(coinSymbolDetailsScreen)
-            marketCapValue.text = converter(args.marketCap.toDouble())
+            marketCapValue.text = "$ " + myConverter(args.marketCap.toDouble())
 
             oneDayInterval.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseOneDayInterval)
@@ -199,14 +199,6 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseAllTimeInterval)
                 updateChart()
             }
-        }
-    }
-
-    private fun formatPrice(price: String): String {
-        return if (price.toDouble() >= 100_000_000) {
-            converter(price.toDouble())
-        } else {
-            "$price $"
         }
     }
 

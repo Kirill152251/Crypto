@@ -1,25 +1,17 @@
 package com.example.crypto.viewModels
 
-import android.util.Log
 import androidx.lifecycle.*
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.crypto.model.api.responses.coinsList.Coin
-import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
-import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
-import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
-import com.example.crypto.repository.Repository
-import com.example.crypto.repository.SortPreferencesRepository
+import com.example.crypto.repository.SortPreferencesRepositoryImpl
+import com.example.crypto.repository.interfaces.MainScreenRepInterface
+import com.example.crypto.repository.interfaces.SortPreferencesRepInterface
 import com.example.crypto.views.fragments.mainScreen.MainScreenContract
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel(
-    private val repository: Repository,
-    private val sortPreferencesRepository: SortPreferencesRepository
+    private val repository: MainScreenRepInterface,
+    private val sortPreferencesRepository: SortPreferencesRepInterface
 ) : BaseViewModel<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect>() {
 
     override fun createInitialState(): MainScreenContract.State {
@@ -46,11 +38,10 @@ class MainScreenViewModel(
     }
 
     private fun fetchCoinFromDb() {
-        viewModelScope.launch(Dispatchers.IO) {
-            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+        viewModelScope.launch {
+            //setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
             val coins = repository.getCoinsFromDB()
             setState {
-                Log.i("find11", "test1")
                 copy(
                     recycleViewState = MainScreenContract.RecycleViewState.ItemsFromDb(
                         coins

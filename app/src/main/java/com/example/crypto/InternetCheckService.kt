@@ -1,10 +1,7 @@
 package com.example.crypto
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.*
 import com.example.crypto.model.constans.ACTION_STOP_SERVICE
 import com.example.crypto.model.constans.BROADCAST_STRING_FOR_ACTION
@@ -32,6 +29,12 @@ class InternetCheckService : Service() {
             stopSelf()
         }
         return START_STICKY
+    }
+
+    public class MyBinder: Binder() {
+        fun getService(): InternetCheckService {
+            return InternetCheckService()
+        }
     }
 
 }

@@ -2,19 +2,16 @@ package com.example.crypto.di
 
 import android.content.Context
 import android.content.IntentFilter
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.example.crypto.model.api.CoinGeckoService
-import com.example.crypto.model.constans.CAMERA_REQUEST
-import com.example.crypto.repository.Repository
-import com.example.crypto.repository.SortPreferencesRepository
-import com.example.crypto.repository.UserInfoRepository
+import com.example.crypto.repository.*
+import com.example.crypto.repository.interfaces.DetailsScreenRepInterface
+import com.example.crypto.repository.interfaces.MainScreenRepInterface
+import com.example.crypto.repository.interfaces.SortPreferencesRepInterface
+import com.example.crypto.repository.interfaces.SplashScreenRepInterface
 import com.example.crypto.viewModels.DetailsScreenViewModel
 import com.example.crypto.viewModels.MainScreenViewModel
 import com.example.crypto.viewModels.SettingsScreenViewModel
 import com.example.crypto.viewModels.SplashScreenViewModel
-import com.example.crypto.views.fragments.detailsScreen.DetailsScreenFragmentArgs
 import com.example.crypto.views.fragments.detailsScreen.PriceChartStyle
 import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
 import okhttp3.Interceptor
@@ -40,15 +37,17 @@ val appModule = module {
     single { provideIntentFilter() }
 }
 val repoCoinsListModule = module {
-    single { Repository(get(), get()) }
-    single { SortPreferencesRepository(get()) }
+    single { SortPreferencesRepositoryImpl(get()) as SortPreferencesRepInterface }
     single { UserInfoRepository(get()) }
+    single { MainScreenRepositoryImp(get(), get()) as MainScreenRepInterface }
+    single { SplashScreenRepositoryImp(get(), get()) as SplashScreenRepInterface }
+    single { DetailsScreenRepositoryImp(get()) as DetailsScreenRepInterface }
 }
 val viewModels = module {
-    viewModel{ MainScreenViewModel(get(), get()) }
-    viewModel{ SplashScreenViewModel(get()) }
-    viewModel{ (coinId: String) -> DetailsScreenViewModel(get(), coinId) }
-    viewModel{ SettingsScreenViewModel(get()) }
+    viewModel { SplashScreenViewModel(get()) }
+    viewModel { (coinId: String) -> DetailsScreenViewModel(get(), coinId) }
+    viewModel { SettingsScreenViewModel(get()) }
+    viewModel { MainScreenViewModel(get(), get()) }
 }
 
 fun provideRequestInterceptor(): Interceptor {
@@ -89,4 +88,5 @@ fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(contex
 fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
 
 fun provideIntentFilter() = IntentFilter()
+
 

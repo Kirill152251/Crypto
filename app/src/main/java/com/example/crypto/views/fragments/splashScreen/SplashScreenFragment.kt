@@ -50,7 +50,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
         if (isOnline(requireContext())) {
             initObservers()
-            viewModel.setEvent(SplashScreenContract.Event.CachingInitialCoins)
+            viewModel.setEvent(SplashScreenContract.Event.LoadingInitialCoins)
         } else {
             findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
         }
@@ -68,10 +68,6 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                         }
                         is SplashScreenContract.CachingInitialCoinsState.Success -> {
                             findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
-                        }
-                        is SplashScreenContract.CachingInitialCoinsState.Error -> {
-                            //TODO: error handling
-                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
                         }
                     }
                 }

@@ -21,5 +21,4 @@ interface CoinsListDao {
 
     @Query("delete from coins_table")
     suspend fun clearDb()
-
 }
