@@ -8,25 +8,24 @@ import com.example.crypto.utils.Resource
 import com.example.crypto.utils.myConverter
 import com.github.mikephil.charting.data.Entry
 
-class DetailsScreenRepositoryImp(private val service: CoinGeckoService): DetailsScreenRepInterface {
-
-    private lateinit var priceDataFromApi: List<List<Double>>
+class DetailsScreenRepositoryImp(private val service: CoinGeckoService) :
+    DetailsScreenRepInterface {
 
     override suspend fun fetchPriceChange(
         coinId: String,
         interval: String
     ): Resource<MutableList<Entry>> {
         try {
-            when (interval) {
-                LABEL_DAY -> priceDataFromApi =
+            val priceDataFromApi = when (interval) {
+                LABEL_DAY ->
                     service.getPriceChangePerDay(coinId = coinId).prices
-                LABEL_WEEK -> priceDataFromApi =
+                LABEL_WEEK ->
                     service.getPriceChangePerWeek(coinId = coinId).prices
-                LABEL_MONTH -> priceDataFromApi =
+                LABEL_MONTH ->
                     service.getPriceChangePerMonth(coinId = coinId).prices
-                LABEL_YEAR -> priceDataFromApi =
+                LABEL_YEAR ->
                     service.getPriceChangePerYear(coinId = coinId).prices
-                LABEL_ALL_TIME -> priceDataFromApi =
+                else ->
                     service.getPriceChangeForAllTime(coinId = coinId).prices
             }
             val priceData = mutableListOf<Entry>()
@@ -44,15 +43,15 @@ class DetailsScreenRepositoryImp(private val service: CoinGeckoService): Details
         interval: String
     ): Resource<List<String>> {
         try {
-            when (interval) {
-                LABEL_DAY -> priceDataFromApi = service.getPriceChangePerDay(coinId = coinId).prices
-                LABEL_WEEK -> priceDataFromApi =
+            val priceDataFromApi = when (interval) {
+                LABEL_DAY -> service.getPriceChangePerDay(coinId = coinId).prices
+                LABEL_WEEK ->
                     service.getPriceChangePerWeek(coinId = coinId).prices
-                LABEL_MONTH -> priceDataFromApi =
+                LABEL_MONTH ->
                     service.getPriceChangePerMonth(coinId = coinId).prices
-                LABEL_YEAR -> priceDataFromApi =
+                LABEL_YEAR ->
                     service.getPriceChangePerYear(coinId = coinId).prices
-                LABEL_ALL_TIME -> priceDataFromApi =
+                else ->
                     service.getPriceChangeForAllTime(coinId = coinId).prices
             }
             val minAndMaxPrice = mutableListOf<String>()
