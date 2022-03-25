@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainScreenFragment"
+        android:title="@string/bottom_menu_item_main_text"
+        android:icon="@drawable/bottom_menu_main"/>
+    <item
+        android:id="@+id/settingsScreenFragment"
+        android:title="@string/settings_label_text"
+        android:icon="@drawable/ic_baseline_settings_24"/>
+
+</menu>
