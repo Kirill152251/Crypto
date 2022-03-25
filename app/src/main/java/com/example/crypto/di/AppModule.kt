@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
 private const val CURRENCY = "usd"
 private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
-
+val apiService = ApiService(BASE_URL)
 
 val appModule = module {
     single { provideRequestInterceptor() }
@@ -50,7 +50,22 @@ val viewModels = module {
     viewModel { MainScreenViewModel(get(), get()) }
 }
 
-fun provideRequestInterceptor(): Interceptor {
+fun provideRequestInterceptor(): Interceptor = apiService.requestInterceptor
+
+fun provideClient(requestInterceptor: Interceptor): OkHttpClient = apiService.okHttpClient
+
+fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = apiService.retrofit
+
+fun provideApiService(retrofit: Retrofit): CoinGeckoService = apiService.service
+
+fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(context)
+
+fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
+
+fun provideIntentFilter() = IntentFilter()
+
+
+class ApiService(baseUrl: String) {
     val requestInterceptor = Interceptor { chain ->
         val url = chain.request()
             .url
@@ -64,29 +79,20 @@ fun provideRequestInterceptor(): Interceptor {
             .build()
         return@Interceptor chain.proceed(request)
     }
-    return requestInterceptor
-}
-fun provideClient(requestInterceptor: Interceptor): OkHttpClient {
-    return OkHttpClient.Builder()
+
+    val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(requestInterceptor)
         .connectTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .build()
-}
-fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-    return Retrofit.Builder()
+
+    val retrofit: Retrofit = Retrofit.Builder()
         .client(okHttpClient)
-        .baseUrl(BASE_URL)
+        .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    val service: CoinGeckoService = retrofit.create(CoinGeckoService::class.java)
 }
-fun provideApiService(retrofit: Retrofit): CoinGeckoService =
-    retrofit.create(CoinGeckoService::class.java)
-
-fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(context)
-
-fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
-
-fun provideIntentFilter() = IntentFilter()
 
 

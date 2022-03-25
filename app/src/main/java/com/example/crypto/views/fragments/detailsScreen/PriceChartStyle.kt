@@ -23,6 +23,5 @@ class PriceChartStyle(private val context: Context) {
         setDrawCircles(false)
         setDrawValues(false)
         mode = LineDataSet.Mode.CUBIC_BEZIER
-        //setDrawHighlightIndicators(false)
     }
 }

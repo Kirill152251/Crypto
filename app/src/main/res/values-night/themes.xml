@@ -1,16 +1,113 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Crypto" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Crypto" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/green</item>
-        <item name="colorSecondaryVariant">@color/green</item>
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorSecondaryVariant">@color/orange</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="item_price_textView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
+
+    <style name="item_symbol_textView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="item_name_textView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_thin</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
+
+    <style name="bottom_menu_style">
+        <item name="backgroundTint">@color/orange</item>
+        <item name="itemTextColor">@color/radio_flat_text_selector</item>
+        <item name="itemIconTint">@color/radio_flat_text_selector</item>
+    </style>
+
+    <style name="toolbar_style">
+        <item name="android:background">@color/orange</item>
+    </style>
+
+    <style name="details_screen_price_text">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">36sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="details_screen_price_change_text">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="separation_line_style_details_screen">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_for_radio_button</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="market_cap_label_details_screen">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="market_cap_value_details_screen">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="details_screen_radio_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_weight">0.2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/radio_flat_text_selector_night</item>
+        <item name="android:background">@drawable/radio_flat_selector_night</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

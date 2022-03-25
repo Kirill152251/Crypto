@@ -1,4 +1,4 @@
-package com.example.crypto.utils
+package com.example.utils
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -25,12 +25,12 @@ class TestPagingSource : PagingSource<Int, Coin>() {
         )
     }
 
-    private fun mockResponse(itemPerPage: Int): CoinListResponse {
+    private fun mockResponse(itemPerPage: Int): ArrayList<Coin> {
         val response = ArrayList<Coin>()
         for (i in 0 until itemPerPage) {
             response.add(createTestCoin())
         }
-        return response as CoinListResponse
+        return response
     }
 
     private fun createTestCoin(): Coin {

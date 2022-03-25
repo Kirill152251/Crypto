@@ -1,5 +1,6 @@
 package com.example.crypto.viewModels
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.example.crypto.repository.SortPreferencesRepositoryImpl
@@ -39,7 +40,7 @@ class MainScreenViewModel(
 
     private fun fetchCoinFromDb() {
         viewModelScope.launch {
-            //setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
             val coins = repository.getCoinsFromDB()
             setState {
                 copy(
@@ -70,7 +71,7 @@ class MainScreenViewModel(
                     )
                 }
             } catch (exception: Exception) {
-                //TODO: error handling
+                Log.e("mainViewModel", exception.toString())
             }
         }
     }
@@ -88,7 +89,7 @@ class MainScreenViewModel(
                     )
                 }
             } catch (exception: Exception) {
-                //TODO: error handling
+                Log.e("mainViewModel", exception.toString())
             }
 
         }
@@ -107,7 +108,7 @@ class MainScreenViewModel(
                     )
                 }
             } catch (exception: Exception) {
-                //TODO: error handling
+                Log.e("mainViewModel", exception.toString())
             }
         }
     }

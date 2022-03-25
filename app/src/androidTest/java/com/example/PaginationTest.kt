@@ -1,9 +1,15 @@
-package com.example.crypto
+package com.example
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import com.example.crypto.repository.NETWORK_PAGE_SIZE
-import com.example.crypto.utils.TestPagingSource
+import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
+import com.example.utils.TestPagingSource
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -13,11 +19,17 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-
+import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
+@RunWith(AndroidJUnit4::class)
+@SmallTest
 class PaginationTest {
+
+    @get: Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -44,5 +56,10 @@ class PaginationTest {
             pagingSourceFactory = { TestPagingSource() }
         ).flow
 
+        val adapter = CoinsListAdapter(ApplicationProvider.getApplicationContext())
+        pager.collect{
+            adapter.submitData(it)
+        }
+        assertThat(adapter.itemCount == testSize)
     }
 }

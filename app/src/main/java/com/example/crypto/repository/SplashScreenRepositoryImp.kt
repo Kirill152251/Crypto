@@ -21,7 +21,8 @@ class SplashScreenRepositoryImp(
             )
             coinsListDataBase.coinsListDao().insertCoins(initialCoins)
         } catch (e: Exception) {
-            //TODO
+            Log.e("initial coins", e.toString()
+            )
         }
     }
 }

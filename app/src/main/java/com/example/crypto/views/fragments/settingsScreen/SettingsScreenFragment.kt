@@ -6,13 +6,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -29,12 +29,12 @@ import com.example.crypto.databinding.FragmentSettingsScreenBinding
 import com.example.crypto.model.constans.*
 import com.example.crypto.model.settingsDB.SettingsUserInfo
 import com.example.crypto.utils.ResourceForValidation
+import com.example.crypto.utils.getBitmapFromView
 import com.example.crypto.viewModels.SettingsScreenViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
@@ -192,12 +192,13 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             val firstName = binding.firstName.text.toString()
             val lastName = binding.lastName.text.toString()
             val dateOfBirth = binding.dateOfBirth.text.toString() ?: ""
-            val profilePicture = binding.profilePicture.drawable as BitmapDrawable
+            val profilePicture = getBitmapFromView(binding.profilePicture)
+
 
             val resourceForValidation = isInputsValid(firstName, lastName)
             if (resourceForValidation.isValid) {
                 val settingsUserInfo =
-                    SettingsUserInfo(firstName, lastName, dateOfBirth, profilePicture.bitmap)
+                    SettingsUserInfo(firstName, lastName, dateOfBirth, profilePicture)
                 viewModel.insertUserInfo(settingsUserInfo)
                 Snackbar.make(it, resourceForValidation.errorOrSuccessInfo, LENGTH_LONG).show()
             } else {

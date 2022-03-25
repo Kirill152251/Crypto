@@ -18,7 +18,7 @@ class InternetCheckService : Service() {
         val handler = Handler(Looper.getMainLooper())
         handler.post(object : Runnable {
             override fun run() {
-                handler.postDelayed(this, 8000)
+                handler.postDelayed(this, 13000)
                 val broadcastIntent = Intent()
                 broadcastIntent.action = BROADCAST_STRING_FOR_ACTION
                 broadcastIntent.putExtra("online_status", "" + isOnline(this@InternetCheckService.applicationContext))
@@ -30,11 +30,4 @@ class InternetCheckService : Service() {
         }
         return START_STICKY
     }
-
-    public class MyBinder: Binder() {
-        fun getService(): InternetCheckService {
-            return InternetCheckService()
-        }
-    }
-
 }
