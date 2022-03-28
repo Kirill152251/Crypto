@@ -1,8 +1,6 @@
 package com.example.utils
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.crypto.App
-import com.example.crypto.AppTest
 import java.io.IOException
 import java.io.InputStreamReader
 

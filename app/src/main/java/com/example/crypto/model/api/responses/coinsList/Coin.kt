@@ -6,31 +6,34 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import com.example.crypto.views.fragments.mainScreen.MainScreenContract
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "coins_table")
 data class Coin(
-    @SerializedName("current_price")
+    @SerialName("current_price")
     val currentPrice: String,
 
-    @SerializedName("id")
+    @SerialName("id")
     @PrimaryKey(autoGenerate = false)
     val coinId: String,
 
-    @SerializedName("image")
+    @SerialName("image")
     val image: String,
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
-    @SerializedName("symbol")
+    @SerialName("symbol")
     val symbol: String,
 
-    @SerializedName("market_cap_rank")
+    @SerialName("market_cap_rank")
     val marketCapRank: Int,
 
-    @SerializedName("market_cap")
+    @SerialName("market_cap")
     val marketCapValue: String,
 
-    @SerializedName("price_change_percentage_24h")
+    @SerialName("price_change_percentage_24h")
     val volatility: Double
 )

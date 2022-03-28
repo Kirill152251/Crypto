@@ -9,7 +9,6 @@ import androidx.test.filters.SmallTest
 import com.example.crypto.repository.NETWORK_PAGE_SIZE
 import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
 import com.example.utils.TestPagingSource
-import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -60,6 +59,6 @@ class PaginationTest {
         pager.collect{
             adapter.submitData(it)
         }
-        assertThat(adapter.itemCount == testSize)
+        //TODO: finish test
     }
 }

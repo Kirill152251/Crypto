@@ -8,9 +8,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.example.utils.getOrAwaitValue
-import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -50,7 +51,7 @@ class UserInfoDataBaseTest {
         val firstUser = SettingsUserInfo("kirill", "test", "12/12/12", emptyBitmap)
         dao.insertUserInfo(firstUser)
         val infoFromBd = dao.getUserInfo().asLiveData().getOrAwaitValue()
-        assertThat(infoFromBd == firstUser)
+        assertThat(infoFromBd, `is`(firstUser))
     }
 
     @Test
@@ -62,6 +63,6 @@ class UserInfoDataBaseTest {
         dao.insertUserInfo(firstUser)
         dao.insertUserInfo(lastInsertUser)
         val infoFromBd = dao.getUserInfo().asLiveData().getOrAwaitValue()
-        assertThat(infoFromBd == lastInsertUser)
+        assertThat(infoFromBd, `is`(lastInsertUser))
     }
 }

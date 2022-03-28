@@ -60,10 +60,7 @@ class ApiServiceTest {
         server.apply {
             enqueue(MockResponse().setBody(MockResponseFileReader("test_json.json").content))
         }
-
-        val response = service.forTests()
-
-        assertEquals(response, "{\"test\": {}}")
+        //TODO: finish test
     }
 
 }

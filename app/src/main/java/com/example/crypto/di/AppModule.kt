@@ -14,7 +14,11 @@ import com.example.crypto.viewModels.SettingsScreenViewModel
 import com.example.crypto.viewModels.SplashScreenViewModel
 import com.example.crypto.views.fragments.detailsScreen.PriceChartStyle
 import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -25,6 +29,7 @@ import java.util.concurrent.TimeUnit
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
 private const val CURRENCY = "usd"
 private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
+@ExperimentalSerializationApi
 val apiService = ApiService(BASE_URL)
 
 val appModule = module {
@@ -65,6 +70,7 @@ fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(
 fun provideIntentFilter() = IntentFilter()
 
 
+@ExperimentalSerializationApi
 class ApiService(baseUrl: String) {
     val requestInterceptor = Interceptor { chain ->
         val url = chain.request()
@@ -86,10 +92,12 @@ class ApiService(baseUrl: String) {
         .readTimeout(60, TimeUnit.SECONDS)
         .build()
 
+    private val contentType = "application/json".toMediaType()
+
     val retrofit: Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(Json.asConverterFactory(contentType))
         .build()
 
     val service: CoinGeckoService = retrofit.create(CoinGeckoService::class.java)

@@ -7,8 +7,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.example.crypto.model.api.responses.coinsList.Coin
-import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -53,6 +54,6 @@ class CoinsListDataBaseTest {
         val coinsNumberAfterFirstInsert = dao.getCoinsList().size
         dao.insertCoins(testCoins)
         val coinsNumberAfterSecondInsert = dao.getCoinsList().size
-        assertThat(coinsNumberAfterFirstInsert == coinsNumberAfterSecondInsert)
+        assertThat(coinsNumberAfterFirstInsert, `is`(coinsNumberAfterSecondInsert))
     }
 }
