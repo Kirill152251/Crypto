@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.api.responses.coins_list.Coin
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`

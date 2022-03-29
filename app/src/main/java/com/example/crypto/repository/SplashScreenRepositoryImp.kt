@@ -14,7 +14,7 @@ class SplashScreenRepositoryImp(
 
     override suspend fun fetchingAndCachingInitialCoins() {
         try {
-            val initialCoins = service.getTwentyCoinSortedByMarketCap(
+            val initialCoins = service.getCoinsSortedByMarketCap(
                 STARTING_PAGE_INDEX,
                 NETWORK_PAGE_SIZE,
                 QUERY_SORT_BY_MARKET_CAP

@@ -2,8 +2,7 @@ package com.example.utils
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.crypto.model.api.responses.coinsList.Coin
-import com.example.crypto.model.api.responses.coinsList.CoinListResponse
+import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.repository.STARTING_PAGE_INDEX
 
 class TestPagingSource : PagingSource<Int, Coin>() {

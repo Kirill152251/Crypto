@@ -7,7 +7,7 @@
     app:startDestination="@id/splashScreenFragment">
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.example.crypto.views.fragments.splashScreen.SplashScreenFragment"
+        android:name="com.example.crypto.views.fragments.splash_screen.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.example.crypto.views.fragments.mainScreen.MainScreenFragment"
+        android:name="com.example.crypto.views.fragments.main_screen.MainScreenFragment"
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsScreenFragment"
-        android:name="com.example.crypto.views.fragments.detailsScreen.DetailsScreenFragment"
+        android:name="com.example.crypto.views.fragments.details_screen.DetailsScreenFragment"
         android:label="fragment_details_screen"
         tools:layout="@layout/fragment_details_screen" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsScreenFragment"
-        android:name="com.example.crypto.views.fragments.settingsScreen.SettingsScreenFragment"
+        android:name="com.example.crypto.views.fragments.settings_screen.SettingsScreenFragment"
         android:label="fragment_settings_screen"
         tools:layout="@layout/fragment_settings_screen" >
         <action

@@ -7,11 +7,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.example.crypto.repository.NETWORK_PAGE_SIZE
-import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
+import com.example.crypto.views.fragments.main_screen.CoinsListAdapter
 import com.example.utils.TestPagingSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest

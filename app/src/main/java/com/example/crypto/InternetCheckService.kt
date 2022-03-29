@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.*
 import com.example.crypto.model.constans.ACTION_STOP_SERVICE
 import com.example.crypto.model.constans.BROADCAST_STRING_FOR_ACTION
+import com.example.crypto.model.constans.ONLINE_STATUS
 import com.example.crypto.utils.isOnline
+import java.util.*
+import kotlin.concurrent.scheduleAtFixedRate
 
 
 class InternetCheckService : Service() {
@@ -15,19 +18,17 @@ class InternetCheckService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val handler = Handler(Looper.getMainLooper())
-        handler.post(object : Runnable {
-            override fun run() {
-                handler.postDelayed(this, 13000)
-                val broadcastIntent = Intent()
-                broadcastIntent.action = BROADCAST_STRING_FOR_ACTION
-                broadcastIntent.putExtra("online_status", "" + isOnline(this@InternetCheckService.applicationContext))
-                sendBroadcast(broadcastIntent)
-            }
-        })
+        Timer().scheduleAtFixedRate(1600, 10000){
+            val broadcastIntent = Intent()
+            broadcastIntent.action = BROADCAST_STRING_FOR_ACTION
+            broadcastIntent.putExtra(ONLINE_STATUS, isOnline(this@InternetCheckService.applicationContext))
+            sendBroadcast(broadcastIntent)
+        }
         if (intent?.action == ACTION_STOP_SERVICE) {
             stopSelf()
         }
         return START_STICKY
     }
+
+
 }

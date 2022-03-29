@@ -20,6 +20,9 @@ import com.example.crypto.model.constans.ACTION_STOP_SERVICE
 import com.example.crypto.model.constans.BROADCAST_STRING_FOR_ACTION
 import com.example.crypto.utils.isOnline
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.processphoenix.ProcessPhoenix
 import org.koin.android.ext.android.inject
 
 
@@ -38,6 +41,21 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction(BROADCAST_STRING_FOR_ACTION)
         val intentService = Intent(this, InternetCheckService::class.java)
         startService(intentService)
+
+        //set listener for button on error screen
+        binding.tryAgainBtn.setOnClickListener {
+            if (isOnline(this)) {
+                binding.noInternetErrorScreen.visibility = View.GONE
+                binding.darkOverLayContentBottomMenu.visibility = View.GONE
+                ProcessPhoenix.triggerRebirth(this)
+            } else {
+                Snackbar.make(
+                    it,
+                    this.resources.getString(R.string.still_no_connection),
+                    BaseTransientBottomBar.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun setBottomMenu() {

@@ -2,10 +2,10 @@ package com.example.crypto.repository
 
 import androidx.paging.*
 import com.example.crypto.model.api.CoinGeckoService
-import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.db.CoinsListDataBase
 import com.example.crypto.repository.interfaces.MainScreenRepInterface
-import com.example.crypto.views.fragments.mainScreen.*
+import com.example.crypto.views.fragments.main_screen.*
 import kotlinx.coroutines.flow.Flow
 
 

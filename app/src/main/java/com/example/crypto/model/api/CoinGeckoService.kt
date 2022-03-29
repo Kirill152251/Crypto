@@ -1,7 +1,7 @@
 package com.example.crypto.model.api
 
-import com.example.crypto.model.api.responses.coinsList.CoinListResponse
-import com.example.crypto.model.api.responses.priceChange.PriceChangePerDay
+import com.example.crypto.model.api.responses.coins_list.CoinListResponse
+import com.example.crypto.model.api.responses.price_change.PriceChangePerDay
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,43 +20,43 @@ interface CoinGeckoService {
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerYear(
         @Path("coin_id") coinId: String,
-        @Query("days") days: String = "360"
+        @Query("days") days: Int = 360
     ): PriceChangePerDay
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerMonth(
         @Path("coin_id") coinId: String,
-        @Query("days") days: String = "30"
+        @Query("days") days: Int = 30
     ): PriceChangePerDay
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerWeek(
         @Path("coin_id") coinId: String,
-        @Query("days") days: String = "7"
+        @Query("days") days: Int = 7
     ): PriceChangePerDay
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerDay(
         @Path("coin_id") coinId: String,
-        @Query("days") days: String = "1"
+        @Query("days") days: Int = 1
     ): PriceChangePerDay
 
     @GET("markets")
-    suspend fun getTwentyCoinSortedByPrice(
+    suspend fun getCoinsSortedByPrice(
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,
         @Query("order") order: String
     ) : CoinListResponse
 
     @GET("markets")
-    suspend fun getTwentyCoinSortedByVolatility(
+    suspend fun getCoinsSortedByVolatility(
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,
         @Query("order") order: String
     ) : CoinListResponse
 
     @GET("markets")
-    suspend fun getTwentyCoinSortedByMarketCap(
+    suspend fun getCoinsSortedByMarketCap(
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,
         @Query("order") order: String

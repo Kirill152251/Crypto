@@ -1,17 +1,10 @@
 package com.example.crypto.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.repository.interfaces.MainScreenRepInterface
-import com.example.crypto.utils.TestPagingSource
 import com.example.crypto.utils.testFlow
-import com.example.crypto.views.fragments.mainScreen.CoinsPagingSourceByPrice
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.toList
 
 class FakeMainScreenRepository: MainScreenRepInterface {
 
