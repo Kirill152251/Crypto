@@ -7,10 +7,6 @@ import android.content.Intent
 import android.view.View
 import com.example.crypto.databinding.ActivityMainBinding
 import com.example.crypto.model.constans.ONLINE_STATUS
-import com.example.crypto.utils.isOnline
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
-import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.processphoenix.ProcessPhoenix
 
 class CheckInternetBroadcastReceiver(private val binding: ActivityMainBinding) :
     BroadcastReceiver() {
@@ -19,8 +15,8 @@ class CheckInternetBroadcastReceiver(private val binding: ActivityMainBinding) :
         val isNetworkAvailable = intent?.getBooleanExtra(ONLINE_STATUS, true) ?: true
         if (!isNetworkAvailable) {
             binding.apply {
-                noInternetErrorScreen.visibility = View.VISIBLE
-                darkOverLayContentBottomMenu.visibility = View.VISIBLE
+                groupNoInternetScreen.visibility = View.VISIBLE
+                imageDarkOverlayBottomMenu.visibility = View.VISIBLE
             }
         }
     }

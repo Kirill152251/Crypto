@@ -1,12 +1,7 @@
 package com.example.crypto.views
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -43,10 +38,10 @@ class MainActivity : AppCompatActivity() {
         startService(intentService)
 
         //set listener for button on error screen
-        binding.tryAgainBtn.setOnClickListener {
+        binding.buttonTryAgain.setOnClickListener {
             if (isOnline(this)) {
-                binding.noInternetErrorScreen.visibility = View.GONE
-                binding.darkOverLayContentBottomMenu.visibility = View.GONE
+                binding.groupNoInternetScreen.visibility = View.GONE
+                binding.imageDarkOverlayBottomMenu.visibility = View.GONE
                 ProcessPhoenix.triggerRebirth(this)
             } else {
                 Snackbar.make(
@@ -61,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomMenu() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomNavigationView.setupWithNavController(navController)
     }
 

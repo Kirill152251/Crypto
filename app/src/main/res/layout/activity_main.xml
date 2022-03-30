@@ -12,15 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav_menu"
+        app:layout_constraintBottom_toTopOf="@id/menu_bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/my_nav" />
+        app:navGraph="@navigation/nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_menu"
-        style="@style/bottom_menu_style"
+        android:id="@+id/menu_bottom_nav"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Crypto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,8 +29,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu">
 
-        <ImageView
-            android:id="@+id/darkOverLay_Content_bottom_menu"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_dark_overlay_bottom_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -40,8 +40,8 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <ImageView
-        android:id="@+id/darkOverLay_Content"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_dark_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black_transparent"
@@ -54,9 +54,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/no_internet_text"
-        style="@style/no_internet_screen_text"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_no_internet"
+        style="@style/Widget.MaterialComponents.TextView.NoInternetScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_internet"
@@ -66,38 +66,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/no_internet_image"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_no_internet"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginBottom="28dp"
         android:src="@drawable/no_internet_icon"
-        app:layout_constraintBottom_toTopOf="@+id/no_internet_text"
+        app:layout_constraintBottom_toTopOf="@+id/text_no_internet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/try_again_btn"
-        style="@style/no_internet_screen_text"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_try_again"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
+        app:strokeColor="@color/white"
+        app:cornerRadius="16dp"
+        android:paddingVertical="12dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:text="@string/try_again"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textAllCaps="false"
-        android:paddingHorizontal="27dp"
-        android:background="@drawable/try_again_btn"
+        android:paddingHorizontal="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/no_internet_text" />
+        app:layout_constraintTop_toBottomOf="@+id/text_no_internet" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/no_internet_error_screen"
+        android:id="@+id/group_no_internet_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="darkOverLay_Content, no_internet_image, no_internet_text,try_again_btn"
+        android:visibility="visible"
+        app:constraint_referenced_ids="image_dark_overlay, image_no_internet, text_no_internet,button_try_again"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

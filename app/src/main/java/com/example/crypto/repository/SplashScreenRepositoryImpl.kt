@@ -2,15 +2,17 @@ package com.example.crypto.repository
 
 import android.util.Log
 import com.example.crypto.model.api.CoinGeckoService
+import com.example.crypto.model.constans.NETWORK_PAGE_SIZE
 import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
+import com.example.crypto.model.constans.STARTING_PAGE_INDEX
 import com.example.crypto.model.db.CoinsListDataBase
-import com.example.crypto.repository.interfaces.SplashScreenRepInterface
+import com.example.crypto.repository.interfaces.SplashScreenRepository
 import java.lang.Exception
 
-class SplashScreenRepositoryImp(
+class SplashScreenRepositoryImpl(
     private val service: CoinGeckoService,
     private val coinsListDataBase: CoinsListDataBase
-) : SplashScreenRepInterface {
+) : SplashScreenRepository {
 
     override suspend fun fetchingAndCachingInitialCoins() {
         try {
@@ -21,8 +23,7 @@ class SplashScreenRepositoryImp(
             )
             coinsListDataBase.coinsListDao().insertCoins(initialCoins)
         } catch (e: Exception) {
-            Log.e("initial coins", e.toString()
-            )
+            Log.e("initial coins", e.toString())
         }
     }
 }

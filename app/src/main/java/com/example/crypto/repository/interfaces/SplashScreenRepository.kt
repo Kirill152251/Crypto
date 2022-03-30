@@ -1,6 +1,6 @@
 package com.example.crypto.repository.interfaces
 
-interface SplashScreenRepInterface {
+interface SplashScreenRepository {
 
     suspend fun fetchingAndCachingInitialCoins()
 

@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.example.crypto.model.api.responses.coins_list.Coin
 import kotlinx.coroutines.flow.Flow
 
-interface MainScreenRepInterface {
+interface MainScreenRepository {
 
     fun getCoinsByPrice(): Flow<PagingData<Coin>>
 

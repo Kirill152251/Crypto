@@ -3,20 +3,17 @@ package com.example.crypto.repository
 import androidx.paging.*
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coins_list.Coin
+import com.example.crypto.model.constans.NETWORK_PAGE_SIZE
 import com.example.crypto.model.db.CoinsListDataBase
-import com.example.crypto.repository.interfaces.MainScreenRepInterface
+import com.example.crypto.repository.interfaces.MainScreenRepository
 import com.example.crypto.views.fragments.main_screen.*
 import kotlinx.coroutines.flow.Flow
 
 
-const val STARTING_PAGE_INDEX = 1
-const val NETWORK_PAGE_SIZE = 20
-
-
-class MainScreenRepositoryImp(
+class MainScreenRepositoryImpl(
     private val service: CoinGeckoService,
     private val coinsListDataBase: CoinsListDataBase
-) : MainScreenRepInterface {
+) : MainScreenRepository {
 
     override fun getCoinsByPrice(): Flow<PagingData<Coin>> {
         return Pager(

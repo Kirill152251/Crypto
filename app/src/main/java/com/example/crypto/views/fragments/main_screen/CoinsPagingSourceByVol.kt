@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
-import com.example.crypto.repository.STARTING_PAGE_INDEX
+import com.example.crypto.model.constans.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
 

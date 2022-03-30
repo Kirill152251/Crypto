@@ -4,9 +4,8 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
-import kotlin.math.roundToLong
 
-fun myConverter(price: Double): String {
+fun coinsPriceConverter(price: Double): String {
     return if (price < 1.0) {
         val nf = NumberFormat.getInstance(Locale.US)
         nf.maximumFractionDigits = 6

@@ -46,5 +46,7 @@
     <string name="no_internet">No connection to the internet</string>
     <string name="try_again">Try Again</string>
     <string name="still_no_connection">Internet connection still not available.</string>
+    <string name="date_picker_title">SELECT DATE OF BIRTH</string>
+    <string name="permission_denied">"You just denied the permission for camera. Allow it in the settings."</string>
 
 </resources>

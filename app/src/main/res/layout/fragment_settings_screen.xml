@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".views.fragments.settings_screen.SettingsScreenFragment">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/toolbar_style"
+        style="@style/Widget.MaterialComponents.Toolbar.Crypto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,24 +16,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/settings_label"
-            style="@style/toolbar_label_text"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_settings_label"
+            style="@style/Widget.MaterialComponents.TextView.CryptoToolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/settings_label_text" />
 
-        <ImageView
-            android:id="@+id/save_settings"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_save_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="19dp"
+            android:padding="16dp"
             android:src="@drawable/save_icon" />
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,8 +52,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <ImageView
-                android:id="@+id/profile_picture"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_profile_picture"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="16dp"
@@ -64,48 +64,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/gray_line"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_gray_line"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="16dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/choose_avatar"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
-                app:layout_constraintEnd_toEndOf="@+id/profile_picture"
+                app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
+                app:layout_constraintEnd_toEndOf="@+id/image_profile_picture"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintHeight_percent=".13"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/profile_picture" />
+                app:layout_constraintStart_toStartOf="@+id/image_profile_picture" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/choose_avatar_button"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:src="@drawable/camera_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
-                app:layout_constraintEnd_toEndOf="@+id/gray_line"
+                app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
+                app:layout_constraintEnd_toEndOf="@+id/image_gray_line"
                 app:layout_constraintHeight_default="percent"
                 app:layout_constraintHeight_percent=".0816"
-                app:layout_constraintStart_toStartOf="@+id/gray_line"
-                app:layout_constraintTop_toTopOf="@+id/gray_line"
+                app:layout_constraintStart_toStartOf="@+id/image_gray_line"
+                app:layout_constraintTop_toTopOf="@+id/image_gray_line"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintWidth_percent=".1" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/first_name_input_layout"
+                android:id="@+id/text_input_layout_first_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_picture">
+                app:layout_constraintTop_toBottomOf="@+id/image_profile_picture">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/first_name"
+                    android:id="@+id/edit_text_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -115,7 +115,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/last_name_input_layout"
+                android:id="@+id/text_input_layout_last_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,10 +124,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/first_name_input_layout">
+                app:layout_constraintTop_toBottomOf="@+id/text_input_layout_first_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/last_name"
+                    android:id="@+id/edit_text_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -137,7 +137,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/date_of_birth_input_layout"
+                android:id="@+id/input_layout_date_of_birth"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,10 +145,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/last_name_input_layout">
+                app:layout_constraintTop_toBottomOf="@+id/text_input_layout_last_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/date_of_birth"
+                    android:id="@+id/edit_text_date_of_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -158,6 +158,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

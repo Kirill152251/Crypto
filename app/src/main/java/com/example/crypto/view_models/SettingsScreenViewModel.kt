@@ -4,12 +4,12 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crypto.model.settings_db.SettingsUserInfo
-import com.example.crypto.repository.UserInfoRepository
+import com.example.crypto.repository.UserInfoRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingsScreenViewModel(
-    private val repository: UserInfoRepository
+    private val repository: UserInfoRepositoryImpl
 ) : ViewModel() {
 
     fun insertUserInfo(settingsUserInfo: SettingsUserInfo) {

@@ -15,7 +15,6 @@ val roomModule = module {
 
 private fun provideCoinsListDatabase(context: Context): CoinsListDataBase {
     return Room.databaseBuilder(context, CoinsListDataBase::class.java, "coins")
-        .fallbackToDestructiveMigration()
         .build()
 }
 
@@ -24,7 +23,6 @@ private fun provideCoinsListDao(coinsListDataBase: CoinsListDataBase) =
 
 private fun provideUserInfoDatabase(context: Context): UserInfoDataBase {
     return Room.databaseBuilder(context, UserInfoDataBase::class.java, "user_info")
-        .fallbackToDestructiveMigration()
         .createFromAsset("db/user_info.db")
         .build()
 }

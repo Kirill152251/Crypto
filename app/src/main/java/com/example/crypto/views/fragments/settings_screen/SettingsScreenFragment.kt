@@ -13,7 +13,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -57,10 +56,10 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 resultLauncherCamera.launch(intent)
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "You just denied the permission for camera. Allow it in the settings.",
-                    Toast.LENGTH_LONG
+                Snackbar.make(
+                    requireView(),
+                    resources.getString(R.string.permission_denied),
+                    LENGTH_LONG
                 ).show()
             }
         }
@@ -76,8 +75,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Show bottom nav menu
-        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomMenu.isVisible = true
 
         bindUi()
@@ -86,16 +84,16 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         binding.chooseAvatarButton.setOnClickListener {
             chooseProfilePicture()
         }
-        binding.dateOfBirth.setOnClickListener {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        binding.editTextDateOfBirth.setOnClickListener {
             val datePicker = MaterialDatePicker
                 .Builder
                 .datePicker()
-                .setTitleText("SELECT DATE OF BIRTH")
+                .setTitleText(resources.getString(R.string.date_picker_title))
                 .build()
             datePicker.addOnPositiveButtonClickListener {
-                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val date = sdf.format(it)
-                binding.dateOfBirth.setText(date)
+                binding.editTextDateOfBirth.setText(date)
             }
             datePicker.show(requireActivity().supportFragmentManager, "DATE")
         }
@@ -109,7 +107,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.download_photo))
             .setItems(options,
-                DialogInterface.OnClickListener { dialogInterface, which ->
+                DialogInterface.OnClickListener { _, which ->
                     when (which) {
                         0 -> {
                             if (ContextCompat.checkSelfPermission(
@@ -154,13 +152,13 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                         }
                     }
                     viewModel.updateProfilePicture(bitmap)
-                    binding.profilePicture.setImageBitmap(bitmap)
+                    binding.imageProfilePicture.setImageBitmap(bitmap)
                 }
                 CAMERA_REQUEST -> {
                     val extras = data!!.extras
                     val bitmap = extras!!.get("data") as Bitmap
                     viewModel.updateProfilePicture(bitmap)
-                    binding.profilePicture.setImageBitmap(bitmap)
+                    binding.imageProfilePicture.setImageBitmap(bitmap)
                 }
             }
         }
@@ -172,13 +170,13 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getUserInfo().collect {
                     binding.apply {
-                        firstName.setText(it.firstName)
-                        lastName.setText(it.lastName)
-                        dateOfBirth.setText(it.dateOfBirth)
+                        editTextFirstName.setText(it.firstName)
+                        editTextLastName.setText(it.lastName)
+                        editTextDateOfBirth.setText(it.dateOfBirth)
                         if (it.profilePicture == null) {
-                            profilePicture.setImageResource(R.drawable.avatar_solid)
+                            imageProfilePicture.setImageResource(R.drawable.avatar_solid)
                         } else
-                            profilePicture.setImageBitmap(it.profilePicture)
+                            imageProfilePicture.setImageBitmap(it.profilePicture)
                     }
                 }
             }
@@ -186,11 +184,11 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     }
 
     private fun saveUserInfoButton() {
-        binding.saveSettings.setOnClickListener {
-            val firstName = binding.firstName.text.toString()
-            val lastName = binding.lastName.text.toString()
-            val dateOfBirth = binding.dateOfBirth.text.toString() ?: ""
-            val profilePicture = getBitmapFromView(binding.profilePicture)
+        binding.imageSaveSettings.setOnClickListener {
+            val firstName = binding.editTextFirstName.text.toString()
+            val lastName = binding.editTextLastName.text.toString()
+            val dateOfBirth = binding.editTextDateOfBirth.text.toString() ?: ""
+            val profilePicture = getBitmapFromView(binding.imageProfilePicture)
 
             val resourceForValidation = isInputsValid(firstName, lastName)
             if (resourceForValidation.isValid) {

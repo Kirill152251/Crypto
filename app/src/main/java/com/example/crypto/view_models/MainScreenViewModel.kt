@@ -3,34 +3,34 @@ package com.example.crypto.view_models
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import com.example.crypto.repository.interfaces.MainScreenRepInterface
-import com.example.crypto.repository.interfaces.SortPreferencesRepInterface
-import com.example.crypto.views.fragments.main_screen.MainScreenContract
+import com.example.crypto.repository.interfaces.MainScreenRepository
+import com.example.crypto.repository.interfaces.SortPreferencesRepository
+import com.example.crypto.views.fragments.main_screen.MainScreenContract.*
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel(
-    private val repository: MainScreenRepInterface,
-    private val sortPreferencesRepository: SortPreferencesRepInterface
-) : BaseViewModel<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect>() {
+    private val repository: MainScreenRepository,
+    private val sortPreferencesRepository: SortPreferencesRepository
+) : BaseViewModel<State, Event, Effect>() {
 
-    override fun createInitialState(): MainScreenContract.State {
-        return MainScreenContract.State(
-            MainScreenContract.RecycleViewState.Loading
+    override fun createInitialState(): State {
+        return State(
+            RecycleViewState.Loading
         )
     }
 
-    override fun handleEvent(event: MainScreenContract.Event) {
+    override fun handleEvent(event: Event) {
         when (event) {
-            is MainScreenContract.Event.ChoseSortingByMarketCap -> {
+            is Event.ChoseSortingByMarketCap -> {
                 sortByMarketCap()
             }
-            is MainScreenContract.Event.ChoseSortingByPrice -> {
+            is Event.ChoseSortingByPrice -> {
                 sortByPrice()
             }
-            is MainScreenContract.Event.ChoseSortingByVolatility -> {
+            is Event.ChoseSortingByVolatility -> {
                 sortByVolatility()
             }
-            is MainScreenContract.Event.FetchFromDb -> {
+            is Event.FetchFromDb -> {
                 fetchCoinFromDb()
             }
         }
@@ -38,11 +38,11 @@ class MainScreenViewModel(
 
     private fun fetchCoinFromDb() {
         viewModelScope.launch {
-            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+            setState { copy(recycleViewState = RecycleViewState.Loading) }
             val coins = repository.getCoinsFromDB()
             setState {
                 copy(
-                    recycleViewState = MainScreenContract.RecycleViewState.ItemsFromDb(
+                    recycleViewState = RecycleViewState.ItemsFromDb(
                         coins
                     )
                 )
@@ -58,12 +58,12 @@ class MainScreenViewModel(
 
     private fun sortByVolatility() {
         viewModelScope.launch {
-            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+            setState { copy(recycleViewState =RecycleViewState.Loading) }
             try {
                 val coins = repository.getCoinsByVol().cachedIn(viewModelScope)
                 setState {
                     copy(
-                        recycleViewState = MainScreenContract.RecycleViewState.SortingByVolatility(
+                        recycleViewState = RecycleViewState.SortingByVolatility(
                             coins
                         )
                     )
@@ -76,12 +76,12 @@ class MainScreenViewModel(
 
     private fun sortByPrice() {
         viewModelScope.launch {
-            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+            setState { copy(recycleViewState = RecycleViewState.Loading) }
             try {
                 val coins = repository.getCoinsByPrice().cachedIn(viewModelScope)
                 setState {
                     copy(
-                        recycleViewState = MainScreenContract.RecycleViewState.SortingByPrice(
+                        recycleViewState = RecycleViewState.SortingByPrice(
                             coins
                         )
                     )
@@ -95,12 +95,12 @@ class MainScreenViewModel(
 
     private fun sortByMarketCap() {
         viewModelScope.launch {
-            setState { copy(recycleViewState = MainScreenContract.RecycleViewState.Loading) }
+            setState { copy(recycleViewState = RecycleViewState.Loading) }
             try {
                 val coins = repository.getCoinsByCap().cachedIn(viewModelScope)
                 setState {
                     copy(
-                        recycleViewState = MainScreenContract.RecycleViewState.SortingByMarketCap(
+                        recycleViewState = RecycleViewState.SortingByMarketCap(
                             coins
                         )
                     )

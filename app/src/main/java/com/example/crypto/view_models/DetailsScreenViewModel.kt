@@ -2,78 +2,81 @@ package com.example.crypto.view_models
 
 import androidx.lifecycle.viewModelScope
 import com.example.crypto.model.constans.*
-import com.example.crypto.repository.interfaces.DetailsScreenRepInterface
-import com.example.crypto.views.fragments.details_screen.DetailsScreenContract
+import com.example.crypto.repository.interfaces.DetailsScreenRepository
+import com.example.crypto.views.fragments.details_screen.DetailsScreenContract.State
+import com.example.crypto.views.fragments.details_screen.DetailsScreenContract.Event
+import com.example.crypto.views.fragments.details_screen.DetailsScreenContract.Effect
+import com.example.crypto.views.fragments.details_screen.DetailsScreenContract.ChartState
 import kotlinx.coroutines.launch
 
 class DetailsScreenViewModel(
-    private val repository: DetailsScreenRepInterface,
+    private val repository: DetailsScreenRepository,
     private val coinId: String
-) : BaseViewModel<DetailsScreenContract.State, DetailsScreenContract.Event, DetailsScreenContract.Effect>() {
+) : BaseViewModel<State, Event, Effect>() {
 
-    override fun createInitialState(): DetailsScreenContract.State {
-        return DetailsScreenContract.State(
-            DetailsScreenContract.ChartState.Loading
+    override fun createInitialState(): State {
+        return State(
+            ChartState.Loading
         )
     }
 
-    override fun handleEvent(event: DetailsScreenContract.Event) {
+    override fun handleEvent(event: Event) {
         when(event) {
-            is DetailsScreenContract.Event.ChoseOneDayInterval -> {
-                setChartForOneDay()
+            is Event.ChoseOneDayInterval -> {
+                setChart(LABEL_DAY)
             }
-            is DetailsScreenContract.Event.ChoseOneWeekInterval -> {
-                setChartForOneWeek()
+            is Event.ChoseOneWeekInterval -> {
+                setChart(LABEL_WEEK)
             }
-            is DetailsScreenContract.Event.ChoseOneMonthInterval -> {
-                setChartForOneMonth()
+            is Event.ChoseOneMonthInterval -> {
+                setChart(LABEL_MONTH)
             }
-            is DetailsScreenContract.Event.ChoseOneYearInterval -> {
-                setChartForOneYear()
+            is Event.ChoseOneYearInterval -> {
+                setChart(LABEL_YEAR)
             }
-            is DetailsScreenContract.Event.ChoseAllTimeInterval -> {
-                setChartForAllTime()
+            is Event.ChoseAllTimeInterval -> {
+                setChart(LABEL_ALL_TIME)
             }
         }
     }
 
-    private fun setChartForAllTime() {
-        viewModelScope.launch {
-            setState { copy(chartState = DetailsScreenContract.ChartState.Loading) }
-            val data = repository.fetchPriceChange(coinId, LABEL_ALL_TIME)
-            setState { copy(chartState = DetailsScreenContract.ChartState.AllTime(data)) }
-        }
-    }
-
-    private fun setChartForOneYear() {
-        viewModelScope.launch {
-            setState { copy(chartState = DetailsScreenContract.ChartState.Loading) }
-            val data = repository.fetchPriceChange(coinId, LABEL_YEAR)
-            setState { copy(chartState = DetailsScreenContract.ChartState.PerYear(data)) }
-        }
-    }
-
-    private fun setChartForOneMonth() {
-        viewModelScope.launch {
-            setState { copy(chartState = DetailsScreenContract.ChartState.Loading) }
-            val data = repository.fetchPriceChange(coinId, LABEL_MONTH)
-            setState { copy(chartState = DetailsScreenContract.ChartState.PerMonth(data)) }
-        }
-    }
-
-    private fun setChartForOneWeek() {
-        viewModelScope.launch {
-            setState { copy(chartState = DetailsScreenContract.ChartState.Loading) }
-            val data = repository.fetchPriceChange(coinId, LABEL_WEEK)
-            setState { copy(chartState = DetailsScreenContract.ChartState.PerWeek(data)) }
-        }
-    }
-
-    private fun setChartForOneDay() {
-        viewModelScope.launch {
-            setState { copy(chartState = DetailsScreenContract.ChartState.Loading) }
-            val data = repository.fetchPriceChange(coinId, LABEL_DAY)
-            setState { copy(chartState = DetailsScreenContract.ChartState.PerDay(data)) }
+    private fun setChart(period: String) {
+        when(period) {
+            LABEL_DAY -> {
+                viewModelScope.launch {
+                    setState { copy(chartState = ChartState.Loading) }
+                    val data = repository.fetchPriceChange(coinId, period)
+                    setState { copy(chartState = ChartState.PerDay(data)) }
+                }
+            }
+            LABEL_WEEK -> {
+                viewModelScope.launch {
+                    setState { copy(chartState = ChartState.Loading) }
+                    val data = repository.fetchPriceChange(coinId, period)
+                    setState { copy(chartState = ChartState.PerWeek(data)) }
+                }
+            }
+            LABEL_MONTH -> {
+                viewModelScope.launch {
+                    setState { copy(chartState = ChartState.Loading) }
+                    val data = repository.fetchPriceChange(coinId, period)
+                    setState { copy(chartState = ChartState.PerMonth(data)) }
+                }
+            }
+            LABEL_YEAR -> {
+                viewModelScope.launch {
+                    setState { copy(chartState = ChartState.Loading) }
+                    val data = repository.fetchPriceChange(coinId, period)
+                    setState { copy(chartState = ChartState.PerYear(data)) }
+                }
+            }
+            else -> {
+                viewModelScope.launch {
+                    setState { copy(chartState = ChartState.Loading) }
+                    val data = repository.fetchPriceChange(coinId, period)
+                    setState { copy(chartState = ChartState.AllTime(data)) }
+                }
+            }
         }
     }
 

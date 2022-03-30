@@ -63,7 +63,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                     }
                 }
             }
-            binding.sortButton.setOnClickListener {
+            binding.imageSort.setOnClickListener {
                 lifecycleScope.launch {
                     showSortDialog(viewModel.getSortingFromDataStore(), adapter)
                 }
@@ -72,11 +72,10 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         } else {
             viewModel.setEvent(MainScreenContract.Event.FetchFromDb)
             updateUi(adapter)
-            binding.sortButton.visibility = View.GONE
+            binding.imageSort.visibility = View.GONE
         }
 
-        //Show bottom nav menu
-        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomMenu.isVisible = true
     }
 
@@ -112,7 +111,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                     when (it.recycleViewState) {
                         is MainScreenContract.RecycleViewState.Loading -> {
                             binding.apply {
-                                mainScreenProgressbar.isVisible = true
+                                progressBarMainScreen.isVisible = true
                                 rvCoins.isVisible = false
                             }
                         }

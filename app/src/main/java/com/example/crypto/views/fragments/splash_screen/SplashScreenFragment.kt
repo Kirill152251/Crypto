@@ -40,20 +40,20 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Hide bottom nav menu
-        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomMenu.isVisible = false
 
         if (isOnline(requireContext())) {
             initObservers()
             viewModel.setEvent(SplashScreenContract.Event.LoadingInitialCoins)
         } else {
-            binding.splashScreenAnim.visibility = View.VISIBLE
-            val animation = binding.splashScreenAnim.drawable as AnimatedVectorDrawable
+            binding.imageSplashScreenAnim.visibility = View.VISIBLE
+            val animation = binding.imageSplashScreenAnim.drawable as AnimatedVectorDrawable
             animation.start()
             lifecycleScope.launchWhenCreated {
                 delay(1000)
-                findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+                findNavController()
+                    .navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
             }
         }
     }
@@ -64,12 +64,14 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                 viewModel.uiState.collect {
                     when (it.cachingInitialCoinsState) {
                         is SplashScreenContract.CachingInitialCoinsState.Loading -> {
-                            binding.splashScreenAnim.visibility = View.VISIBLE
-                            val animation = binding.splashScreenAnim.drawable as AnimatedVectorDrawable
+                            binding.imageSplashScreenAnim.visibility = View.VISIBLE
+                            val animation =
+                                binding.imageSplashScreenAnim.drawable as AnimatedVectorDrawable
                             animation.start()
                         }
                         is SplashScreenContract.CachingInitialCoinsState.Success -> {
-                            findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+                            findNavController()
+                                .navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
                         }
                     }
                 }

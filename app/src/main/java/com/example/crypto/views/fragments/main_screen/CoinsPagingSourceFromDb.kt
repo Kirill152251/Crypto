@@ -3,8 +3,8 @@ package com.example.crypto.views.fragments.main_screen
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.crypto.model.api.responses.coins_list.Coin
+import com.example.crypto.model.constans.STARTING_PAGE_INDEX
 import com.example.crypto.model.db.CoinsListDataBase
-import com.example.crypto.repository.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
 

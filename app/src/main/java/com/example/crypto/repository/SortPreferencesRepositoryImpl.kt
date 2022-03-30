@@ -8,13 +8,12 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.crypto.model.constans.PREFERENCES_NAME
 import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
-import com.example.crypto.repository.interfaces.SortPreferencesRepInterface
+import com.example.crypto.repository.interfaces.SortPreferencesRepository
 import kotlinx.coroutines.flow.first
-import java.util.concurrent.Flow
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCES_NAME)
 
-class SortPreferencesRepositoryImpl(private val context: Context) : SortPreferencesRepInterface {
+class SortPreferencesRepositoryImpl(private val context: Context) : SortPreferencesRepository {
 
     companion object{
         val ORDER = stringPreferencesKey("ORDER")

@@ -17,7 +17,7 @@ import com.example.crypto.R
 import com.example.crypto.databinding.FragmentDetailsScreenBinding
 import com.example.crypto.model.constans.*
 import com.example.crypto.utils.Resource
-import com.example.crypto.utils.myConverter
+import com.example.crypto.utils.coinsPriceConverter
 import com.example.crypto.view_models.DetailsScreenViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -33,7 +33,6 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
     private var _binding: FragmentDetailsScreenBinding? = null
     private val binding get() = _binding!!
     private val args: DetailsScreenFragmentArgs by navArgs()
-    //private val style: PriceChartStyle by inject()
     private val viewModel: DetailsScreenViewModel by viewModel {
         parametersOf(args.coinId)
     }
@@ -53,75 +52,73 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
         bindUi(chartStyle)
         updateChart(chartStyle)
         viewModel.setEvent(DetailsScreenContract.Event.ChoseOneDayInterval)
-        binding.backToMainScreenButton.setOnClickListener {
+        binding.imageBackToMainScreen.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        //Hide bottom nav menu
-        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomMenu.isVisible = false
     }
 
-    private fun updateChart(chartStyle: PriceChartStyle) {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    when (it.chartState) {
-                        is DetailsScreenContract.ChartState.Loading -> {
-                            binding.apply {
-                                priceCharts.visibility = View.INVISIBLE
-                                maxPrice.visibility = View.INVISIBLE
-                                minPrice.visibility = View.INVISIBLE
-                                progressBar.visibility = View.VISIBLE
-                                noDataMessage.visibility = View.INVISIBLE
-                            }
+    private fun updateChart(chartStyle: PriceChartStyle) = lifecycleScope.launch {
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.uiState.collect {
+                when (it.chartState) {
+                    is DetailsScreenContract.ChartState.Loading -> {
+                        binding.apply {
+                            priceCharts.visibility = View.INVISIBLE
+                            textMaxPrice.visibility = View.INVISIBLE
+                            textMinPrice.visibility = View.INVISIBLE
+                            progressBar.visibility = View.VISIBLE
+                            textNoData.visibility = View.INVISIBLE
                         }
-                        is DetailsScreenContract.ChartState.PerDay -> {
-                            bindChart(
-                                it.chartState.priceData,
-                                viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_DAY),
-                                chartStyle
-                            )
-                        }
-                        is DetailsScreenContract.ChartState.PerWeek -> {
-                            bindChart(
-                                it.chartState.priceData,
-                                viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_WEEK),
-                                chartStyle
-                            )
-                        }
-                        is DetailsScreenContract.ChartState.PerMonth -> {
-                            bindChart(
-                                it.chartState.priceData,
-                                viewModel.getMinAndMaxPriceForDetailsScreen(
-                                    args.coinId,
-                                    LABEL_MONTH
-                                ),
-                                chartStyle
-                            )
-                        }
-                        is DetailsScreenContract.ChartState.PerYear -> {
-                            bindChart(
-                                it.chartState.priceData,
-                                viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_YEAR),
-                                chartStyle
-                            )
-                        }
-                        is DetailsScreenContract.ChartState.AllTime -> {
-                            bindChart(
-                                it.chartState.priceData,
-                                viewModel.getMinAndMaxPriceForDetailsScreen(
-                                    args.coinId,
-                                    LABEL_ALL_TIME
-                                ),
-                                chartStyle
-                            )
-                        }
+                    }
+                    is DetailsScreenContract.ChartState.PerDay -> {
+                        bindChart(
+                            it.chartState.priceData,
+                            viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_DAY),
+                            chartStyle
+                        )
+                    }
+                    is DetailsScreenContract.ChartState.PerWeek -> {
+                        bindChart(
+                            it.chartState.priceData,
+                            viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_WEEK),
+                            chartStyle
+                        )
+                    }
+                    is DetailsScreenContract.ChartState.PerMonth -> {
+                        bindChart(
+                            it.chartState.priceData,
+                            viewModel.getMinAndMaxPriceForDetailsScreen(
+                                args.coinId,
+                                LABEL_MONTH
+                            ),
+                            chartStyle
+                        )
+                    }
+                    is DetailsScreenContract.ChartState.PerYear -> {
+                        bindChart(
+                            it.chartState.priceData,
+                            viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_YEAR),
+                            chartStyle
+                        )
+                    }
+                    is DetailsScreenContract.ChartState.AllTime -> {
+                        bindChart(
+                            it.chartState.priceData,
+                            viewModel.getMinAndMaxPriceForDetailsScreen(
+                                args.coinId,
+                                LABEL_ALL_TIME
+                            ),
+                            chartStyle
+                        )
                     }
                 }
             }
         }
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun bindChart(
@@ -131,11 +128,11 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
     ) {
         if (dataResource.status == Resource.Status.ERROR || minAndMaxPriceResource.status == Resource.Status.ERROR) {
             binding.apply {
-                noDataMessage.visibility = View.VISIBLE
-                noDataMessage.text = dataResource.message
+                textNoData.visibility = View.VISIBLE
+                textNoData.text = dataResource.message
                 priceCharts.visibility = View.INVISIBLE
-                maxPrice.visibility = View.INVISIBLE
-                minPrice.visibility = View.INVISIBLE
+                textMaxPrice.visibility = View.INVISIBLE
+                textMinPrice.visibility = View.INVISIBLE
                 progressBar.visibility = View.INVISIBLE
             }
         } else {
@@ -143,10 +140,10 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
             val minAndMaxPrice = minAndMaxPriceResource.data!!
             if (data.size <= 1) {
                 binding.apply {
-                    noDataMessage.visibility = View.VISIBLE
+                    textNoData.visibility = View.VISIBLE
                     priceCharts.visibility = View.INVISIBLE
-                    maxPrice.visibility = View.INVISIBLE
-                    minPrice.visibility = View.INVISIBLE
+                    textMaxPrice.visibility = View.INVISIBLE
+                    textMinPrice.visibility = View.INVISIBLE
                     progressBar.visibility = View.INVISIBLE
                 }
             } else {
@@ -157,12 +154,12 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
                     priceCharts.data = LineData(lineDataSet)
                     priceCharts.invalidate()
                     priceCharts.visibility = View.VISIBLE
-                    maxPrice.text = minAndMaxPrice.last() + " $"
-                    minPrice.text = minAndMaxPrice.first() + " $"
-                    maxPrice.visibility = View.VISIBLE
-                    minPrice.visibility = View.VISIBLE
+                    textMaxPrice.text = minAndMaxPrice.last() + " $"
+                    textMinPrice.text = minAndMaxPrice.first() + " $"
+                    textMaxPrice.visibility = View.VISIBLE
+                    textMinPrice.visibility = View.VISIBLE
                     progressBar.visibility = View.INVISIBLE
-                    noDataMessage.visibility = View.INVISIBLE
+                    textNoData.visibility = View.INVISIBLE
                 }
             }
         }
@@ -172,29 +169,29 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
     @SuppressLint("SetTextI18n")
     private fun bindUi(chartStyle: PriceChartStyle) {
         binding.apply {
-            coinNameDetailsScreen.text = args.coinName
-            currentPrice.text = "$ " + myConverter(args.coinPrice.toDouble())
-            priceChange.text = args.coinPriceChange.toString() + " %"
-            Glide.with(requireContext()).load(args.coinIconUrl).into(coinSymbolDetailsScreen)
-            marketCapValue.text = "$ " + myConverter(args.marketCap.toDouble())
+            textCoinNameToolbar.text = args.coinName
+            textCurrentPrice.text = "$ " + coinsPriceConverter(args.coinPrice.toDouble())
+            textPriceChange.text = args.coinPriceChange.toString() + " %"
+            Glide.with(requireContext()).load(args.coinIconUrl).into(imageCoinSymbol)
+            textMarketCapValue.text = "$ " + coinsPriceConverter(args.marketCap.toDouble())
 
-            oneDayInterval.setOnClickListener {
+            radioButtonOneDay.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseOneDayInterval)
                 updateChart(chartStyle)
             }
-            oneWeekInterval.setOnClickListener {
+            radioButtonOneWeek.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseOneWeekInterval)
                 updateChart(chartStyle)
             }
-            oneMonthInterval.setOnClickListener {
+            radioButtonOneMonth.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseOneMonthInterval)
                 updateChart(chartStyle)
             }
-            oneYearInterval.setOnClickListener {
+            radioButtonOneYear.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseOneYearInterval)
                 updateChart(chartStyle)
             }
-            allTimeInterval.setOnClickListener {
+            radioButtonAllTime.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseAllTimeInterval)
                 updateChart(chartStyle)
             }

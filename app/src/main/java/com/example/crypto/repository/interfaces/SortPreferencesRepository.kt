@@ -1,6 +1,6 @@
 package com.example.crypto.repository.interfaces
 
-interface SortPreferencesRepInterface {
+interface SortPreferencesRepository {
 
     suspend fun saveOrder(sortBy: String)
 

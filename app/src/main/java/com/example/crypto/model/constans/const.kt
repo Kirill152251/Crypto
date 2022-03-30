@@ -16,4 +16,7 @@ const val ACTION_STOP_SERVICE = "STOP_SERVICE"
 const val ONLINE_STATUS = "online_status"
 const val COINS_DATABASE_NAME = "coins"
 const val USER_INFO_DATABASE_NAME = "user_info"
+const val DEFAULT_CURRENCY = "usd"
+const val NETWORK_PAGE_SIZE = 20
+const val STARTING_PAGE_INDEX = 1
 

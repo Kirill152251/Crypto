@@ -21,7 +21,7 @@ class InternetCheckService : Service() {
         Timer().scheduleAtFixedRate(1600, 10000){
             val broadcastIntent = Intent()
             broadcastIntent.action = BROADCAST_STRING_FOR_ACTION
-            broadcastIntent.putExtra(ONLINE_STATUS, isOnline(this@InternetCheckService.applicationContext))
+            broadcastIntent.putExtra(ONLINE_STATUS, isOnline(this@InternetCheckService))
             sendBroadcast(broadcastIntent)
         }
         if (intent?.action == ACTION_STOP_SERVICE) {
