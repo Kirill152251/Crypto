@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentDetailsScreenBinding
 import com.example.crypto.model.constans.*
-import com.example.crypto.utils.Resource
+import com.example.crypto.utils.ApiResource
 import com.example.crypto.utils.coinsPriceConverter
 import com.example.crypto.view_models.DetailsScreenViewModel
 import com.github.mikephil.charting.data.Entry
@@ -120,60 +120,79 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
     }
 
 
-    @SuppressLint("SetTextI18n")
     private fun bindChart(
-        dataResource: Resource<List<Entry>>,
-        minAndMaxPriceResource: Resource<List<String>>,
+        dataResource: ApiResource<List<Entry>>,
+        minAndMaxPriceResource: ApiResource<List<String>>,
         style: PriceChartStyle
     ) {
-        if (dataResource.status == Resource.Status.ERROR || minAndMaxPriceResource.status == Resource.Status.ERROR) {
-            binding.apply {
-                textNoData.visibility = View.VISIBLE
-                textNoData.text = dataResource.message
-                priceCharts.visibility = View.INVISIBLE
-                textMaxPrice.visibility = View.INVISIBLE
-                textMinPrice.visibility = View.INVISIBLE
-                progressBar.visibility = View.INVISIBLE
+        when (dataResource) {
+            is ApiResource.Success -> {
+                val data = dataResource.data
+                if (data.size <= 1) {
+                    binding.apply {
+                        textNoData.visibility = View.VISIBLE
+                        priceCharts.visibility = View.INVISIBLE
+                        textMaxPrice.visibility = View.INVISIBLE
+                        textMinPrice.visibility = View.INVISIBLE
+                        progressBar.visibility = View.INVISIBLE
+                    }
+                } else {
+                    val lineDataSet = LineDataSet(data, "DATA")
+                    style.styleChart(binding.priceCharts)
+                    style.styleOfLine(lineDataSet)
+                    binding.apply {
+                        priceCharts.data = LineData(lineDataSet)
+                        priceCharts.invalidate()
+                        priceCharts.visibility = View.VISIBLE
+                        textMaxPrice.visibility = View.VISIBLE
+                        textMinPrice.visibility = View.VISIBLE
+                        progressBar.visibility = View.INVISIBLE
+                        textNoData.visibility = View.INVISIBLE
+                    }
+                }
             }
-        } else {
-            val data = dataResource.data!!
-            val minAndMaxPrice = minAndMaxPriceResource.data!!
-            if (data.size <= 1) {
+            is ApiResource.Error -> {
                 binding.apply {
                     textNoData.visibility = View.VISIBLE
+                    textNoData.text = ApiResource.DEFAULT_ERROR_MESSAGE
                     priceCharts.visibility = View.INVISIBLE
-                    textMaxPrice.visibility = View.INVISIBLE
-                    textMinPrice.visibility = View.INVISIBLE
                     progressBar.visibility = View.INVISIBLE
-                }
-            } else {
-                val lineDataSet = LineDataSet(data, "DATA")
-                style.styleChart(binding.priceCharts)
-                style.styleOfLine(lineDataSet)
-                binding.apply {
-                    priceCharts.data = LineData(lineDataSet)
-                    priceCharts.invalidate()
-                    priceCharts.visibility = View.VISIBLE
-                    textMaxPrice.text = minAndMaxPrice.last() + " $"
-                    textMinPrice.text = minAndMaxPrice.first() + " $"
-                    textMaxPrice.visibility = View.VISIBLE
-                    textMinPrice.visibility = View.VISIBLE
-                    progressBar.visibility = View.INVISIBLE
-                    textNoData.visibility = View.INVISIBLE
                 }
             }
         }
+        when (minAndMaxPriceResource) {
+            is ApiResource.Error -> {
+                binding.apply {
+                    textMaxPrice.visibility = View.INVISIBLE
+                    textMinPrice.visibility = View.INVISIBLE
+                }
+            }
+            is ApiResource.Success -> {
+                val minAndMaxPrice = minAndMaxPriceResource.data
+                binding.apply {
+                    textMaxPrice.text = getString(R.string.dollar_at_the_end, minAndMaxPrice.last())
+                    textMinPrice.text =
+                        getString(R.string.dollar_at_the_end, minAndMaxPrice.first())
+                }
+            }
+
+        }
     }
 
-
-    @SuppressLint("SetTextI18n")
     private fun bindUi(chartStyle: PriceChartStyle) {
         binding.apply {
             textCoinNameToolbar.text = args.coinName
-            textCurrentPrice.text = "$ " + coinsPriceConverter(args.coinPrice.toDouble())
-            textPriceChange.text = args.coinPriceChange.toString() + " %"
+            textCurrentPrice.text = getString(
+                R.string.dollar_at_the_beginning,
+                coinsPriceConverter(args.coinPrice.toDouble())
+            )
+            textPriceChange.text =
+                getString(R.string.percent_at_the_end, args.coinPriceChange.toString())
             Glide.with(requireContext()).load(args.coinIconUrl).into(imageCoinSymbol)
-            textMarketCapValue.text = "$ " + coinsPriceConverter(args.marketCap.toDouble())
+            textMarketCapValue.text = getString(
+                R.string.dollar_at_the_beginning,
+                coinsPriceConverter(args.marketCap.toDouble())
+            )
 
             radioButtonOneDay.setOnClickListener {
                 viewModel.setEvent(DetailsScreenContract.Event.ChoseOneDayInterval)

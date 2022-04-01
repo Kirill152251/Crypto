@@ -3,7 +3,7 @@ package com.example.crypto.repository
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.constans.*
 import com.example.crypto.repository.interfaces.DetailsScreenRepository
-import com.example.crypto.utils.Resource
+import com.example.crypto.utils.ApiResource
 import com.example.crypto.utils.coinsPriceConverter
 import com.github.mikephil.charting.data.Entry
 
@@ -13,7 +13,7 @@ class DetailsScreenRepositoryImpl(private val service: CoinGeckoService) :
     override suspend fun fetchPriceChange(
         coinId: String,
         interval: String
-    ): Resource<MutableList<Entry>> {
+    ): ApiResource<MutableList<Entry>> {
         try {
             val priceDataFromApi = when (interval) {
                 LABEL_DAY -> service.getPriceChangePerDay(coinId = coinId).prices
@@ -26,16 +26,16 @@ class DetailsScreenRepositoryImpl(private val service: CoinGeckoService) :
             for (i in priceDataFromApi.indices) {
                 priceData.add(Entry(i.toFloat(), priceDataFromApi[i][1].toFloat()))
             }
-            return Resource.success(priceData)
+            return ApiResource.Success(priceData)
         } catch (e: Exception) {
-            return Resource.error("An error has occurred", null)
+            return ApiResource.Error(e)
         }
     }
 
     override suspend fun getMinAndMaxPrice(
         coinId: String,
         interval: String
-    ): Resource<List<String>> {
+    ): ApiResource<List<String>> {
         try {
             val priceDataFromApi = when (interval) {
                 LABEL_DAY -> service.getPriceChangePerDay(coinId = coinId).prices
@@ -53,9 +53,9 @@ class DetailsScreenRepositoryImpl(private val service: CoinGeckoService) :
             val max = prices.maxOrNull() ?: 0.0
             minAndMaxPrice.add(coinsPriceConverter(min))
             minAndMaxPrice.add(coinsPriceConverter(max))
-            return Resource.success(minAndMaxPrice)
+            return ApiResource.Success(minAndMaxPrice)
         } catch (e: Exception) {
-            return Resource.error("An error has occurred", null)
+            return ApiResource.Error(e)
         }
     }
 }

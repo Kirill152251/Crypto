@@ -100,7 +100,7 @@
         android:id="@+id/group_no_internet_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="image_dark_overlay, image_no_internet, text_no_internet,button_try_again"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

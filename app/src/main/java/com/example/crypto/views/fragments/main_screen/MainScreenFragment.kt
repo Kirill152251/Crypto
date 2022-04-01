@@ -10,9 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.crypto.R
+import com.example.crypto.databinding.CoinsListItemBinding
 import com.example.crypto.databinding.FragmentMainScreenBinding
+import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
 import com.example.crypto.model.constans.QUERY_SORT_BY_PRICE
 import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
@@ -43,7 +48,9 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         super.onViewCreated(view, savedInstanceState)
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.rvCoins.addItemDecoration(decoration)
-        val adapter = CoinsListAdapter(requireContext())
+        val adapter = CoinsListAdapter(requireContext()) {
+            coinItem, binding -> itemClickListener(coinItem, binding)
+        }
         binding.rvCoins.adapter = adapter
 
         if (isOnline(requireContext())) {
@@ -77,6 +84,21 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomMenu.isVisible = true
+    }
+
+    private fun itemClickListener(coin: Coin, binding: CoinsListItemBinding) {
+        val extras = FragmentNavigatorExtras(binding.textCoinPrice to "price_details_screen")
+        findNavController().navigate(
+            MainScreenFragmentDirections.actionMainScreenFragmentToDetailsScreenFragment(
+                coinId = coin.coinId,
+                coinPrice = coin.currentPrice,
+                coinIconUrl = coin.image,
+                coinName = coin.name,
+                coinPriceChange = coin.volatility.toFloat(),
+                marketCap = coin.marketCapValue
+            ),
+            navigatorExtras = extras
+        )
     }
 
     private fun pullToRefresh(adapter: CoinsListAdapter) {

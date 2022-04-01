@@ -14,8 +14,5 @@ interface UserInfoDao {
     suspend fun insertUserInfo(userInfo: SettingsUserInfo)
 
     @Query("select * from user_info")
-    fun getUserInfo(): Flow<SettingsUserInfo>
-
-    @Query("update user_info set profilePicture = :picture where id = 1")
-    suspend fun updateProfilePicture(picture: Bitmap)
+    fun getUserInfo(): SettingsUserInfo
 }

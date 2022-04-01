@@ -8,7 +8,5 @@ interface UserInfoRepository {
 
     suspend fun insertUserInfo(settingsUserInfo: SettingsUserInfo)
 
-    suspend fun updateProfilePicture(picture: Bitmap)
-
-    fun getUserInfo(): Flow<SettingsUserInfo>
+    suspend fun getUserInfo(): SettingsUserInfo
 }

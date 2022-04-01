@@ -24,20 +24,17 @@ import org.koin.android.ext.android.inject
 class MainActivity : AppCompatActivity() {
 
     private val intentFilter: IntentFilter by inject()
-    private lateinit var binding: ActivityMainBinding
     private lateinit var internetBroadcastReceiver: CheckInternetBroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomMenu()
         internetBroadcastReceiver = CheckInternetBroadcastReceiver(binding)
         intentFilter.addAction(BROADCAST_STRING_FOR_ACTION)
         val intentService = Intent(this, InternetCheckService::class.java)
         startService(intentService)
-
-        //set listener for button on error screen
         binding.buttonTryAgain.setOnClickListener {
             if (isOnline(this)) {
                 binding.groupNoInternetScreen.visibility = View.GONE

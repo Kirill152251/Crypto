@@ -32,13 +32,7 @@
     <string name="hint_last_name">Last name</string>
     <string name="hint_date_of_birth">Date of Birth</string>
     <string name="text_helper">Required*</string>
-    <string name="validation_first_and_last_name">The field must not contain more than 20 characters.</string>
-    <string name="no_first_name">Data cannot be saved. Input first name.</string>
-    <string name="no_last_name">Data cannot be saved. Input last name.</string>
-    <string name="no_first_and_last_name">Data cannot be saved. Input first and last name.</string>
-    <string name="first_name_too_long">Data cannot be saved. First name is too long.</string>
-    <string name="first_last_name_are_too_long">Data cannot be saved. First and last names are too long.</string>
-    <string name="last_name_too_long">Data cannot be saved. Last name is too long.</string>
+    <string name="save_error">Data cannot be saved. Some inputs are empty or too long.</string>
     <string name="success_input">Data saved.</string>
     <string name="download_photo">Download photo</string>
     <string name="take_a_picture">Take a picture</string>
@@ -48,5 +42,9 @@
     <string name="still_no_connection">Internet connection still not available.</string>
     <string name="date_picker_title">SELECT DATE OF BIRTH</string>
     <string name="permission_denied">"You just denied the permission for camera. Allow it in the settings."</string>
+    <string name="dollar_at_the_end">%1$s $</string>
+    <string name="dollar_at_the_beginning">$ %1$s</string>
+    <string name="percent_at_the_end">%1$s %%</string>
+    <string name="error_save_photo">Could not save photo</string>
 
 </resources>

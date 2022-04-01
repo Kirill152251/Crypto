@@ -3,7 +3,7 @@ package com.example.crypto.views.fragments.details_screen
 import com.example.crypto.model.interfaces_mvi.UiEffect
 import com.example.crypto.model.interfaces_mvi.UiEvent
 import com.example.crypto.model.interfaces_mvi.UiState
-import com.example.crypto.utils.Resource
+import com.example.crypto.utils.ApiResource
 import com.github.mikephil.charting.data.Entry
 
 class DetailsScreenContract {
@@ -22,11 +22,11 @@ class DetailsScreenContract {
 
     sealed class ChartState {
         object Loading: ChartState()
-        data class PerDay(val priceData: Resource<List<Entry>>): ChartState()
-        data class PerWeek(val priceData: Resource<List<Entry>>): ChartState()
-        data class PerMonth(val priceData: Resource<List<Entry>>): ChartState()
-        data class PerYear(val priceData: Resource<List<Entry>>): ChartState()
-        data class AllTime(val priceData: Resource<List<Entry>>): ChartState()
+        data class PerDay(val priceData: ApiResource<List<Entry>>): ChartState()
+        data class PerWeek(val priceData: ApiResource<List<Entry>>): ChartState()
+        data class PerMonth(val priceData: ApiResource<List<Entry>>): ChartState()
+        data class PerYear(val priceData: ApiResource<List<Entry>>): ChartState()
+        data class AllTime(val priceData: ApiResource<List<Entry>>): ChartState()
     }
 
     sealed class Effect: UiEffect {}

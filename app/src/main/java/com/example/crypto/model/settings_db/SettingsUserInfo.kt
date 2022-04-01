@@ -10,7 +10,6 @@ data class SettingsUserInfo(
     val firstName: String,
     val lastName: String,
     val dateOfBirth: String,
-    val profilePicture: Bitmap?,
     @PrimaryKey(autoGenerate = false)
     val id: Int = 1
 )
