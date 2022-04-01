@@ -79,7 +79,4 @@ class DetailsScreenViewModel(
             }
         }
     }
-
-    suspend fun getMinAndMaxPriceForDetailsScreen(coinId: String, interval: String) =
-        repository.getMinAndMaxPrice(coinId, interval)
 }

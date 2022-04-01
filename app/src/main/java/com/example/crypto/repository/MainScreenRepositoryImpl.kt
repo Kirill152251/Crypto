@@ -4,6 +4,7 @@ import androidx.paging.*
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.constans.NETWORK_PAGE_SIZE
+import com.example.crypto.model.constans.PagingSourceType.*
 import com.example.crypto.model.db.CoinsListDataBase
 import com.example.crypto.repository.interfaces.MainScreenRepository
 import com.example.crypto.views.fragments.main_screen.*
@@ -22,7 +23,12 @@ class MainScreenRepositoryImpl(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceByPrice(service) }
+            pagingSourceFactory = {
+                CoinsPagingSource(
+                    service, coinsListDataBase,
+                    SORT_BY_PRICE
+                )
+            }
         ).flow
     }
 
@@ -33,7 +39,12 @@ class MainScreenRepositoryImpl(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceByCap(service) }
+            pagingSourceFactory = {
+                CoinsPagingSource(
+                    service, coinsListDataBase,
+                    SORT_BY_MARKET_CAP
+                )
+            }
         ).flow
     }
 
@@ -44,7 +55,12 @@ class MainScreenRepositoryImpl(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceByVol(service) }
+            pagingSourceFactory = {
+                CoinsPagingSource(
+                    service, coinsListDataBase,
+                    SORT_BY_VOLATILITY
+                )
+            }
         ).flow
     }
 
@@ -55,7 +71,12 @@ class MainScreenRepositoryImpl(
                 initialLoadSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CoinsPagingSourceFromDb(coinsListDataBase) }
+            pagingSourceFactory = {
+                CoinsPagingSource(
+                    service, coinsListDataBase,
+                    FROM_DB
+                )
+            }
         ).flow
     }
 }

@@ -17,6 +17,7 @@ class SplashScreenContract {
     sealed class CachingInitialCoinsState {
         object Loading: CachingInitialCoinsState()
         object Success: CachingInitialCoinsState()
+        object Error: CachingInitialCoinsState()
     }
 
     sealed class Effect: UiEffect {}

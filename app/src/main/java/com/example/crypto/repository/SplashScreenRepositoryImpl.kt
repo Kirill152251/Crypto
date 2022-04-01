@@ -1,6 +1,5 @@
 package com.example.crypto.repository
 
-import android.util.Log
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.constans.NETWORK_PAGE_SIZE
 import com.example.crypto.model.constans.QUERY_SORT_BY_MARKET_CAP
@@ -14,16 +13,17 @@ class SplashScreenRepositoryImpl(
     private val coinsListDataBase: CoinsListDataBase
 ) : SplashScreenRepository {
 
-    override suspend fun fetchingAndCachingInitialCoins() {
-        try {
+    override suspend fun fetchingAndCachingInitialCoins(): Boolean {
+        return try {
             val initialCoins = service.getCoinsSortedByMarketCap(
                 STARTING_PAGE_INDEX,
                 NETWORK_PAGE_SIZE,
                 QUERY_SORT_BY_MARKET_CAP
             )
             coinsListDataBase.coinsListDao().insertCoins(initialCoins)
+            true
         } catch (e: Exception) {
-            Log.e("initial coins", e.toString())
+            false
         }
     }
 }

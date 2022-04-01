@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val intentService = Intent(this, InternetCheckService::class.java)
         startService(intentService)
         binding.buttonTryAgain.setOnClickListener {
-            if (isOnline(this)) {
+            if (isOnline()) {
                 binding.groupNoInternetScreen.visibility = View.GONE
                 binding.imageDarkOverlayBottomMenu.visibility = View.GONE
                 ProcessPhoenix.triggerRebirth(this)

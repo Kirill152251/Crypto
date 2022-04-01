@@ -46,5 +46,6 @@
     <string name="dollar_at_the_beginning">$ %1$s</string>
     <string name="percent_at_the_end">%1$s %%</string>
     <string name="error_save_photo">Could not save photo</string>
+    <string name="server_error">The server is not responding. Try again later.</string>
 
 </resources>

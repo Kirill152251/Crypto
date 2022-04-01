@@ -20,3 +20,16 @@ const val MAX_INPUT_SIZE = 20
 const val STARTING_PAGE_INDEX = 1
 const val PROFILE_PHOTO_NAME = "photo.jpg"
 
+enum class PagingSourceType{
+    FROM_DB,
+    SORT_BY_MARKET_CAP,
+    SORT_BY_PRICE,
+    SORT_BY_VOLATILITY
+}
+
+enum class SortBy {
+    PRICE,
+    MARKET_CAP,
+    VOLATILITY
+}
+

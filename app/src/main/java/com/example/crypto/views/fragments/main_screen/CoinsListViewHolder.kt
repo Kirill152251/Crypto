@@ -17,7 +17,7 @@ class CoinsListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         bindingRvItem.apply {
             textCoinPrice.text = context.getString(
                 R.string.dollar_at_the_beginning,
-                coinsPriceConverter(coin.currentPrice.toDouble())
+                coin.currentPrice.toDouble().coinsPriceConverter()
             )
             textCoinSymbol.text = coin.symbol
             textCoinName.text = coin.name

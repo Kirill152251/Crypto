@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -28,6 +27,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.crypto.views.fragments.main_screen.MainScreenContract.*
 
 
 class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
@@ -48,36 +48,36 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         super.onViewCreated(view, savedInstanceState)
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.rvCoins.addItemDecoration(decoration)
-        val adapter = CoinsListAdapter(requireContext()) {
-            coinItem, binding -> itemClickListener(coinItem, binding)
+        val adapter = CoinsListAdapter(requireContext()) { coinItem, binding ->
+            itemClickListener(coinItem, binding)
         }
         binding.rvCoins.adapter = adapter
 
-        if (isOnline(requireContext())) {
+        if (requireContext().isOnline()) {
             lifecycleScope.launch {
-                when (viewModel.getSortingFromDataStore()) {
+                when (viewModel.getSortingTypeFromDataStore()) {
                     QUERY_SORT_BY_MARKET_CAP -> {
-                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByMarketCap)
+                        viewModel.setEvent(Event.ChoseSortingByMarketCap)
                         updateUi(adapter)
                     }
                     QUERY_SORT_BY_PRICE -> {
-                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByPrice)
+                        viewModel.setEvent(Event.ChoseSortingByPrice)
                         updateUi(adapter)
                     }
                     QUERY_SORT_BY_VOLATILITY -> {
-                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByVolatility)
+                        viewModel.setEvent(Event.ChoseSortingByVolatility)
                         updateUi(adapter)
                     }
                 }
             }
             binding.imageSort.setOnClickListener {
                 lifecycleScope.launch {
-                    showSortDialog(viewModel.getSortingFromDataStore(), adapter)
+                    showSortDialog(viewModel.getSortingTypeFromDataStore(), adapter)
                 }
             }
             pullToRefresh(adapter)
         } else {
-            viewModel.setEvent(MainScreenContract.Event.FetchFromDb)
+            viewModel.setEvent(Event.FetchFromDb)
             updateUi(adapter)
             binding.imageSort.visibility = View.GONE
         }
@@ -104,24 +104,25 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private fun pullToRefresh(adapter: CoinsListAdapter) {
         binding.swipeToRefreshLayout.setOnRefreshListener {
             when (viewModel.currentState.recycleViewState) {
-                is MainScreenContract.RecycleViewState.SortingByMarketCap -> {
-                    viewModel.setEvent(MainScreenContract.Event.ChoseSortingByMarketCap)
+                is RecycleViewState.SortingByMarketCap -> {
+                    viewModel.setEvent(Event.ChoseSortingByMarketCap)
                     updateUi(adapter)
                     binding.swipeToRefreshLayout.isRefreshing = false
                 }
-                is MainScreenContract.RecycleViewState.SortingByPrice -> {
-                    viewModel.setEvent(MainScreenContract.Event.ChoseSortingByPrice)
+                is RecycleViewState.SortingByPrice -> {
+                    viewModel.setEvent(Event.ChoseSortingByPrice)
                     updateUi(adapter)
                     binding.swipeToRefreshLayout.isRefreshing = false
                 }
-                is MainScreenContract.RecycleViewState.SortingByVolatility -> {
-                    viewModel.setEvent(MainScreenContract.Event.ChoseSortingByVolatility)
+                is RecycleViewState.SortingByVolatility -> {
+                    viewModel.setEvent(Event.ChoseSortingByVolatility)
                     updateUi(adapter)
                     binding.swipeToRefreshLayout.isRefreshing = false
                 }
-                is MainScreenContract.RecycleViewState.Loading -> {
+                is RecycleViewState.Loading -> {
                     binding.swipeToRefreshLayout.isRefreshing = false
                 }
+                is RecycleViewState.ItemsFromDb -> {}
             }
         }
     }
@@ -131,34 +132,36 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     when (it.recycleViewState) {
-                        is MainScreenContract.RecycleViewState.Loading -> {
+                        is RecycleViewState.Loading -> {
                             binding.apply {
                                 progressBarMainScreen.isVisible = true
                                 rvCoins.isVisible = false
                             }
                         }
-                        is MainScreenContract.RecycleViewState.SortingByMarketCap -> {
-                            viewModel.saveSortingIntoDataStore(QUERY_SORT_BY_MARKET_CAP)
+                        is RecycleViewState.SortingByMarketCap -> {
+                            viewModel.setEvent(
+                                Event.SaveSortingType(QUERY_SORT_BY_MARKET_CAP)
+                            )
                             it.recycleViewState.coins.distinctUntilChanged()
                                 .collectLatest { coins ->
                                     adapter.submitData(coins)
                                 }
                         }
-                        is MainScreenContract.RecycleViewState.SortingByPrice -> {
-                            viewModel.saveSortingIntoDataStore(QUERY_SORT_BY_PRICE)
+                        is RecycleViewState.SortingByPrice -> {
+                            viewModel.setEvent(Event.SaveSortingType(QUERY_SORT_BY_PRICE))
                             it.recycleViewState.coins.distinctUntilChanged()
                                 .collectLatest { coins ->
                                     adapter.submitData(coins)
                                 }
                         }
-                        is MainScreenContract.RecycleViewState.SortingByVolatility -> {
-                            viewModel.saveSortingIntoDataStore(QUERY_SORT_BY_VOLATILITY)
+                        is RecycleViewState.SortingByVolatility -> {
+                            viewModel.setEvent(Event.SaveSortingType(QUERY_SORT_BY_VOLATILITY))
                             it.recycleViewState.coins.distinctUntilChanged()
                                 .collectLatest { coins ->
                                     adapter.submitData(coins)
                                 }
                         }
-                        is MainScreenContract.RecycleViewState.ItemsFromDb -> {
+                        is RecycleViewState.ItemsFromDb -> {
                             it.recycleViewState.coins.distinctUntilChanged()
                                 .collectLatest { coins ->
                                     adapter.submitData(coins)
@@ -188,17 +191,17 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             .setPositiveButton(getString(R.string.positive_button)) { dialog, _ ->
                 when ((dialog as AlertDialog).listView.checkedItemPosition) {
                     0 -> {
-                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByMarketCap)
+                        viewModel.setEvent(Event.ChoseSortingByMarketCap)
                         updateUi(adapter)
                         binding.rvCoins.layoutManager?.scrollToPosition(0)
                     }
                     1 -> {
-                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByPrice)
+                        viewModel.setEvent(Event.ChoseSortingByPrice)
                         updateUi(adapter)
                         binding.rvCoins.layoutManager?.scrollToPosition(0)
                     }
                     2 -> {
-                        viewModel.setEvent(MainScreenContract.Event.ChoseSortingByVolatility)
+                        viewModel.setEvent(Event.ChoseSortingByVolatility)
                         updateUi(adapter)
                         binding.rvCoins.layoutManager?.scrollToPosition(0)
                     }

@@ -32,7 +32,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,7 +43,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.menu_bottom_nav)
         bottomMenu.isVisible = false
 
-        if (isOnline(requireContext())) {
+        if (requireContext().isOnline()) {
             initObservers()
             viewModel.setEvent(SplashScreenContract.Event.LoadingInitialCoins)
         } else {
@@ -72,6 +72,12 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                         is SplashScreenContract.CachingInitialCoinsState.Success -> {
                             findNavController()
                                 .navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+                        }
+                        SplashScreenContract.CachingInitialCoinsState.Error -> {
+                            binding.apply {
+                                textNetworkProblem.isVisible = true
+                                imageServerError.isVisible = true
+                            }
                         }
                     }
                 }

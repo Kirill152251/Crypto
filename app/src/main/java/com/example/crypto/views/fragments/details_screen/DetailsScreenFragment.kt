@@ -1,6 +1,5 @@
 package com.example.crypto.views.fragments.details_screen
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
@@ -15,8 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentDetailsScreenBinding
-import com.example.crypto.model.constans.*
-import com.example.crypto.utils.ApiResource
+import com.example.crypto.utils.ApiResourceForPriceCharts
 import com.example.crypto.utils.coinsPriceConverter
 import com.example.crypto.view_models.DetailsScreenViewModel
 import com.github.mikephil.charting.data.Entry
@@ -76,41 +74,30 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
                     is DetailsScreenContract.ChartState.PerDay -> {
                         bindChart(
                             it.chartState.priceData,
-                            viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_DAY),
                             chartStyle
                         )
                     }
                     is DetailsScreenContract.ChartState.PerWeek -> {
                         bindChart(
                             it.chartState.priceData,
-                            viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_WEEK),
                             chartStyle
                         )
                     }
                     is DetailsScreenContract.ChartState.PerMonth -> {
                         bindChart(
                             it.chartState.priceData,
-                            viewModel.getMinAndMaxPriceForDetailsScreen(
-                                args.coinId,
-                                LABEL_MONTH
-                            ),
                             chartStyle
                         )
                     }
                     is DetailsScreenContract.ChartState.PerYear -> {
                         bindChart(
                             it.chartState.priceData,
-                            viewModel.getMinAndMaxPriceForDetailsScreen(args.coinId, LABEL_YEAR),
                             chartStyle
                         )
                     }
                     is DetailsScreenContract.ChartState.AllTime -> {
                         bindChart(
                             it.chartState.priceData,
-                            viewModel.getMinAndMaxPriceForDetailsScreen(
-                                args.coinId,
-                                LABEL_ALL_TIME
-                            ),
                             chartStyle
                         )
                     }
@@ -119,15 +106,15 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
         }
     }
 
-
     private fun bindChart(
-        dataResource: ApiResource<List<Entry>>,
-        minAndMaxPriceResource: ApiResource<List<String>>,
+        dataResource: ApiResourceForPriceCharts<List<Entry>>,
         style: PriceChartStyle
     ) {
         when (dataResource) {
-            is ApiResource.Success -> {
+            is ApiResourceForPriceCharts.Success -> {
                 val data = dataResource.data
+                val min = dataResource.minPrice
+                val max = dataResource.maxPrice
                 if (data.size <= 1) {
                     binding.apply {
                         textNoData.visibility = View.VISIBLE
@@ -135,6 +122,8 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
                         textMaxPrice.visibility = View.INVISIBLE
                         textMinPrice.visibility = View.INVISIBLE
                         progressBar.visibility = View.INVISIBLE
+                        textMaxPrice.visibility = View.INVISIBLE
+                        textMinPrice.visibility = View.INVISIBLE
                     }
                 } else {
                     val lineDataSet = LineDataSet(data, "DATA")
@@ -148,34 +137,23 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
                         textMinPrice.visibility = View.VISIBLE
                         progressBar.visibility = View.INVISIBLE
                         textNoData.visibility = View.INVISIBLE
+                        textMaxPrice.visibility = View.VISIBLE
+                        textMaxPrice.text = getString(R.string.dollar_at_the_end, max)
+                        textMinPrice.visibility = View.VISIBLE
+                        textMinPrice.text = getString(R.string.dollar_at_the_end, min)
                     }
                 }
             }
-            is ApiResource.Error -> {
+            is ApiResourceForPriceCharts.Error -> {
                 binding.apply {
                     textNoData.visibility = View.VISIBLE
-                    textNoData.text = ApiResource.DEFAULT_ERROR_MESSAGE
+                    textNoData.text = ApiResourceForPriceCharts.DEFAULT_ERROR_MESSAGE
                     priceCharts.visibility = View.INVISIBLE
                     progressBar.visibility = View.INVISIBLE
-                }
-            }
-        }
-        when (minAndMaxPriceResource) {
-            is ApiResource.Error -> {
-                binding.apply {
                     textMaxPrice.visibility = View.INVISIBLE
                     textMinPrice.visibility = View.INVISIBLE
                 }
             }
-            is ApiResource.Success -> {
-                val minAndMaxPrice = minAndMaxPriceResource.data
-                binding.apply {
-                    textMaxPrice.text = getString(R.string.dollar_at_the_end, minAndMaxPrice.last())
-                    textMinPrice.text =
-                        getString(R.string.dollar_at_the_end, minAndMaxPrice.first())
-                }
-            }
-
         }
     }
 
@@ -184,14 +162,14 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
             textCoinNameToolbar.text = args.coinName
             textCurrentPrice.text = getString(
                 R.string.dollar_at_the_beginning,
-                coinsPriceConverter(args.coinPrice.toDouble())
+                args.coinPrice.toDouble().coinsPriceConverter()
             )
             textPriceChange.text =
                 getString(R.string.percent_at_the_end, args.coinPriceChange.toString())
             Glide.with(requireContext()).load(args.coinIconUrl).into(imageCoinSymbol)
             textMarketCapValue.text = getString(
                 R.string.dollar_at_the_beginning,
-                coinsPriceConverter(args.marketCap.toDouble())
+                args.marketCap.toDouble().coinsPriceConverter()
             )
 
             radioButtonOneDay.setOnClickListener {
