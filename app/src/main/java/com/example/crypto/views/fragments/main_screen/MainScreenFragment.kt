@@ -91,11 +91,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         findNavController().navigate(
             MainScreenFragmentDirections.actionMainScreenFragmentToDetailsScreenFragment(
                 coinId = coin.coinId,
-                coinPrice = coin.currentPrice,
+                coinPrice = coin.currentPrice.toString(),
                 coinIconUrl = coin.image,
                 coinName = coin.name,
-                coinPriceChange = coin.volatility.toFloat(),
-                marketCap = coin.marketCapValue
+                coinPriceChange = coin.volatility ?: 0.0f,
+                marketCap = coin.marketCapValue.toString()
             ),
             navigatorExtras = extras
         )

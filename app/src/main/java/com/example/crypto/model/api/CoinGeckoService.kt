@@ -1,6 +1,6 @@
 package com.example.crypto.model.api
 
-import com.example.crypto.model.api.responses.coins_list.CoinListResponse
+import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.api.responses.price_change.PriceChangePerDay
 import com.example.crypto.model.constans.DEFAULT_CURRENCY
 import retrofit2.http.GET
@@ -53,7 +53,7 @@ interface CoinGeckoService {
         @Query("per_page") itemsPerPage: Int,
         @Query("order") order: String,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ) : CoinListResponse
+    ) : List<Coin>
 
     @GET("markets")
     suspend fun getCoinsSortedByVolatility(
@@ -61,7 +61,7 @@ interface CoinGeckoService {
         @Query("per_page") itemsPerPage: Int,
         @Query("order") order: String,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ) : CoinListResponse
+    ) : List<Coin>
 
     @GET("markets")
     suspend fun getCoinsSortedByMarketCap(
@@ -69,5 +69,5 @@ interface CoinGeckoService {
         @Query("per_page") itemsPerPage: Int,
         @Query("order") order: String,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ) : CoinListResponse
+    ) : List<Coin>
 }

@@ -11,13 +11,13 @@ import com.example.crypto.model.api.responses.coins_list.Coin
 interface CoinsListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCoins(coins: List<Coin>)
+    suspend fun insertCoins(coins: List<CoinEntity>)
 
     @Query("select * from coins")
-    fun getCoins(): PagingSource<Int, Coin>
+    fun getCoins(): PagingSource<Int, CoinEntity>
 
     @Query("select * from coins")
-    suspend fun getCoinsList(): List<Coin>
+    suspend fun getCoinsList(): List<CoinEntity>
 
     @Query("delete from coins")
     suspend fun clearDb()

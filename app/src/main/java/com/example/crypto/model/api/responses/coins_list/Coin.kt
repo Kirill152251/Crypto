@@ -1,44 +1,46 @@
 package com.example.crypto.model.api.responses.coins_list
 
+import com.example.crypto.model.db.CoinEntity
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.example.crypto.model.constans.COINS_DATABASE_NAME
-import com.google.gson.annotations.SerializedName
-
-//@Serializable
-@Entity(tableName = COINS_DATABASE_NAME)
+@Serializable
 data class Coin(
-    //@SerialName("current_price")
-    @SerializedName("current_price")
-    val currentPrice: String,
 
-    //@SerialName("id")
-    @SerializedName("id")
-    @PrimaryKey(autoGenerate = false)
+    @SerialName("current_price")
+    val currentPrice: Double,
+
+    @SerialName("id")
     val coinId: String,
 
-    //@SerialName("image")
-    @SerializedName("image")
+    @SerialName("image")
     val image: String,
 
-    //@SerialName("name")
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
-    //@SerialName("symbol")
-    @SerializedName("symbol")
+    @SerialName("symbol")
     val symbol: String,
 
-    //@SerialName("market_cap_rank")
-    @SerializedName("market_cap_rank")
-    val marketCapRank: Int,
+    @SerialName("market_cap_rank")
+    val marketCapRank: Int?,
 
-    //@SerialName("market_cap")
-    @SerializedName("market_cap")
-    val marketCapValue: String,
+    @SerialName("market_cap")
+    val marketCapValue: Double?,
 
-    //@SerialName("price_change_percentage_24h")
-    @SerializedName("price_change_percentage_24h")
-    val volatility: Double
+    @SerialName("price_change_percentage_24h")
+    val volatility: Float?
 )
+
+fun Coin.mapToEntity(): CoinEntity {
+    return CoinEntity(
+        currentPrice = this.currentPrice,
+        coinId = this.coinId,
+        image = this.image,
+        name = this.name,
+        symbol = this.symbol,
+        marketCapRank = this.marketCapRank,
+        marketCapValue = this.marketCapValue,
+        volatility = this.volatility
+    )
+}

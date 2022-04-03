@@ -11,12 +11,14 @@ import com.example.crypto.view_models.DetailsScreenViewModel
 import com.example.crypto.view_models.MainScreenViewModel
 import com.example.crypto.view_models.SettingsScreenViewModel
 import com.example.crypto.view_models.SplashScreenViewModel
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
@@ -56,11 +58,15 @@ private fun provideClient(
         .build()
 }
 
+
+private val contentType = "application/json".toMediaType()
+private val json = Json { ignoreUnknownKeys = true }.asConverterFactory(contentType)
+
 private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(json)
         .build()
 }
 

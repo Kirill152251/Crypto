@@ -1,10 +1,11 @@
 package com.example.crypto.model.api.responses.price_change
 
-import com.google.gson.annotations.SerializedName
 
-//@Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class PriceChangePerDay(
-    //@SerialName("prices")
-    @SerializedName("prices")
+    @SerialName("prices")
     val prices: List<List<Double>>
 )
