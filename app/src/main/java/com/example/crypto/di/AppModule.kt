@@ -1,47 +1,42 @@
 package com.example.crypto.di
 
-import android.content.Context
 import android.content.IntentFilter
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.*
-import com.example.crypto.repository.interfaces.DetailsScreenRepInterface
-import com.example.crypto.repository.interfaces.MainScreenRepInterface
-import com.example.crypto.repository.interfaces.SortPreferencesRepInterface
-import com.example.crypto.repository.interfaces.SplashScreenRepInterface
-import com.example.crypto.viewModels.DetailsScreenViewModel
-import com.example.crypto.viewModels.MainScreenViewModel
-import com.example.crypto.viewModels.SettingsScreenViewModel
-import com.example.crypto.viewModels.SplashScreenViewModel
-import com.example.crypto.views.fragments.detailsScreen.PriceChartStyle
-import com.example.crypto.views.fragments.mainScreen.CoinsListAdapter
-import okhttp3.Interceptor
+import com.example.crypto.repository.interfaces.DetailsScreenRepository
+import com.example.crypto.repository.interfaces.MainScreenRepository
+import com.example.crypto.repository.interfaces.SortPreferencesRepository
+import com.example.crypto.repository.interfaces.SplashScreenRepository
+import com.example.crypto.view_models.DetailsScreenViewModel
+import com.example.crypto.view_models.MainScreenViewModel
+import com.example.crypto.view_models.SettingsScreenViewModel
+import com.example.crypto.view_models.SplashScreenViewModel
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1
-private const val CURRENCY = "usd"
 private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
-val apiService = ApiService(BASE_URL)
 
 val appModule = module {
-    single { provideRequestInterceptor() }
+    single { provideLoggingInterceptor() }
     single { provideClient(get()) }
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
-    single { provideAdapter(get()) }
-    single { providePriceChartStyle(get()) }
     single { provideIntentFilter() }
 }
 val repoCoinsListModule = module {
-    single { SortPreferencesRepositoryImpl(get()) as SortPreferencesRepInterface }
-    single { UserInfoRepository(get()) }
-    single { MainScreenRepositoryImp(get(), get()) as MainScreenRepInterface }
-    single { SplashScreenRepositoryImp(get(), get()) as SplashScreenRepInterface }
-    single { DetailsScreenRepositoryImp(get()) as DetailsScreenRepInterface }
+    single { UserInfoRepositoryImpl(get()) }
+    single<SortPreferencesRepository> { SortPreferencesRepositoryImpl(get()) }
+    single<MainScreenRepository> { MainScreenRepositoryImpl(get(), get()) }
+    single<SplashScreenRepository> { SplashScreenRepositoryImpl(get(), get()) }
+    single<DetailsScreenRepository> { DetailsScreenRepositoryImpl(get()) }
 }
 val viewModels = module {
     viewModel { SplashScreenViewModel(get()) }
@@ -50,49 +45,36 @@ val viewModels = module {
     viewModel { MainScreenViewModel(get(), get()) }
 }
 
-fun provideRequestInterceptor(): Interceptor = apiService.requestInterceptor
+private fun provideLoggingInterceptor(): HttpLoggingInterceptor =
+    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
 
-fun provideClient(requestInterceptor: Interceptor): OkHttpClient = apiService.okHttpClient
-
-fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = apiService.retrofit
-
-fun provideApiService(retrofit: Retrofit): CoinGeckoService = apiService.service
-
-fun provideAdapter(context: Context): CoinsListAdapter = CoinsListAdapter(context)
-
-fun providePriceChartStyle(context: Context): PriceChartStyle = PriceChartStyle(context)
-
-fun provideIntentFilter() = IntentFilter()
-
-
-class ApiService(baseUrl: String) {
-    val requestInterceptor = Interceptor { chain ->
-        val url = chain.request()
-            .url
-            .newBuilder()
-            .addQueryParameter("vs_currency", CURRENCY)
-            .build()
-
-        val request = chain.request()
-            .newBuilder()
-            .url(url)
-            .build()
-        return@Interceptor chain.proceed(request)
-    }
-
-    val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(requestInterceptor)
+private fun provideClient(
+    loggingInterceptor: HttpLoggingInterceptor
+): OkHttpClient {
+    return OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
         .connectTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .build()
-
-    val retrofit: Retrofit = Retrofit.Builder()
-        .client(okHttpClient)
-        .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val service: CoinGeckoService = retrofit.create(CoinGeckoService::class.java)
 }
+
+
+private val contentType = "application/json".toMediaType()
+private val json = Json { ignoreUnknownKeys = true }.asConverterFactory(contentType)
+
+private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    return Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(BASE_URL)
+        .addConverterFactory(json)
+        .build()
+}
+
+private fun provideApiService(retrofit: Retrofit): CoinGeckoService =
+    retrofit.create(CoinGeckoService::class.java)
+
+private fun provideIntentFilter() = IntentFilter()
+
+
 
 

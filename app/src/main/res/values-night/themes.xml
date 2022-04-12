@@ -1,20 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.Crypto" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/orange</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimaryDark">@color/gray_for_radio_button</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
     </style>
 
-    <style name="item_price_textView">
+    <style name="Widget.MaterialComponents.TextView.CoinPrice">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_medium</item>
@@ -22,7 +19,7 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
-    <style name="item_symbol_textView">
+    <style name="Widget.MaterialComponents.TextView.CoinSymbol">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_black</item>
@@ -31,7 +28,7 @@
         <item name="textAllCaps">true</item>
     </style>
 
-    <style name="item_name_textView">
+    <style name="Widget.MaterialComponents.TextView.ItemCoinName">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_thin</item>
@@ -39,17 +36,17 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
-    <style name="bottom_menu_style">
+    <style name="Widget.MaterialComponents.BottomNavigationView.Crypto">
         <item name="backgroundTint">@color/orange</item>
-        <item name="itemTextColor">@color/radio_flat_text_selector</item>
-        <item name="itemIconTint">@color/radio_flat_text_selector</item>
+        <item name="itemTextColor">@color/radio_flat_text_selector_night</item>
+        <item name="itemIconTint">@color/radio_flat_text_selector_night</item>
     </style>
 
-    <style name="toolbar_style">
+    <style name="Widget.MaterialComponents.Toolbar.Crypto">
         <item name="android:background">@color/orange</item>
     </style>
 
-    <style name="details_screen_price_text">
+    <style name="Widget.MaterialComponents.TextView.DetailsScreenPrice">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
@@ -57,7 +54,7 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="details_screen_price_change_text">
+    <style name="Widget.MaterialComponents.TextView.DetailsScreenPriceChange">
         <item name="android:textColor">@color/orange</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.02</item>
@@ -65,7 +62,7 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="separation_line_style_details_screen">
+    <style name="SeparationLine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/gray_for_radio_button</item>
@@ -74,7 +71,7 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="market_cap_label_details_screen">
+    <style name="Widget.MaterialComponents.TextView.DetailsScreenMarketCapLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
@@ -86,7 +83,7 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="market_cap_value_details_screen">
+    <style name="Widget.MaterialComponents.TextView.DetailsScreenMarketCapValue">
         <item name="android:textColor">@color/orange</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
@@ -96,7 +93,7 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="details_screen_radio_button">
+    <style name="Widget.Material3.CompoundButton.RadioButton.Crypto">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_weight">0.2</item>

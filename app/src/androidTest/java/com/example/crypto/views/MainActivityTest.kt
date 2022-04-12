@@ -4,7 +4,6 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.crypto.model.api.CoinGeckoService
-import com.example.utils.FileReader
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -13,13 +12,11 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
@@ -52,7 +49,7 @@ class MainActivityTest{
     private val retrofit: Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl("http://127.0.0.1:8080")
-        .addConverterFactory(GsonConverterFactory.create())
+        //.addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val service: CoinGeckoService = retrofit.create(CoinGeckoService::class.java)
@@ -73,7 +70,7 @@ class MainActivityTest{
             override fun dispatch(request: RecordedRequest): MockResponse {
                 return MockResponse()
                     .setResponseCode(200)
-                    .setBody(FileReader.readStringFromFile("success_test_response.json"))
+                    //.setBody(FileReader.readStringFromFile("success_test_response.json"))
             }
         }
     }

@@ -5,20 +5,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.crypto.model.api.responses.coinsList.Coin
+import com.example.crypto.model.api.responses.coins_list.Coin
 
 @Dao
 interface CoinsListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCoins(coins: List<Coin>)
+    suspend fun insertCoins(coins: List<CoinEntity>)
 
-    @Query("select * from coins_table")
-    fun getCoins(): PagingSource<Int, Coin>
+    @Query("select * from coins")
+    fun getCoins(): PagingSource<Int, CoinEntity>
 
-    @Query("select * from coins_table")
-    suspend fun getCoinsList(): List<Coin>
+    @Query("select * from coins")
+    suspend fun getCoinsList(): List<CoinEntity>
 
-    @Query("delete from coins_table")
+    @Query("delete from coins")
     suspend fun clearDb()
 }

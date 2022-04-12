@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.detailsScreen.DetailsScreenFragment">
+    tools:context=".views.fragments.details_screen.DetailsScreenFragment">
 
-    <android.widget.Toolbar
-        android:id="@+id/details_screen_toolbar"
-        style="@style/toolbar_style"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_details_screen"
+        style="@style/Widget.MaterialComponents.Toolbar.Crypto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,24 +16,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/back_to_main_screen_button"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_back_to_main_screen"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@null"
-            android:paddingEnd="20dp"
+            android:paddingVertical="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="4dp"
             android:src="@drawable/back_button" />
 
-        <ImageView
-            android:id="@+id/coin_symbol_details_screen"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_coin_symbol"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/example_icon" />
 
-        <TextView
-            android:id="@+id/coin_name_details_screen"
-            style="@style/toolbar_label_text"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_coin_name_toolbar"
+            style="@style/Widget.MaterialComponents.TextView.CryptoToolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -42,17 +44,17 @@
             android:singleLine="true"
             android:text="@string/example_name" />
 
-    </android.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/details_screen_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_details_screen">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -63,21 +65,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_screen_toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_details_screen">
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/min_price"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toTopOf="@+id/text_min_price"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/max_price" />
+                app:layout_constraintTop_toBottomOf="@+id/text_max_price" />
 
-            <TextView
-                android:id="@+id/no_data_message"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_no_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_data"
@@ -88,9 +91,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/price_charts" />
 
-            <TextView
-                android:id="@+id/current_price"
-                style="@style/details_screen_price_text"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_current_price"
+                style="@style/Widget.MaterialComponents.TextView.DetailsScreenPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -101,9 +104,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/price_change"
-                style="@style/details_screen_price_change_text"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_price_change"
+                style="@style/Widget.MaterialComponents.TextView.DetailsScreenPriceChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -111,30 +114,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/current_price" />
+                app:layout_constraintTop_toBottomOf="@+id/text_current_price" />
 
-            <TextView
-                android:id="@+id/max_price"
-                style="@style/details_screen_max_and_min_price_text"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_max_price"
+                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMinAndMaxPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/example_max_price"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price_change" />
+                app:layout_constraintTop_toBottomOf="@+id/text_price_change" />
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/price_charts"
                 android:layout_width="match_parent"
-                android:layout_height="135dp"
+                android:layout_height="136dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/max_price" />
+                app:layout_constraintTop_toBottomOf="@+id/text_max_price" />
 
-            <TextView
-                android:id="@+id/min_price"
-                style="@style/details_screen_max_and_min_price_text"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_min_price"
+                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMinAndMaxPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -148,66 +151,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/min_price">
+                app:layout_constraintTop_toBottomOf="@+id/text_min_price">
 
-                <RadioButton
-                    android:id="@+id/one_day_interval"
-                    style="@style/details_screen_radio_button"
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio_button_one_day"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
                     android:checked="true"
                     android:text="@string/one_day_radio_button" />
 
-                <RadioButton
-                    android:id="@+id/one_week_interval"
-                    style="@style/details_screen_radio_button"
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio_button_one_week"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
                     android:text="@string/one_week_radio_button" />
 
-                <RadioButton
-                    android:id="@+id/one_month_interval"
-                    style="@style/details_screen_radio_button"
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio_button_one_month"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
                     android:text="@string/one_month_radio_button" />
 
-                <RadioButton
-                    android:id="@+id/one_year_interval"
-                    style="@style/details_screen_radio_button"
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio_button_one_year"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
                     android:text="@string/one_year_radio_button" />
 
-                <RadioButton
-                    android:id="@+id/all_time_interval"
-                    style="@style/details_screen_radio_button"
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio_button_all_time"
+                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
                     android:text="@string/all_time_radio_button" />
             </RadioGroup>
 
             <View
                 android:id="@+id/separation_line"
-                style="@style/separation_line_style_details_screen"
+                style="@style/SeparationLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/radio_group" />
 
-            <TextView
-                android:id="@+id/market_cap_label"
-                style="@style/market_cap_label_details_screen"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_market_cap"
+                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMarketCapLabel"
                 android:text="@string/market_cap_label_details_screen"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separation_line" />
 
-            <TextView
-                android:id="@+id/market_cap_value"
-                style="@style/market_cap_value_details_screen"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_market_cap_value"
+                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMarketCapValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/example_market_cap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separation_line" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

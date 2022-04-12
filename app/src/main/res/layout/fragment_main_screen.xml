@@ -4,59 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.mainScreen.MainScreenFragment">
+    tools:context=".views.fragments.main_screen.MainScreenFragment">
 
-    <ProgressBar
-        android:id="@+id/main_screen_progressbar"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar_main_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminate="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_screen_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main_screen" />
 
-    <ImageView
-        android:id="@+id/splash_screen_anim"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/splash_screen_anim"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_screen_toolbar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_main_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/toolbar_style"
+        style="@style/Widget.MaterialComponents.Toolbar.Crypto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/main_screen_label"
-            style="@style/toolbar_label_text"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_main_screen_label"
+            style="@style/Widget.MaterialComponents.TextView.CryptoToolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mainScreen_label" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/sort_button"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/toolbar_sort_item"
+            android:padding="12dp"
             android:background="@null"
             android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"/>
+            android:layout_marginEnd="4dp" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh_layout"
@@ -65,10 +54,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_screen_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main_screen">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCoins"
+            android:id="@+id/rv_coins"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="vertical"
@@ -76,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_screen_toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_main_screen" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

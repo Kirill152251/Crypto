@@ -4,18 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.splashScreen.SplashScreenFragment">
+    tools:context=".views.fragments.splash_screen.SplashScreenFragment">
 
-    <ImageView
-        android:id="@+id/splash_screen_anim"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:visibility="gone"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_splash_screen_anim"
+        android:layout_width="152dp"
+        android:layout_height="152dp"
         android:src="@drawable/splash_screen_anim"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_network_problem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:paddingHorizontal="32dp"
+        android:text="@string/server_error"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.428" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_server_error"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:visibility="gone"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/server_off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_network_problem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
