@@ -1,11 +1,17 @@
 package com.example.crypto.view_models
 
-import com.example.crypto.repository.FakeMainScreenRepository
-import com.example.crypto.repository.FakeSortPreferencesRepository
-import com.example.crypto.utils.testFlow
+import androidx.paging.PagingData
+import com.example.crypto.model.api.responses.coins_list.Coin
+import com.example.crypto.repository.interfaces.MainScreenRepository
+import com.example.crypto.repository.interfaces.SortPreferencesRepository
 import com.example.crypto.views.fragments.main_screen.MainScreenContract
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
@@ -13,33 +19,39 @@ import org.junit.Test
 class MainScreenViewModelTest() :
     BaseViewModelTest<MainScreenContract.Event, MainScreenContract.State, MainScreenContract.Effect, MainScreenViewModel>() {
 
-//    val pager = Pager(
-//        config = PagingConfig(
-//            pageSize = NETWORK_PAGE_SIZE,
-//            initialLoadSize = NETWORK_PAGE_SIZE,
-//            enablePlaceholders = false
-//        ),
-//        pagingSourceFactory = { TestPagingSource() }
-//    ).flow
-
-    private val pager = testFlow
-
+    val testFlow = flow<PagingData<Coin>> { PagingData.empty<Coin>() }
 
     @Test
-    fun testMainScreenViewModel() = test(
-        viewModel = MainScreenViewModel(FakeMainScreenRepository(), FakeSortPreferencesRepository()),
-        events = listOf(
-            MainScreenContract.Event.ChoseSortingByMarketCap,
-            MainScreenContract.Event.ChoseSortingByPrice,
-            MainScreenContract.Event.ChoseSortingByVolatility,
-            MainScreenContract.Event.FetchFromDb
-        ),
-        assertions = listOf(
-            MainScreenContract.State(MainScreenContract.RecycleViewState.Loading),
-            MainScreenContract.State(MainScreenContract.RecycleViewState.SortingByMarketCap(pager)),
-            MainScreenContract.State(MainScreenContract.RecycleViewState.SortingByPrice(pager)),
-            MainScreenContract.State(MainScreenContract.RecycleViewState.SortingByVolatility(pager)),
-            MainScreenContract.State(MainScreenContract.RecycleViewState.ItemsFromDb(pager))
+    fun testMainScreenViewModel() {
+        val mainScreenMockRepository = mockk<MainScreenRepository>()
+        every { mainScreenMockRepository.getCoinsByCap() } returns testFlow
+        every { mainScreenMockRepository.getCoinsByPrice() } returns emptyFlow()
+        every { mainScreenMockRepository.getCoinsByVol() } returns emptyFlow()
+        every { mainScreenMockRepository.getCoinsFromDB() } returns emptyFlow()
+
+        val sortPreferencesMockRepository = mockk<SortPreferencesRepository>()
+        coEvery { sortPreferencesMockRepository.getOrder() } returns ""
+        coEvery { sortPreferencesMockRepository.saveOrder("test") } returns Unit
+
+        test(
+            viewModel = MainScreenViewModel(mainScreenMockRepository, sortPreferencesMockRepository),
+            events = listOf(
+                MainScreenContract.Event.ChoseSortingByMarketCap,
+                MainScreenContract.Event.ChoseSortingByPrice,
+                MainScreenContract.Event.ChoseSortingByVolatility,
+                MainScreenContract.Event.FetchFromDb,
+                MainScreenContract.Event.SaveSortingType("test")
+            ),
+            assertions = listOf(
+                MainScreenContract.State(MainScreenContract.RecycleViewState.Loading),
+                MainScreenContract.State(MainScreenContract.RecycleViewState.SortingByMarketCap(
+                    testFlow)),
+                MainScreenContract.State(MainScreenContract.RecycleViewState.SortingByPrice(
+                    emptyFlow())),
+                MainScreenContract.State(MainScreenContract.RecycleViewState.SortingByVolatility(
+                    emptyFlow())),
+                MainScreenContract.State(MainScreenContract.RecycleViewState.ItemsFromDb(emptyFlow()))
+            )
         )
-    )
+    }
 }

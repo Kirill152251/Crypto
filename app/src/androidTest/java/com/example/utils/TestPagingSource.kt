@@ -3,7 +3,8 @@ package com.example.utils
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.crypto.model.api.responses.coins_list.Coin
-import com.example.crypto.repository.STARTING_PAGE_INDEX
+import com.example.crypto.model.constans.STARTING_PAGE_INDEX
+
 
 class TestPagingSource : PagingSource<Int, Coin>() {
 
@@ -33,6 +34,6 @@ class TestPagingSource : PagingSource<Int, Coin>() {
     }
 
     private fun createTestCoin(): Coin {
-        return Coin("777", "1", "777", "777", "777", 777, "777", 777.0)
+        return Coin(777.0, "1", "777", "777", "777", 777, 777.0, 777.0f)
     }
 }

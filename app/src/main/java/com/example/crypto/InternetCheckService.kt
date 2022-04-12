@@ -29,6 +29,4 @@ class InternetCheckService : Service() {
         }
         return START_STICKY
     }
-
-
 }

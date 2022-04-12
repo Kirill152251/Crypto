@@ -11,7 +11,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiServiceTest {
@@ -50,7 +49,7 @@ class ApiServiceTest {
     private val retrofit: Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(server.url("").toString())
-        .addConverterFactory(GsonConverterFactory.create())
+        //.addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val service: CoinGeckoService = retrofit.create(CoinGeckoService::class.java)
