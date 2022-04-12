@@ -2,7 +2,7 @@ package com.example.crypto
 
 import android.app.Service
 import android.content.Intent
-import android.os.*
+import android.os.IBinder
 import com.example.crypto.model.constans.ACTION_STOP_SERVICE
 import com.example.crypto.model.constans.BROADCAST_STRING_FOR_ACTION
 import com.example.crypto.model.constans.ONLINE_STATUS

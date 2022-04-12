@@ -4,16 +4,19 @@
         <item name="colorPrimaryVariant">@color/green</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/green</item>
-        <item name="colorSecondaryVariant">@color/green</item>
+        <item name="colorSecondaryVariant">@color/black_transparent</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorPrimaryDark">@color/gray_for_radio_button</item>
+        <item name="colorControlHighlight">@color/gray</item>
+        <item name="colorControlNormal">@color/default_gray</item>
+        <item name="colorButtonNormal">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
         <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <style name="Widget.MaterialComponents.TextView.CoinPrice">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">18sp</item>
@@ -21,7 +24,7 @@
     </style>
 
     <style name="Widget.MaterialComponents.TextView.CoinSymbol">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_black</item>
         <item name="android:textSize">18sp</item>
@@ -30,7 +33,7 @@
     </style>
 
     <style name="Widget.MaterialComponents.TextView.ItemCoinName">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_thin</item>
         <item name="android:textSize">14sp</item>
@@ -38,11 +41,11 @@
     </style>
 
     <style name="Widget.MaterialComponents.Toolbar.Crypto">
-        <item name="android:background">@color/green</item>
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 
     <style name="Widget.MaterialComponents.TextView.CryptoToolBarText">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="android:textSize">20sp</item>
@@ -57,20 +60,20 @@
     <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:colorControlActivated">@color/green</item>
+        <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
+        <item name="android:colorControlActivated">?attr/colorPrimary</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">?attr/colorControlHighlight</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/green</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <style name="Widget.MaterialComponents.TextView.DetailsScreenPrice">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
         <item name="android:textSize">36sp</item>
@@ -78,7 +81,7 @@
     </style>
 
     <style name="Widget.MaterialComponents.TextView.DetailsScreenPriceChange">
-        <item name="android:textColor">@color/green</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textSize">16sp</item>
@@ -86,7 +89,7 @@
     </style>
 
     <style name="Widget.MaterialComponents.TextView.DetailsScreenMinAndMaxPrice">
-        <item name="android:textColor">@color/default_gray</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:textSize">12sp</item>
@@ -110,7 +113,7 @@
     <style name="SeparationLine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/gray_for_radio_button</item>
+        <item name="android:background">?colorPrimaryDark</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:layout_marginTop">24dp</item>
@@ -119,7 +122,7 @@
     <style name="Widget.MaterialComponents.TextView.DetailsScreenMarketCapLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
         <item name="android:textSize">24sp</item>
@@ -129,7 +132,7 @@
     </style>
 
     <style name="Widget.MaterialComponents.TextView.DetailsScreenMarketCapValue">
-        <item name="android:textColor">@color/green</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
         <item name="android:textSize">24sp</item>
@@ -139,13 +142,13 @@
     </style>
 
     <style name="Widget.MaterialComponents.BottomNavigationView.Crypto">
-        <item name="backgroundTint">@color/green</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="itemTextColor">@color/radio_flat_text_selector</item>
         <item name="itemIconTint">@color/radio_flat_text_selector</item>
     </style>
 
     <style name="Widget.MaterialComponents.TextView.NoInternetScreen">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="android:textSize">20sp</item>

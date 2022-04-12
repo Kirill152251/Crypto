@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/black_transparent"
+            android:background="?attr/colorSecondaryVariant"
             android:visibility="gone"/>
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
@@ -44,7 +44,7 @@
         android:id="@+id/image_dark_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black_transparent"
+        android:background="?attr/colorSecondaryVariant"
         android:visibility="visible"
         android:clickable="true"
         android:focusable="true"
@@ -81,13 +81,13 @@
         android:id="@+id/button_try_again"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
-        app:strokeColor="@color/white"
+        app:strokeColor="?attr/colorOnPrimary"
         app:cornerRadius="16dp"
         android:paddingVertical="12dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/try_again"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="20sp"
         android:textAllCaps="false"
         android:paddingHorizontal="28dp"
