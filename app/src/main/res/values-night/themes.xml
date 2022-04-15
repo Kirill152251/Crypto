@@ -8,6 +8,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="colorPrimaryDark">@color/gray_for_radio_button</item>
+        <item name="colorControlHighlight">@color/gray_for_radio_button</item>
         <item name="colorButtonNormal">@android:color/transparent</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>

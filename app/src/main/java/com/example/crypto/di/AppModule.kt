@@ -27,9 +27,10 @@ private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
 val appModule = module {
     single { provideLoggingInterceptor() }
     single { provideClient(get()) }
-    single { provideRetrofit(get()) }
+    single { provideRetrofit(get(), get()) }
     single { provideApiService(get()) }
     single { provideIntentFilter() }
+    single { provideBaseUrl() }
 }
 val repoCoinsListModule = module {
     single { UserInfoRepositoryImpl(get()) }
@@ -58,14 +59,15 @@ private fun provideClient(
         .build()
 }
 
-
 private val contentType = "application/json".toMediaType()
 private val json = Json { ignoreUnknownKeys = true }.asConverterFactory(contentType)
 
-private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+private fun provideBaseUrl() = BASE_URL
+
+private fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
     return Retrofit.Builder()
         .client(okHttpClient)
-        .baseUrl(BASE_URL)
+        .baseUrl(baseUrl)
         .addConverterFactory(json)
         .build()
 }

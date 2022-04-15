@@ -50,10 +50,12 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
             binding.imageSplashScreenAnim.visibility = View.VISIBLE
             val animation = binding.imageSplashScreenAnim.drawable as AnimatedVectorDrawable
             animation.start()
-            lifecycleScope.launchWhenCreated {
-                delay(1000)
-                findNavController()
-                    .navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+            lifecycleScope.launch{
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    delay(1000)
+                    findNavController()
+                        .navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainScreenFragment())
+                }
             }
         }
     }

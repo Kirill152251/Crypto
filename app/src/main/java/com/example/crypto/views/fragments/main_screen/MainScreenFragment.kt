@@ -1,6 +1,6 @@
 package com.example.crypto.views.fragments.main_screen
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.crypto.views.fragments.main_screen.MainScreenContract.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
@@ -185,7 +186,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             QUERY_SORT_BY_PRICE -> checkedItem = 1
             QUERY_SORT_BY_VOLATILITY -> checkedItem = 2
         }
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
             .setTitle(getString(R.string.sort_dialog_title))
             .setSingleChoiceItems(options, checkedItem, null)
             .setPositiveButton(getString(R.string.positive_button)) { dialog, _ ->
