@@ -14,7 +14,7 @@ class SettingsScreenContract {
 
     sealed class State : UiState {
         data class FilledSettings(val data: SettingsUserInfo?) : State()
-        object InitialSettings : State()
+        object IdleState : State()
     }
 
     sealed class Effect : UiEffect {

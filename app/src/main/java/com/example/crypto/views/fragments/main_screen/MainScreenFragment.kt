@@ -23,8 +23,6 @@ import com.example.crypto.model.constans.QUERY_SORT_BY_VOLATILITY
 import com.example.crypto.utils.isOnline
 import com.example.crypto.view_models.MainScreenViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.crypto.views.fragments.main_screen.MainScreenContract.*
@@ -49,7 +47,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         super.onViewCreated(view, savedInstanceState)
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.rvCoins.addItemDecoration(decoration)
-        val adapter = CoinsListAdapter(requireContext()) { coinItem, binding ->
+        val adapter = CoinsListAdapter { coinItem, binding ->
             itemClickListener(coinItem, binding)
         }
         binding.rvCoins.adapter = adapter
@@ -124,6 +122,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                     binding.swipeToRefreshLayout.isRefreshing = false
                 }
                 is RecycleViewState.ItemsFromDb -> {}
+                RecycleViewState.IdleState -> {}
             }
         }
     }
@@ -140,34 +139,21 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                             }
                         }
                         is RecycleViewState.SortingByMarketCap -> {
-                            viewModel.setEvent(
-                                Event.SaveSortingType(QUERY_SORT_BY_MARKET_CAP)
-                            )
-                            it.recycleViewState.coins.distinctUntilChanged()
-                                .collectLatest { coins ->
-                                    adapter.submitData(coins)
-                                }
+                            viewModel.setEvent(Event.SaveSortingType(QUERY_SORT_BY_MARKET_CAP))
+                            adapter.submitData(it.recycleViewState.coins)
                         }
                         is RecycleViewState.SortingByPrice -> {
                             viewModel.setEvent(Event.SaveSortingType(QUERY_SORT_BY_PRICE))
-                            it.recycleViewState.coins.distinctUntilChanged()
-                                .collectLatest { coins ->
-                                    adapter.submitData(coins)
-                                }
+                            adapter.submitData(it.recycleViewState.coins)
                         }
                         is RecycleViewState.SortingByVolatility -> {
                             viewModel.setEvent(Event.SaveSortingType(QUERY_SORT_BY_VOLATILITY))
-                            it.recycleViewState.coins.distinctUntilChanged()
-                                .collectLatest { coins ->
-                                    adapter.submitData(coins)
-                                }
+                            adapter.submitData(it.recycleViewState.coins)
                         }
                         is RecycleViewState.ItemsFromDb -> {
-                            it.recycleViewState.coins.distinctUntilChanged()
-                                .collectLatest { coins ->
-                                    adapter.submitData(coins)
-                                }
+                            adapter.submitData(it.recycleViewState.coins)
                         }
+                        RecycleViewState.IdleState -> {}
                     }
                 }
             }

@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
+import coil.load
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentDetailsScreenBinding
 import com.example.crypto.utils.ApiResourceForPriceCharts
@@ -166,7 +166,7 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
             )
             textPriceChange.text =
                 getString(R.string.percent_at_the_end, args.coinPriceChange.toString())
-            Glide.with(requireContext()).load(args.coinIconUrl).into(imageCoinSymbol)
+            imageCoinSymbol.load(args.coinIconUrl)
             textMarketCapValue.text = getString(
                 R.string.dollar_at_the_beginning,
                 args.marketCap.toDouble().coinsPriceConverter()

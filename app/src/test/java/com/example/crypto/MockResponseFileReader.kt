@@ -1,4 +1,4 @@
-package com.example.crypto.model.api
+package com.example.crypto
 
 import java.io.InputStreamReader
 

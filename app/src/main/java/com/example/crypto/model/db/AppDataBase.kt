@@ -7,10 +7,10 @@ import com.example.crypto.model.settings_db.UserInfoDao
 
 @Database(
     entities = [CoinEntity::class, SettingsUserInfo::class],
-    version = 5,
+    version = 1,
     exportSchema = false
 )
-abstract class CoinsListDataBase: RoomDatabase() {
+abstract class AppDataBase: RoomDatabase() {
 
     abstract fun coinsListDao(): CoinsListDao
     abstract fun userInfoDao(): UserInfoDao

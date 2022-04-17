@@ -1,7 +1,7 @@
 package com.example.crypto.model.api
 
 import com.example.crypto.model.api.responses.coins_list.Coin
-import com.example.crypto.model.api.responses.price_change.PriceChangePerDay
+import com.example.crypto.model.api.responses.price_change.PriceChange
 import com.example.crypto.model.constans.DEFAULT_CURRENCY
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,35 +17,35 @@ interface CoinGeckoService {
         @Path("coin_id") coinId: String,
         @Query("days") days: String = "max",
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ): PriceChangePerDay
+    ): PriceChange
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerYear(
         @Path("coin_id") coinId: String,
         @Query("days") days: Int = 360,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ): PriceChangePerDay
+    ): PriceChange
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerMonth(
         @Path("coin_id") coinId: String,
         @Query("days") days: Int = 30,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ): PriceChangePerDay
+    ): PriceChange
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerWeek(
         @Path("coin_id") coinId: String,
         @Query("days") days: Int = 7,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ): PriceChangePerDay
+    ): PriceChange
 
     @GET("{coin_id}/market_chart")
     suspend fun getPriceChangePerDay(
         @Path("coin_id") coinId: String,
         @Query("days") days: Int = 1,
         @Query("vs_currency") currency: String = DEFAULT_CURRENCY
-    ): PriceChangePerDay
+    ): PriceChange
 
     @GET("markets")
     suspend fun getCoinsSortedByPrice(

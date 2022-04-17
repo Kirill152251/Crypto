@@ -1,17 +1,16 @@
 package com.example.crypto.views.fragments.main_screen
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.constans.*
-import com.example.crypto.model.db.CoinsListDataBase
+import com.example.crypto.model.db.AppDataBase
 import com.example.crypto.model.db.mapToCoin
 
 class CoinsPagingSource(
     private val coinsGeckoService: CoinGeckoService,
-    private val database: CoinsListDataBase,
+    private val database: AppDataBase,
     private val sourceType: PagingSourceType
 ) : PagingSource<Int, Coin>() {
 

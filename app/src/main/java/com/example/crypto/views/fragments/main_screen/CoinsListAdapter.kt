@@ -1,6 +1,5 @@
 package com.example.crypto.views.fragments.main_screen
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -10,10 +9,8 @@ import com.example.crypto.databinding.CoinsListItemBinding
 import com.example.crypto.model.api.responses.coins_list.Coin
 
 class CoinsListAdapter(
-    private val context: Context,
     private val clickListener: (coinItem: Coin, binding: CoinsListItemBinding) -> Unit
-) :
-    PagingDataAdapter<Coin, CoinsListViewHolder>(COIN_COMPARATOR) {
+) : PagingDataAdapter<Coin, CoinsListViewHolder>(COIN_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinsListViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,7 +20,7 @@ class CoinsListAdapter(
 
     override fun onBindViewHolder(holder: CoinsListViewHolder, position: Int) {
         val coin = getItem(position)
-        holder.bind(coin!!, context)
+        holder.bind(coin!!)
         holder.itemView.setOnClickListener { clickListener(coin, holder.bindingRvItem) }
     }
 

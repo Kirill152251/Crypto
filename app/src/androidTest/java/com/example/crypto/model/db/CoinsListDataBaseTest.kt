@@ -22,14 +22,14 @@ class CoinsListDataBaseTest {
     @get: Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var db: CoinsListDataBase
+    private lateinit var db: AppDataBase
     private lateinit var dao: CoinsListDao
 
     @Before
     fun setup() {
         db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            CoinsListDataBase::class.java
+            AppDataBase::class.java
         ).allowMainThreadQueries().build()
         dao = db.coinsListDao()
     }

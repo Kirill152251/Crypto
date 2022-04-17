@@ -5,7 +5,7 @@ import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.constans.NETWORK_PAGE_SIZE
 import com.example.crypto.model.constans.PagingSourceType.*
-import com.example.crypto.model.db.CoinsListDataBase
+import com.example.crypto.model.db.AppDataBase
 import com.example.crypto.repository.interfaces.MainScreenRepository
 import com.example.crypto.views.fragments.main_screen.*
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 class MainScreenRepositoryImpl(
     private val service: CoinGeckoService,
-    private val coinsListDataBase: CoinsListDataBase
+    private val appDataBase: AppDataBase
 ) : MainScreenRepository {
 
     override fun getCoinsByPrice(): Flow<PagingData<Coin>> {
@@ -25,12 +25,13 @@ class MainScreenRepositoryImpl(
             ),
             pagingSourceFactory = {
                 CoinsPagingSource(
-                    service, coinsListDataBase,
+                    service, appDataBase,
                     SORT_BY_PRICE
                 )
             }
         ).flow
     }
+
 
     override fun getCoinsByCap(): Flow<PagingData<Coin>> {
         return Pager(
@@ -41,7 +42,7 @@ class MainScreenRepositoryImpl(
             ),
             pagingSourceFactory = {
                 CoinsPagingSource(
-                    service, coinsListDataBase,
+                    service, appDataBase,
                     SORT_BY_MARKET_CAP
                 )
             }
@@ -57,7 +58,7 @@ class MainScreenRepositoryImpl(
             ),
             pagingSourceFactory = {
                 CoinsPagingSource(
-                    service, coinsListDataBase,
+                    service, appDataBase,
                     SORT_BY_VOLATILITY
                 )
             }
@@ -73,7 +74,7 @@ class MainScreenRepositoryImpl(
             ),
             pagingSourceFactory = {
                 CoinsPagingSource(
-                    service, coinsListDataBase,
+                    service, appDataBase,
                     FROM_DB
                 )
             }

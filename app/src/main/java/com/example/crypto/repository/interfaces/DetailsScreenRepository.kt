@@ -5,6 +5,9 @@ import com.github.mikephil.charting.data.Entry
 
 interface DetailsScreenRepository {
 
-    suspend fun fetchPriceChange(coinId: String, interval: String): ApiResourceForPriceCharts<MutableList<Entry>>
+    suspend fun fetchPriceChange(
+        coinId: String,
+        interval: String
+    ): ApiResourceForPriceCharts<MutableList<Entry>>
 
 }

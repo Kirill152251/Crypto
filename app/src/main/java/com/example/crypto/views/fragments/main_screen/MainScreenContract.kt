@@ -5,7 +5,6 @@ import com.example.crypto.model.api.responses.coins_list.Coin
 import com.example.crypto.model.interfaces_mvi.UiEffect
 import com.example.crypto.model.interfaces_mvi.UiEvent
 import com.example.crypto.model.interfaces_mvi.UiState
-import kotlinx.coroutines.flow.Flow
 
 class MainScreenContract {
 
@@ -23,10 +22,11 @@ class MainScreenContract {
 
     sealed class RecycleViewState {
         object Loading : RecycleViewState()
-        data class SortingByPrice(val coins: Flow<PagingData<Coin>>) : RecycleViewState()
-        data class SortingByMarketCap(val coins: Flow<PagingData<Coin>>) : RecycleViewState()
-        data class SortingByVolatility(val coins: Flow<PagingData<Coin>>) : RecycleViewState()
-        data class ItemsFromDb(val coins: Flow<PagingData<Coin>>) : RecycleViewState()
+        object IdleState : RecycleViewState()
+        data class SortingByPrice(val coins: PagingData<Coin>) : RecycleViewState()
+        data class SortingByMarketCap(val coins: PagingData<Coin>) : RecycleViewState()
+        data class SortingByVolatility(val coins: PagingData<Coin>) : RecycleViewState()
+        data class ItemsFromDb(val coins: PagingData<Coin>) : RecycleViewState()
     }
 
     sealed class Effect : UiEffect {}

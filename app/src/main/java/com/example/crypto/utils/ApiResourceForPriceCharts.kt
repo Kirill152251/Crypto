@@ -8,7 +8,7 @@ sealed class ApiResourceForPriceCharts<out T> {
         val maxPrice: String
     ) : ApiResourceForPriceCharts<T>()
 
-    data class Error(val e: Exception) : ApiResourceForPriceCharts<Nothing>()
+    data class Error(val e: String) : ApiResourceForPriceCharts<Nothing>()
 
     companion object {
         const val DEFAULT_ERROR_MESSAGE = "An error has occurred"

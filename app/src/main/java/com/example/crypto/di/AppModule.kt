@@ -3,10 +3,7 @@ package com.example.crypto.di
 import android.content.IntentFilter
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.*
-import com.example.crypto.repository.interfaces.DetailsScreenRepository
-import com.example.crypto.repository.interfaces.MainScreenRepository
-import com.example.crypto.repository.interfaces.SortPreferencesRepository
-import com.example.crypto.repository.interfaces.SplashScreenRepository
+import com.example.crypto.repository.interfaces.*
 import com.example.crypto.view_models.DetailsScreenViewModel
 import com.example.crypto.view_models.MainScreenViewModel
 import com.example.crypto.view_models.SettingsScreenViewModel
@@ -33,7 +30,7 @@ val appModule = module {
     single { provideBaseUrl() }
 }
 val repoCoinsListModule = module {
-    single { UserInfoRepositoryImpl(get()) }
+    single<UserInfoRepository> { UserInfoRepositoryImpl(get()) }
     single<SortPreferencesRepository> { SortPreferencesRepositoryImpl(get()) }
     single<MainScreenRepository> { MainScreenRepositoryImpl(get(), get()) }
     single<SplashScreenRepository> { SplashScreenRepositoryImpl(get(), get()) }

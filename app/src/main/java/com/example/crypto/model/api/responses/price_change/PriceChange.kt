@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PriceChangePerDay(
+data class PriceChange(
     @SerialName("prices")
     val prices: List<List<Double>>
 )

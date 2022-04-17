@@ -1,14 +1,14 @@
 package com.example.crypto.di
 
 import com.example.crypto.model.api.CoinGeckoService
-import com.example.crypto.model.api.MockResponseFileReader
+import com.example.crypto.MockResponseFileReader
 import com.example.crypto.model.api.responses.coins_list.mapToEntity
-import com.example.crypto.model.api.responses.price_change.PriceChangePerDay
+import com.example.crypto.model.api.responses.price_change.PriceChange
 import com.example.crypto.model.db.CoinEntity
 import com.example.crypto.utils.ApiResourceForPriceCharts
-import com.example.crypto.utils.coinsPriceConverter
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -17,13 +17,13 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
-import org.koin.test.KoinTest
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
-class ApiServiceTest : KoinTest {
+@ExperimentalSerializationApi
+class ApiServiceTest {
 
     private val server = MockWebServer()
 
@@ -82,14 +82,15 @@ class ApiServiceTest : KoinTest {
         )
 
         runBlocking {
-            val actual: ApiResourceForPriceCharts<PriceChangePerDay> = try {
+            val actual: ApiResourceForPriceCharts<PriceChange> = try {
                 val actual =
                     apiService.getPriceChangePerDay("test")
                 ApiResourceForPriceCharts.Success(actual, "", "")
-            } catch (e: Exception) {
-                ApiResourceForPriceCharts.Error(e)
+            } catch (e: HttpException) {
+                ApiResourceForPriceCharts.Error(e.toString())
             }
-            val expected: ApiResourceForPriceCharts<PriceChangePerDay> = ApiResourceForPriceCharts.Error(Exception())
+            val expected: ApiResourceForPriceCharts<PriceChange> =
+                ApiResourceForPriceCharts.Error("retrofit2.HttpException: HTTP 400 Client Error")
             assertEquals(actual, expected)
         }
     }

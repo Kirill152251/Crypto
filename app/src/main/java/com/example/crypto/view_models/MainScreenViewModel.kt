@@ -10,6 +10,8 @@ import com.example.crypto.repository.interfaces.SortPreferencesRepository
 import com.example.crypto.views.fragments.main_screen.MainScreenContract.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -48,50 +50,55 @@ class MainScreenViewModel(
 
     private fun sortingCoins(sortBy: SortBy) {
         viewModelScope.launch {
-            setState { copy(recycleViewState = RecycleViewState.Loading) }
             try {
                 when (sortBy) {
                     SortBy.PRICE -> {
-                        val coins = repository.getCoinsByPrice().cachedIn(viewModelScope).stateIn(
-                            viewModelScope,
-                            SharingStarted.WhileSubscribed(5000),
-                            PagingData.empty()
-                        )
-                        setState {
-                            copy(
-                                recycleViewState = RecycleViewState.SortingByPrice(
-                                    coins
-                                )
-                            )
-                        }
+                        repository.getCoinsByPrice().cachedIn(viewModelScope).distinctUntilChanged()
+                            .stateIn(
+                                viewModelScope,
+                                SharingStarted.WhileSubscribed(5000),
+                                PagingData.empty()
+                            ).collectLatest {
+                                setState {
+                                    copy(
+                                        recycleViewState = RecycleViewState.SortingByPrice(
+                                            it
+                                        )
+                                    )
+                                }
+                            }
                     }
                     SortBy.MARKET_CAP -> {
-                        val coins = repository.getCoinsByCap().cachedIn(viewModelScope).stateIn(
-                            viewModelScope,
-                            SharingStarted.WhileSubscribed(5000),
-                            PagingData.empty()
-                        )
-                        setState {
-                            copy(
-                                recycleViewState = RecycleViewState.SortingByMarketCap(
-                                    coins
-                                )
-                            )
-                        }
+                        repository.getCoinsByCap().cachedIn(viewModelScope).distinctUntilChanged()
+                            .stateIn(
+                                viewModelScope,
+                                SharingStarted.WhileSubscribed(5000),
+                                PagingData.empty()
+                            ).collectLatest {
+                                setState {
+                                    copy(
+                                        recycleViewState = RecycleViewState.SortingByMarketCap(
+                                            it
+                                        )
+                                    )
+                                }
+                            }
                     }
                     SortBy.VOLATILITY -> {
-                        val coins = repository.getCoinsByVol().cachedIn(viewModelScope).stateIn(
-                            viewModelScope,
-                            SharingStarted.WhileSubscribed(5000),
-                            PagingData.empty()
-                        )
-                        setState {
-                            copy(
-                                recycleViewState = RecycleViewState.SortingByVolatility(
-                                    coins
-                                )
-                            )
-                        }
+                        repository.getCoinsByVol().cachedIn(viewModelScope).distinctUntilChanged()
+                            .stateIn(
+                                viewModelScope,
+                                SharingStarted.WhileSubscribed(5000),
+                                PagingData.empty()
+                            ).collectLatest {
+                                setState {
+                                    copy(
+                                        recycleViewState = RecycleViewState.SortingByVolatility(
+                                            it
+                                        )
+                                    )
+                                }
+                            }
                     }
                 }
             } catch (exception: Exception) {
@@ -102,19 +109,20 @@ class MainScreenViewModel(
 
     private fun fetchCoinFromDb() {
         viewModelScope.launch {
-            setState { copy(recycleViewState = RecycleViewState.Loading) }
-            val coins = repository.getCoinsFromDB().stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                PagingData.empty()
-            )
-            setState {
-                copy(
-                    recycleViewState = RecycleViewState.ItemsFromDb(
-                        coins
-                    )
-                )
-            }
+            repository.getCoinsFromDB().cachedIn(viewModelScope).distinctUntilChanged()
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.WhileSubscribed(5000),
+                    PagingData.empty()
+                ).collectLatest {
+                    setState {
+                        copy(
+                            recycleViewState = RecycleViewState.ItemsFromDb(
+                                it
+                            )
+                        )
+                    }
+                }
         }
     }
 
@@ -122,6 +130,7 @@ class MainScreenViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             sortPreferencesRepository.saveOrder(sortBy)
         }
+        setState { copy(recycleViewState = RecycleViewState.IdleState) }
     }
 }
 

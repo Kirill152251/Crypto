@@ -2,7 +2,6 @@ package com.example.crypto.views.fragments.settings_screen
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -104,6 +103,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         bottomMenu.isVisible = true
 
         viewModel.setEvent(Event.FetchUserInfo)
+
         bindUi()
         saveInfoButtonClickListener()
 
@@ -127,13 +127,14 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
 
     private fun setPhotoIntoImageView() {
         lifecycleScope.launch {
-            val photo = loadPhotoFromStorage()
-            if (photo.isEmpty()) {
-                binding.imageProfilePicture.setImageResource(R.drawable.avatar_solid)
-            } else {
-                binding.imageProfilePicture.setImageBitmap(photo.first().bitmap)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val photo = loadPhotoFromStorage()
+                if (photo.isEmpty()) {
+                    binding.imageProfilePicture.setImageResource(R.drawable.avatar_solid)
+                } else {
+                    binding.imageProfilePicture.setImageBitmap(photo.first().bitmap)
+                }
             }
-
         }
     }
 
@@ -171,26 +172,25 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         )
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.download_photo))
-            .setItems(options,
-                DialogInterface.OnClickListener { _, which ->
-                    when (which) {
-                        0 -> {
-                            if (ContextCompat.checkSelfPermission(
-                                    requireContext(),
-                                    android.Manifest.permission.CAMERA
-                                ) == PackageManager.PERMISSION_GRANTED
-                            ) {
-                                makePhoto.launch()
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> {
+                        if (ContextCompat.checkSelfPermission(
+                                requireContext(),
+                                android.Manifest.permission.CAMERA
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            makePhoto.launch()
 
-                            } else {
-                                permissionResultLauncher.launch(android.Manifest.permission.CAMERA)
-                            }
-                        }
-                        1 -> {
-                            takePhoto.launch("image/*")
+                        } else {
+                            permissionResultLauncher.launch(android.Manifest.permission.CAMERA)
                         }
                     }
-                }).create()
+                    1 -> {
+                        takePhoto.launch("image/*")
+                    }
+                }
+            }.create()
         dialog.show()
     }
 
@@ -214,7 +214,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                             }
                         }
                     }
-                    State.InitialSettings -> {}
+                    State.IdleState -> {}
                 }
             }
         }
@@ -224,7 +224,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         binding.imageSaveSettings.setOnClickListener {
             val firstName = binding.editTextFirstName.text.toString()
             val lastName = binding.editTextLastName.text.toString()
-            val dateOfBirth = binding.editTextDateOfBirth.text.toString() ?: ""
+            val dateOfBirth = binding.editTextDateOfBirth.text.toString()
             val isValid = isInputsValid(firstName, lastName)
             if (isValid) {
                 val settingsUserInfo =

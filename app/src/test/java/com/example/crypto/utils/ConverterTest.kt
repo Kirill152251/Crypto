@@ -8,7 +8,7 @@ import org.junit.Test
 class ConverterTest {
 
     @Test
-    fun myConverter_priseIsLessThan1_returnsNumberStringThatLessThen0() {
+    fun `Converter when prise is less than 1 returns string that less then 1`() {
         val price = 0.000101
         val price1 = 0.01
         val price2 = 0.00321000001
@@ -18,7 +18,7 @@ class ConverterTest {
         assertThat(price2.coinsPriceConverter(), `is`("0.00321"))
     }
     @Test
-    fun myConverter_priseIsMoreThan1andLessThenMillion_returnsNumberStringThatMoreThan1andLessThenMillion() {
+    fun `Converter when prise is more than 1 and less then million return String that more than 1 and less then million`() {
         val price = 899999.3499
         val price1 = 1.7412934
         val price2 = 500_000.0
@@ -28,7 +28,7 @@ class ConverterTest {
         assertThat(price2.coinsPriceConverter(), `is`("500,000"))
     }
     @Test
-    fun myConverter_priseIsMoreThanMillion_returnsNumberStringThatMoreMillion() {
+    fun `Converter when prise is more than million return string that more million`() {
         val price = 1_100_324.0
         val price1 = 32_344_324.342
         val price2 = 999_324_829.123

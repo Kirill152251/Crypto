@@ -34,7 +34,7 @@ class DetailsScreenRepositoryImpl(private val service: CoinGeckoService) :
             }
             return ApiResourceForPriceCharts.Success(priceData, min.coinsPriceConverter(), max.coinsPriceConverter())
         } catch (e: Exception) {
-            return ApiResourceForPriceCharts.Error(e)
+            return ApiResourceForPriceCharts.Error(e.toString())
         }
     }
 }
