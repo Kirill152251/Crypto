@@ -7,7 +7,7 @@
     tools:context=".views.fragments.main_screen.MainScreenFragment">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar_main_screen"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
@@ -16,13 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main_screen" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_main_screen"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Toolbar.Crypto"
+        style="@style/Widget.Crypto.Toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_main_screen_label"
-            style="@style/Widget.MaterialComponents.TextView.CryptoToolBarText"
+            style="@style/Widget.Crypto.TextView.CryptoToolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mainScreen_label" />
@@ -39,7 +39,7 @@
             android:id="@+id/image_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/toolbar_sort_item"
+            android:src="@drawable/ic_sort"
             android:padding="12dp"
             android:background="@null"
             android:layout_gravity="end"
@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main_screen">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_coins"
@@ -65,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_main_screen" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -40,7 +40,7 @@
         android:layout_height="64dp"
         android:visibility="gone"
         android:layout_marginTop="32dp"
-        android:src="@drawable/server_off"
+        android:src="@drawable/ic_server_error_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

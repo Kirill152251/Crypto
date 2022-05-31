@@ -107,7 +107,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         bindUi()
         saveInfoButtonClickListener()
 
-        binding.chooseAvatarButton.setOnClickListener {
+        binding.buttonChooseAvatar.setOnClickListener {
             chooseProfilePicture()
         }
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

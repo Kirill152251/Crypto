@@ -15,7 +15,7 @@ import coil.load
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentDetailsScreenBinding
 import com.example.crypto.utils.ApiResourceForPriceCharts
-import com.example.crypto.utils.coinsPriceConverter
+import com.example.crypto.utils.priceConverter
 import com.example.crypto.view_models.DetailsScreenViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -162,14 +162,14 @@ class DetailsScreenFragment : Fragment(R.layout.fragment_details_screen) {
             textCoinNameToolbar.text = args.coinName
             textCurrentPrice.text = getString(
                 R.string.dollar_at_the_beginning,
-                args.coinPrice.toDouble().coinsPriceConverter()
+                args.coinPrice.toDouble().priceConverter()
             )
             textPriceChange.text =
                 getString(R.string.percent_at_the_end, args.coinPriceChange.toString())
             imageCoinSymbol.load(args.coinIconUrl)
             textMarketCapValue.text = getString(
                 R.string.dollar_at_the_beginning,
-                args.marketCap.toDouble().coinsPriceConverter()
+                args.marketCap.toDouble().priceConverter()
             )
 
             radioButtonOneDay.setOnClickListener {

@@ -8,7 +8,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/Widget.MaterialComponents.Toolbar.Crypto"
+        style="@style/Widget.Crypto.Toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_settings_label"
-            style="@style/Widget.MaterialComponents.TextView.CryptoToolBarText"
+            style="@style/Widget.Crypto.TextView.CryptoToolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/settings_label_text" />
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:padding="16dp"
-            android:src="@drawable/save_icon" />
+            android:src="@drawable/ic_save_18" />
     </com.google.android.material.appbar.MaterialToolbar>
 
 
@@ -70,7 +70,7 @@
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="16dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/choose_avatar"
+                android:src="@drawable/choose_avatar_background"
                 app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
                 app:layout_constraintEnd_toEndOf="@+id/image_profile_picture"
                 app:layout_constraintHeight_default="percent"
@@ -79,10 +79,10 @@
                 app:layout_constraintStart_toStartOf="@+id/image_profile_picture" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/choose_avatar_button"
+                android:id="@+id/button_choose_avatar"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/camera_icon"
+                android:src="@drawable/ic_camera_36"
                 app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
                 app:layout_constraintEnd_toEndOf="@+id/image_gray_line"
                 app:layout_constraintHeight_default="percent"

@@ -20,7 +20,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/menu_bottom_nav"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.Crypto"
+        style="@style/Widget.Crypto.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +56,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_no_internet"
-        style="@style/Widget.MaterialComponents.TextView.NoInternetScreen"
+        style="@style/Widget.Crypto.TextView.NoInternetScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_internet"
@@ -71,7 +71,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginBottom="28dp"
-        android:src="@drawable/no_internet_icon"
+        android:src="@drawable/ic_offline_24"
         app:layout_constraintBottom_toTopOf="@+id/text_no_internet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

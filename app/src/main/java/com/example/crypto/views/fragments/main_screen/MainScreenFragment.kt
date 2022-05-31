@@ -134,7 +134,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                     when (it.recycleViewState) {
                         is RecycleViewState.Loading -> {
                             binding.apply {
-                                progressBarMainScreen.isVisible = true
+                                progressBar.isVisible = true
                                 rvCoins.isVisible = false
                             }
                         }
@@ -172,7 +172,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             QUERY_SORT_BY_PRICE -> checkedItem = 1
             QUERY_SORT_BY_VOLATILITY -> checkedItem = 2
         }
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.Crypto_AlertDialogTheme)
             .setTitle(getString(R.string.sort_dialog_title))
             .setSingleChoiceItems(options, checkedItem, null)
             .setPositiveButton(getString(R.string.positive_button)) { dialog, _ ->

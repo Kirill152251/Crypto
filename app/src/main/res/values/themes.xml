@@ -10,11 +10,11 @@
         <item name="colorControlHighlight">@color/gray</item>
         <item name="colorControlNormal">@color/default_gray</item>
         <item name="colorButtonNormal">@color/white</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.Crypto.Holo.Light.ActionButton.Overflow</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.CoinPrice">
+    <style name="Widget.Crypto.TextView.CoinPrice" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_medium</item>
@@ -22,7 +22,7 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.CoinSymbol">
+    <style name="Widget.Crypto.TextView.CoinSymbol" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_black</item>
@@ -31,7 +31,7 @@
         <item name="textAllCaps">true</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.ItemCoinName">
+    <style name="Widget.Crypto.TextView.ItemCoinName" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="fontFamily">@font/roboto_thin</item>
@@ -39,11 +39,11 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
-    <style name="Widget.MaterialComponents.Toolbar.Crypto">
+    <style name="Widget.Crypto.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.CryptoToolBarText">
+    <style name="Widget.Crypto.TextView.CryptoToolBarText" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">0.01</item>
@@ -51,29 +51,29 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/toolbar_sort_item</item>
+    <style name="Widget.Crypto.Holo.Light.ActionButton.Overflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_sort</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
     </style>
 
-    <style name="AlertDialogTheme" parent="MaterialAlertDialog.Material3">
-        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+    <style name="Crypto.AlertDialogTheme" parent="MaterialAlertDialog.MaterialComponents.Title.Icon">
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Crypto.Alert.Button.Negative</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Crypto.Alert.Button.Positive</item>
         <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
         <item name="android:colorControlActivated">?attr/colorPrimary</item>
     </style>
 
-    <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="Widget.Crypto.Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?attr/colorControlHighlight</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="Widget.Crypto.Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.DetailsScreenPrice">
+    <style name="Widget.Crypto.TextView.DetailsScreenPrice" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
@@ -81,7 +81,7 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.DetailsScreenPriceChange">
+    <style name="Widget.Crypto.TextView.DetailsScreenPriceChange" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.02</item>
@@ -89,7 +89,7 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.DetailsScreenMinAndMaxPrice">
+    <style name="Widget.Crypto.TextView.DetailsScreenMinAndMaxPrice" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorControlNormal</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.03</item>
@@ -97,7 +97,7 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="Widget.Material3.CompoundButton.RadioButton.Crypto">
+    <style name="Widget.Crypto.RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_weight">0.2</item>
@@ -120,7 +120,7 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.DetailsScreenMarketCapLabel">
+    <style name="Widget.Crypto.TextView.DetailsScreenMarketCapLabel" parent="Widget.MaterialComponents.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
@@ -132,7 +132,7 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.DetailsScreenMarketCapValue">
+    <style name="Widget.Crypto.TextView.DetailsScreenMarketCapValue" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
@@ -142,13 +142,13 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="Widget.MaterialComponents.BottomNavigationView.Crypto">
+    <style name="Widget.Crypto.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="itemTextColor">@color/radio_flat_text_selector</item>
         <item name="itemIconTint">@color/radio_flat_text_selector</item>
     </style>
 
-    <style name="Widget.MaterialComponents.TextView.NoInternetScreen">
+    <style name="Widget.Crypto.TextView.NoInternetScreen" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">0.01</item>

@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
 
-fun Double.coinsPriceConverter(): String {
+fun Double.priceConverter(): String {
     return if (this < 1.0) {
         val nf = NumberFormat.getInstance(Locale.US)
         nf.maximumFractionDigits = 6
@@ -23,7 +23,7 @@ fun Double.coinsPriceConverter(): String {
     }
 }
 
-fun Double.coinsPriceConverterWithDollarCharAtStart(): String {
+fun Double.priceConverterWithDollarChar(): String {
     return if (this < 1.0) {
         val nf = NumberFormat.getInstance(Locale.US)
         nf.maximumFractionDigits = 6

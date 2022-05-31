@@ -4,7 +4,7 @@
     <item
         android:id="@+id/mainScreenFragment"
         android:title="@string/bottom_menu_item_main_text"
-        android:icon="@drawable/bottom_menu_main"/>
+        android:icon="@drawable/ic_menu_main_24"/>
     <item
         android:id="@+id/settingsScreenFragment"
         android:title="@string/settings_label_text"

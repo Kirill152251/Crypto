@@ -7,8 +7,8 @@
     tools:context=".views.fragments.details_screen.DetailsScreenFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_details_screen"
-        style="@style/Widget.MaterialComponents.Toolbar.Crypto"
+        android:id="@+id/toolbar"
+        style="@style/Widget.Crypto.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,18 +24,18 @@
             android:paddingVertical="16dp"
             android:paddingEnd="16dp"
             android:paddingStart="4dp"
-            android:src="@drawable/back_button" />
+            android:src="@drawable/ic_back_button" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_coin_symbol"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/example_icon" />
+            android:src="@drawable/ic_example_24" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_coin_name_toolbar"
-            style="@style/Widget.MaterialComponents.TextView.CryptoToolBarText"
+            style="@style/Widget.Crypto.TextView.CryptoToolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -54,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_details_screen">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_details_screen">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_bar"
@@ -93,7 +93,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_current_price"
-                style="@style/Widget.MaterialComponents.TextView.DetailsScreenPrice"
+                style="@style/Widget.Crypto.TextView.DetailsScreenPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -106,7 +106,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_price_change"
-                style="@style/Widget.MaterialComponents.TextView.DetailsScreenPriceChange"
+                style="@style/Widget.Crypto.TextView.DetailsScreenPriceChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -118,7 +118,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_max_price"
-                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMinAndMaxPrice"
+                style="@style/Widget.Crypto.TextView.DetailsScreenMinAndMaxPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -137,7 +137,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_min_price"
-                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMinAndMaxPrice"
+                style="@style/Widget.Crypto.TextView.DetailsScreenMinAndMaxPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -161,28 +161,28 @@
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radio_button_one_day"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
+                    style="@style/Widget.Crypto.RadioButton"
                     android:checked="true"
                     android:text="@string/one_day_radio_button" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radio_button_one_week"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
+                    style="@style/Widget.Crypto.RadioButton"
                     android:text="@string/one_week_radio_button" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radio_button_one_month"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
+                    style="@style/Widget.Crypto.RadioButton"
                     android:text="@string/one_month_radio_button" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radio_button_one_year"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
+                    style="@style/Widget.Crypto.RadioButton"
                     android:text="@string/one_year_radio_button" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radio_button_all_time"
-                    style="@style/Widget.Material3.CompoundButton.RadioButton.Crypto"
+                    style="@style/Widget.Crypto.RadioButton"
                     android:text="@string/all_time_radio_button" />
             </RadioGroup>
 
@@ -196,14 +196,14 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_market_cap"
-                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMarketCapLabel"
+                style="@style/Widget.Crypto.TextView.DetailsScreenMarketCapLabel"
                 android:text="@string/market_cap_label_details_screen"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separation_line" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_market_cap_value"
-                style="@style/Widget.MaterialComponents.TextView.DetailsScreenMarketCapValue"
+                style="@style/Widget.Crypto.TextView.DetailsScreenMarketCapValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/example_market_cap"

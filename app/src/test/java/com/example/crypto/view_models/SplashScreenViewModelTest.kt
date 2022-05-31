@@ -30,11 +30,11 @@ class SplashScreenViewModelTest {
         Dispatchers.setMain(testDispatcher)
 
         repositorySuccess = mockk()
-        coEvery { repositorySuccess.fetchingAndCachingInitialCoins() } returns true
+        coEvery { repositorySuccess.fetchAndCacheInitialCoins() } returns true
         viewModelSuccess = SplashScreenViewModel(repositorySuccess)
 
         repositoryError = mockk()
-        coEvery { repositoryError.fetchingAndCachingInitialCoins() } returns false
+        coEvery { repositoryError.fetchAndCacheInitialCoins() } returns false
         viewModelWithError = SplashScreenViewModel(repositoryError)
     }
 

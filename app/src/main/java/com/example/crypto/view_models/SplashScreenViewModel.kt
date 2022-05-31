@@ -25,7 +25,7 @@ class SplashScreenViewModel(private val repository: SplashScreenRepository) :
 
     private fun cachingInitialCoins() {
         viewModelScope.launch(Dispatchers.IO) {
-            val isSuccessful = repository.fetchingAndCachingInitialCoins()
+            val isSuccessful = repository.fetchAndCacheInitialCoins()
             if (isSuccessful) {
                 setState { copy(cachingInitialCoinsState = CachingInitialCoinsState.Success) }
             } else {

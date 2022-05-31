@@ -15,14 +15,14 @@ class SplashScreenRepositoryImpl(
     private val appDataBase: AppDataBase
 ) : SplashScreenRepository {
 
-    override suspend fun fetchingAndCachingInitialCoins(): Boolean {
+    override suspend fun fetchAndCacheInitialCoins(): Boolean {
         return try {
             val initialCoins = service.getCoinsSortedByMarketCap(
                 STARTING_PAGE_INDEX,
                 NETWORK_PAGE_SIZE,
                 QUERY_SORT_BY_MARKET_CAP
             )
-            appDataBase.coinsListDao().insertCoins(initialCoins.map { it.mapToEntity() })
+                appDataBase.coinsListDao().insertCoins(initialCoins.map { it.mapToEntity() })
             true
         } catch (e: HttpException) {
             Log.i("error", e.toString())

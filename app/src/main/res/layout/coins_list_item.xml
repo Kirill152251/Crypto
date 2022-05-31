@@ -15,7 +15,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_coin_price"
-        style="@style/Widget.MaterialComponents.TextView.CoinPrice"
+        style="@style/Widget.Crypto.TextView.CoinPrice"
         android:layout_width="112dp"
         android:singleLine="true"
         android:transitionName="price_main_screen"
@@ -29,7 +29,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_coin_name"
-        style="@style/Widget.MaterialComponents.TextView.ItemCoinName"
+        style="@style/Widget.Crypto.TextView.ItemCoinName"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:maxLines="1"
@@ -42,7 +42,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_coin_symbol"
-        style="@style/Widget.MaterialComponents.TextView.CoinSymbol"
+        style="@style/Widget.Crypto.TextView.CoinSymbol"
         android:layout_height="wrap_content"
         android:layout_width="100dp"
         android:maxLines="1"

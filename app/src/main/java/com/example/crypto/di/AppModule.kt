@@ -15,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import retrofit2.Converter
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
@@ -24,10 +25,11 @@ private const val BASE_URL = "https://api.coingecko.com/api/v3/coins/"
 val appModule = module {
     single { provideLoggingInterceptor() }
     single { provideClient(get()) }
-    single { provideRetrofit(get(), get()) }
+    single { provideRetrofit(get(), get(), get()) }
     single { provideApiService(get()) }
     single { provideIntentFilter() }
     single { provideBaseUrl() }
+    single { provideJson() }
 }
 val repoCoinsListModule = module {
     single<UserInfoRepository> { UserInfoRepositoryImpl(get()) }
@@ -57,11 +59,11 @@ private fun provideClient(
 }
 
 private val contentType = "application/json".toMediaType()
-private val json = Json { ignoreUnknownKeys = true }.asConverterFactory(contentType)
+private fun provideJson() = Json { ignoreUnknownKeys = true }.asConverterFactory(contentType)
 
 private fun provideBaseUrl() = BASE_URL
 
-private fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
+private fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String,  json: Converter.Factory): Retrofit {
     return Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(baseUrl)

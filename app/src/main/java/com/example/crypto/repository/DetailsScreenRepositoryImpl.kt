@@ -4,7 +4,7 @@ import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.model.constans.*
 import com.example.crypto.repository.interfaces.DetailsScreenRepository
 import com.example.crypto.utils.ApiResourceForPriceCharts
-import com.example.crypto.utils.coinsPriceConverter
+import com.example.crypto.utils.priceConverter
 import com.github.mikephil.charting.data.Entry
 
 class DetailsScreenRepositoryImpl(private val service: CoinGeckoService) :
@@ -32,7 +32,7 @@ class DetailsScreenRepositoryImpl(private val service: CoinGeckoService) :
             for (i in priceDataFromApi.indices) {
                 priceData.add(Entry(i.toFloat(), priceDataFromApi[i][1].toFloat()))
             }
-            return ApiResourceForPriceCharts.Success(priceData, min.coinsPriceConverter(), max.coinsPriceConverter())
+            return ApiResourceForPriceCharts.Success(priceData, min.priceConverter(), max.priceConverter())
         } catch (e: Exception) {
             return ApiResourceForPriceCharts.Error(e.toString())
         }
