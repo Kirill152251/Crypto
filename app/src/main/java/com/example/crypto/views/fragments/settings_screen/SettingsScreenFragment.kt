@@ -1,14 +1,12 @@
 package com.example.crypto.views.fragments.settings_screen
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +22,6 @@ import com.example.crypto.R
 import com.example.crypto.databinding.FragmentSettingsScreenBinding
 import com.example.crypto.model.constans.*
 import com.example.crypto.model.settings_db.SettingsUserInfo
-import com.example.crypto.utils.StoragePhoto
 import com.example.crypto.view_models.SettingsScreenViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -35,9 +32,6 @@ import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
 import com.example.crypto.views.fragments.settings_screen.SettingsScreenContract.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.IOException
 
 class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
 
@@ -59,7 +53,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         }
 
     private val takePhoto = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        deletePhotoFromInternalStorage()
+        viewModel.setEvent(Event.DeleteAvatar)
         val bitmap = if (Build.VERSION.SDK_INT < 28) {
             MediaStore.Images.Media.getBitmap(
                 requireContext().contentResolver,
@@ -69,22 +63,13 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             val source = ImageDecoder.createSource(requireContext().contentResolver, it)
             ImageDecoder.decodeBitmap(source)
         }
-        val isSavedSuccessfully = savePhotoToStorage(bitmap)
-        if (isSavedSuccessfully) {
-            setPhotoIntoImageView()
-        } else {
-            Snackbar.make(requireView(), getString(R.string.error_save_photo), LENGTH_LONG).show()
-        }
+        viewModel.setEvent(Event.SaveAvatar(bitmap))
     }
     private val makePhoto =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) {
-            deletePhotoFromInternalStorage()
-            val isSavedSuccessfully = savePhotoToStorage(it)
-            if (isSavedSuccessfully) {
-                setPhotoIntoImageView()
-            } else {
-                Snackbar.make(requireView(), getString(R.string.error_save_photo), LENGTH_LONG)
-                    .show()
+            viewModel.apply {
+                setEvent(Event.DeleteAvatar)
+                setEvent(Event.SaveAvatar(it))
             }
         }
 
@@ -105,6 +90,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         viewModel.setEvent(Event.FetchUserInfo)
 
         bindUi()
+        collectEffects()
         saveInfoButtonClickListener()
 
         binding.buttonChooseAvatar.setOnClickListener {
@@ -122,46 +108,6 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                 binding.editTextDateOfBirth.setText(date)
             }
             datePicker.show(requireActivity().supportFragmentManager, "DATE")
-        }
-    }
-
-    private fun setPhotoIntoImageView() {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val photo = loadPhotoFromStorage()
-                if (photo.isEmpty()) {
-                    binding.imageProfilePicture.setImageResource(R.drawable.avatar_solid)
-                } else {
-                    binding.imageProfilePicture.setImageBitmap(photo.first().bitmap)
-                }
-            }
-        }
-    }
-
-    private fun deletePhotoFromInternalStorage() = requireContext().deleteFile(PROFILE_PHOTO_NAME)
-
-    private suspend fun loadPhotoFromStorage(): List<StoragePhoto> {
-        return withContext(Dispatchers.IO) {
-            val files = requireContext().filesDir.listFiles()
-            files?.filter { it.name == PROFILE_PHOTO_NAME }?.map {
-                val bytes = it.readBytes()
-                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                StoragePhoto(it.name, bitmap)
-            } ?: listOf()
-        }
-    }
-
-    private fun savePhotoToStorage(bitmap: Bitmap): Boolean {
-        return try {
-            requireContext().openFileOutput(PROFILE_PHOTO_NAME, Context.MODE_PRIVATE)
-                .use { stream ->
-                    if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream)) {
-                        throw IOException("Couldn't save bitmap")
-                    }
-                }
-            true
-        } catch (e: IOException) {
-            false
         }
     }
 
@@ -194,13 +140,28 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         dialog.show()
     }
 
+    private fun collectEffects() = lifecycleScope.launch {
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.effect.collect {
+                when (it) {
+                    Effect.ErrorToSavePhoto -> {
+                        Snackbar.make(
+                            requireView(),
+                            getString(R.string.error_save_photo),
+                            LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
+
     private fun bindUi() = lifecycleScope.launch {
-        setPhotoIntoImageView()
         viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.uiState.collect {
                 when (it) {
                     is State.FilledSettings -> {
-                        if (it.equals(null)) {
+                        if (it.data == null) {
                             binding.apply {
                                 editTextFirstName.setText("")
                                 editTextLastName.setText("")
@@ -208,10 +169,15 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                             }
                         } else {
                             binding.apply {
-                                editTextFirstName.setText(it.data?.firstName)
-                                editTextLastName.setText(it.data?.lastName)
-                                editTextDateOfBirth.setText(it.data?.dateOfBirth)
+                                editTextFirstName.setText(it.data.firstName)
+                                editTextLastName.setText(it.data.lastName)
+                                editTextDateOfBirth.setText(it.data.dateOfBirth)
                             }
+                        }
+                        if (it.avatar.isEmpty()) {
+                            binding.imageProfilePicture.setImageResource(R.drawable.avatar_solid)
+                        } else {
+                            binding.imageProfilePicture.setImageBitmap(it.avatar.first().bitmap)
                         }
                     }
                     State.IdleState -> {}

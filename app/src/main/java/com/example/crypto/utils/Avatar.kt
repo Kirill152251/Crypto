@@ -2,7 +2,7 @@ package com.example.crypto.utils
 
 import android.graphics.Bitmap
 
-data class StoragePhoto(
+data class Avatar(
     val name: String,
     val bitmap: Bitmap
 )

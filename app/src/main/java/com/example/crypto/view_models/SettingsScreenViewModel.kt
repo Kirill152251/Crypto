@@ -21,6 +21,15 @@ class SettingsScreenViewModel(
         when (event) {
             is Event.SaveUserInfo -> insertInfo(event.userInfo)
             Event.FetchUserInfo -> getInfo()
+            Event.DeleteAvatar -> repository.deleteAvatar()
+            is Event.SaveAvatar -> {
+                val isSavedSuccessfully = repository.saveAvatar(event.bitmap)
+                if (isSavedSuccessfully) {
+                    getInfo()
+                } else {
+                    setEffect { Effect.ErrorToSavePhoto }
+                }
+            }
         }
     }
 
@@ -34,7 +43,8 @@ class SettingsScreenViewModel(
     private fun getInfo() {
         viewModelScope.launch {
             val data = repository.getUserInfo()
-            setState { State.FilledSettings(data) }
+            val avatar = repository.getAvatar()
+            setState { State.FilledSettings(data, avatar) }
         }
     }
 }

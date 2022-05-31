@@ -1,6 +1,8 @@
 package com.example.crypto.di
 
+import android.content.Context
 import android.content.IntentFilter
+import com.example.crypto.InternalStorageCommunicator
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.*
 import com.example.crypto.repository.interfaces.*
@@ -30,9 +32,10 @@ val appModule = module {
     single { provideIntentFilter() }
     single { provideBaseUrl() }
     single { provideJson() }
+    single { provideInternalStorageCommunicator(get()) }
 }
 val repoCoinsListModule = module {
-    single<UserInfoRepository> { UserInfoRepositoryImpl(get()) }
+    single<UserInfoRepository> { UserInfoRepositoryImpl(get(), get()) }
     single<SortPreferencesRepository> { SortPreferencesRepositoryImpl(get()) }
     single<MainScreenRepository> { MainScreenRepositoryImpl(get(), get()) }
     single<SplashScreenRepository> { SplashScreenRepositoryImpl(get(), get()) }
@@ -75,6 +78,8 @@ private fun provideApiService(retrofit: Retrofit): CoinGeckoService =
     retrofit.create(CoinGeckoService::class.java)
 
 private fun provideIntentFilter() = IntentFilter()
+
+private fun  provideInternalStorageCommunicator(context: Context) = InternalStorageCommunicator(context)
 
 
 
