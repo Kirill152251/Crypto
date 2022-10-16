@@ -1,5 +1,6 @@
 package com.example.crypto.view_models
 
+import android.graphics.Bitmap
 import androidx.lifecycle.viewModelScope
 import com.example.crypto.model.settings_db.SettingsUserInfo
 import com.example.crypto.repository.interfaces.UserInfoRepository
@@ -22,13 +23,17 @@ class SettingsScreenViewModel(
             is Event.SaveUserInfo -> insertInfo(event.userInfo)
             Event.FetchUserInfo -> getInfo()
             Event.DeleteAvatar -> repository.deleteAvatar()
-            is Event.SaveAvatar -> {
-                val isSavedSuccessfully = repository.saveAvatar(event.bitmap)
-                if (isSavedSuccessfully) {
-                    getInfo()
-                } else {
-                    setEffect { Effect.ErrorToSavePhoto }
-                }
+            is Event.SaveAvatar -> saveAvatar(event.bitmap)
+        }
+    }
+
+    private fun saveAvatar(bitmap: Bitmap) {
+        viewModelScope.launch {
+            val isSavedSuccessfully = repository.saveAvatar(bitmap)
+            if (isSavedSuccessfully) {
+                getInfo()
+            } else {
+                setEffect { Effect.ErrorToSavePhoto }
             }
         }
     }

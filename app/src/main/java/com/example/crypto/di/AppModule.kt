@@ -2,7 +2,7 @@ package com.example.crypto.di
 
 import android.content.Context
 import android.content.IntentFilter
-import com.example.crypto.InternalStorageCommunicator
+import com.example.crypto.model.internal_storage.InternalStorageCommunicator
 import com.example.crypto.model.api.CoinGeckoService
 import com.example.crypto.repository.*
 import com.example.crypto.repository.interfaces.*

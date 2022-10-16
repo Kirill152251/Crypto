@@ -1,7 +1,7 @@
 package com.example.crypto.repository
 
 import android.graphics.Bitmap
-import com.example.crypto.InternalStorageCommunicator
+import com.example.crypto.model.internal_storage.InternalStorageCommunicator
 import com.example.crypto.model.db.AppDataBase
 import com.example.crypto.model.settings_db.SettingsUserInfo
 import com.example.crypto.repository.interfaces.UserInfoRepository
@@ -19,14 +19,14 @@ class UserInfoRepositoryImpl(
     override suspend fun getUserInfo() = appDataBase.userInfoDao().getUserInfo()
 
     override fun deleteAvatar() {
-        internalStorageCommunicator.deleteAvatarFromInternalStorage()
+        internalStorageCommunicator.deleteContentFromStorage()
     }
 
     override suspend fun getAvatar(): List<Avatar> {
-        return internalStorageCommunicator.getAvatarFromStorage()
+        return internalStorageCommunicator.getContentFromStorage()
     }
 
-    override fun saveAvatar(bitmap: Bitmap): Boolean {
-        return internalStorageCommunicator.saveAvatarToStorage(bitmap)
+    override suspend fun saveAvatar(bitmap: Bitmap): Boolean {
+        return internalStorageCommunicator.saveContentToStorage(bitmap)
     }
 }

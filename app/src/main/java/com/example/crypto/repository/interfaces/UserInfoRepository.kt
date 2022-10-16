@@ -14,5 +14,5 @@ interface UserInfoRepository {
 
     suspend fun getAvatar(): List<Avatar>
 
-    fun saveAvatar(bitmap: Bitmap): Boolean
+    suspend fun saveAvatar(bitmap: Bitmap): Boolean
 }
