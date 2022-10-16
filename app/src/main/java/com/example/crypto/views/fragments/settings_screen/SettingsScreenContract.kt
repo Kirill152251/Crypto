@@ -12,8 +12,7 @@ class SettingsScreenContract {
     sealed class Event : UiEvent {
         data class SaveUserInfo(val userInfo: SettingsUserInfo) : Event()
         object FetchUserInfo : Event()
-        object DeleteAvatar: Event()
-        data class SaveAvatar(val bitmap: Bitmap) : Event()
+        data class SaveAvatar(val bitmap: Bitmap?) : Event()
     }
 
     sealed class State : UiState {

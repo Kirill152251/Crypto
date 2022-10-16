@@ -1,9 +1,9 @@
 package com.example.crypto.di
 
-import android.content.Context
 import android.content.IntentFilter
 import com.example.crypto.model.internal_storage.InternalStorageCommunicator
 import com.example.crypto.model.api.CoinGeckoService
+import com.example.crypto.model.internal_storage.StorageCommunicator
 import com.example.crypto.repository.*
 import com.example.crypto.repository.interfaces.*
 import com.example.crypto.view_models.DetailsScreenViewModel
@@ -32,7 +32,6 @@ val appModule = module {
     single { provideIntentFilter() }
     single { provideBaseUrl() }
     single { provideJson() }
-    single { provideInternalStorageCommunicator(get()) }
 }
 val repoCoinsListModule = module {
     single<UserInfoRepository> { UserInfoRepositoryImpl(get(), get()) }
@@ -40,6 +39,7 @@ val repoCoinsListModule = module {
     single<MainScreenRepository> { MainScreenRepositoryImpl(get(), get()) }
     single<SplashScreenRepository> { SplashScreenRepositoryImpl(get(), get()) }
     single<DetailsScreenRepository> { DetailsScreenRepositoryImpl(get()) }
+    single<StorageCommunicator> { InternalStorageCommunicator(get()) }
 }
 val viewModels = module {
     viewModel { SplashScreenViewModel(get()) }
@@ -62,6 +62,7 @@ private fun provideClient(
 }
 
 private val contentType = "application/json".toMediaType()
+
 private fun provideJson() = Json { ignoreUnknownKeys = true }.asConverterFactory(contentType)
 
 private fun provideBaseUrl() = BASE_URL
@@ -78,9 +79,6 @@ private fun provideApiService(retrofit: Retrofit): CoinGeckoService =
     retrofit.create(CoinGeckoService::class.java)
 
 private fun provideIntentFilter() = IntentFilter()
-
-private fun  provideInternalStorageCommunicator(context: Context) = InternalStorageCommunicator(context)
-
 
 
 

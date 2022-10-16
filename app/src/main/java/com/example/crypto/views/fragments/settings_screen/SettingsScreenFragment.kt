@@ -6,7 +6,6 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.crypto.R
 import com.example.crypto.databinding.FragmentSettingsScreenBinding
-import com.example.crypto.model.constans.*
 import com.example.crypto.model.settings_db.SettingsUserInfo
 import com.example.crypto.view_models.SettingsScreenViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -38,40 +36,26 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     private var _binding: FragmentSettingsScreenBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingsScreenViewModel by inject()
-
-    private val permissionResultLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                makePhoto.launch()
-            } else {
-                Snackbar.make(
-                    requireView(),
-                    resources.getString(R.string.permission_denied),
-                    LENGTH_LONG
-                ).show()
+    private val makePhoto =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            viewModel.apply {
+                setEvent(Event.SaveAvatar(bitmap))
             }
         }
 
-    private val takePhoto = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        viewModel.setEvent(Event.DeleteAvatar)
-        val bitmap = if (Build.VERSION.SDK_INT < 28) {
-            MediaStore.Images.Media.getBitmap(
-                requireContext().contentResolver,
-                it
-            )
-        } else {
-            val source = ImageDecoder.createSource(requireContext().contentResolver, it)
-            ImageDecoder.decodeBitmap(source)
+    private val takePhoto = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        val bitmap = when {
+            uri == null -> null
+            Build.VERSION.SDK_INT < 28 -> {
+                MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+            }
+            else -> {
+                val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
+                ImageDecoder.decodeBitmap(source)
+            }
         }
         viewModel.setEvent(Event.SaveAvatar(bitmap))
     }
-    private val makePhoto =
-        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) {
-            viewModel.apply {
-                setEvent(Event.DeleteAvatar)
-                setEvent(Event.SaveAvatar(it))
-            }
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -118,23 +102,31 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         )
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.download_photo))
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> {
-                        if (ContextCompat.checkSelfPermission(
-                                requireContext(),
-                                android.Manifest.permission.CAMERA
-                            ) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            makePhoto.launch()
-
-                        } else {
-                            permissionResultLauncher.launch(android.Manifest.permission.CAMERA)
-                        }
+            .setItems(options) { _, dialogItem ->
+                if (dialogItem == 0) {
+                    // Check camera permission and make photo if granted
+                    // Else - request permission and make photo
+                    if (ContextCompat.checkSelfPermission(
+                            requireContext(),
+                            android.Manifest.permission.CAMERA
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        makePhoto.launch()
+                    } else {
+                        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                            if (it) {
+                                makePhoto.launch()
+                            } else {
+                                Snackbar.make(
+                                    requireView(),
+                                    resources.getString(R.string.permission_denied),
+                                    LENGTH_LONG
+                                ).show()
+                            }
+                        }.launch(android.Manifest.permission.CAMERA)
                     }
-                    1 -> {
-                        takePhoto.launch("image/*")
-                    }
+                } else {
+                    takePhoto.launch("image/*")
                 }
             }.create()
         dialog.show()
@@ -191,8 +183,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             val firstName = binding.editTextFirstName.text.toString()
             val lastName = binding.editTextLastName.text.toString()
             val dateOfBirth = binding.editTextDateOfBirth.text.toString()
-            val isValid = isInputsValid(firstName, lastName)
-            if (isValid) {
+            if (viewModel.isInputValid(firstName, lastName)) {
                 val settingsUserInfo =
                     SettingsUserInfo(firstName, lastName, dateOfBirth)
                 viewModel.setEvent(Event.SaveUserInfo(settingsUserInfo))
@@ -201,12 +192,6 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                 Snackbar.make(it, getString(R.string.save_error), LENGTH_LONG).show()
             }
         }
-    }
-
-    private fun isInputsValid(firstName: String, lastName: String): Boolean {
-        return !(firstName.isEmpty() || lastName.isEmpty()
-                || lastName.length > MAX_INPUT_SIZE
-                || firstName.length > MAX_INPUT_SIZE)
     }
 
     override fun onDestroy() {
